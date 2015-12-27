@@ -25,7 +25,7 @@ public @interface RequestParam {
      * is not provided or empty. Supplying a default value implicitly sets
      * {@link #required()} to false.
      */
-    String defaultValue();
+    String defaultValue() default "";
 
     /**
      * Whether the parameter is required.
@@ -42,5 +42,5 @@ public @interface RequestParam {
     /**
      * The name of the request parameter to bind to.
      */
-    String value() default "";
+    String value();
 }

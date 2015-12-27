@@ -20,7 +20,6 @@ import java.lang.annotation.Target;
 @Target({ ElementType.METHOD , ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface View {
-
     String basePath() default "/WEB-INF/view";
 
     String value();
