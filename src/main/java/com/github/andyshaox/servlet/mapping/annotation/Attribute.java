@@ -19,7 +19,7 @@ import java.lang.annotation.Target;
 @Documented
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RequestParam {
+public @interface Attribute {
     /**
      * The default value to use as a fallback when the request parameter value
      * is not provided or empty. Supplying a default value implicitly sets
@@ -42,5 +42,5 @@ public @interface RequestParam {
     /**
      * The name of the request parameter to bind to.
      */
-    String value();
+    String value() default "";
 }

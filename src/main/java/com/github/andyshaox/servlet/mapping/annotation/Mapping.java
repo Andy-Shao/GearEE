@@ -21,7 +21,7 @@ import com.github.andyshaox.servlet.mapping.MethodType;
 @Documented
 @Target({ ElementType.METHOD , ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RequestMapping {
+public @interface Mapping {
     /**
      * The consumable media types of the mapped request, narrowing the primary
      * mapping.
@@ -45,7 +45,7 @@ public @interface RequestMapping {
      * this consumes restriction.<br>
      * 指定处理请求的提交内容类型（Content-Type），例如application/json, text/html
      */
-    String consumes();
+    String consumes() default "";
 
     /**
      * The headers of the mapped request, narrowing the primary mapping.
@@ -78,7 +78,7 @@ public @interface RequestMapping {
      * Maps against HttpServletRequest headers in a Servlet environment,
      * and against PortletRequest properties in a Portlet 2.0 environment.
      */
-    String[] headers();
+    String[] headers() default "";
 
     /**
      * The HTTP request methods to map to, narrowing the primary mapping:
@@ -127,7 +127,7 @@ public @interface RequestMapping {
      * mapped onto the same portlet mode, as long as their parameter mappings
      * differ.
      */
-    String[] params();
+    String[] params() default "";
 
     /**
      * The producible media types of the mapped request, narrowing the primary
@@ -152,7 +152,7 @@ public @interface RequestMapping {
      * this consumes restriction.<br>
      * 指定返回的内容类型，仅当request请求头中的(Accept)类型中包含该指定类型才返回
      */
-    String produces();
+    String produces() default "";
 
     /**
      * The primary mapping expressed by this annotation.
@@ -170,5 +170,5 @@ public @interface RequestMapping {
      * When used at the type level, all method-level mappings inherit
      * this primary mapping, narrowing it for a specific handler method.
      */
-    String value();
+    String value() default "";
 }

@@ -13,8 +13,8 @@ import java.util.Objects;
  * @author Andy.Shao
  *
  */
-public interface RequestMapping {
-    static class DefaultRequestMapping implements RequestMapping {
+public interface Mapping {
+    static class DefaultRequestMapping implements Mapping {
         private String consumes;
         private String[] headers;
         private MethodType[] methodType;
@@ -110,8 +110,8 @@ public interface RequestMapping {
         }
     }
     
-    static RequestMapping defaultMapping(){
-        return new RequestMapping.DefaultRequestMapping();
+    static Mapping defaultMapping(){
+        return new Mapping.DefaultRequestMapping();
     }
 
     String getConsumes();

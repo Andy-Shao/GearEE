@@ -12,11 +12,11 @@ import java.util.Objects;
  * @author Andy.Shao
  *
  */
-public interface RequestParam {
-    static class DefaultRequestParam implements RequestParam {
+public interface Attribute {
+    static class DefaultRequestParam implements Attribute {
         private String defaultValue;
         private String paramName;
-        private boolean required = RequestParam.super.getRequired();
+        private boolean required = Attribute.super.getRequired();
 
         @Override
         public boolean equals(Object obj) {
@@ -68,6 +68,10 @@ public interface RequestParam {
             return "DefaultRequestParam [paramName=" + this.paramName + ", defaultValue=" + this.defaultValue
                 + ", required=" + this.required + "]";
         }
+    }
+
+    static Attribute defaultAttribute() {
+        return new Attribute.DefaultRequestParam();
     }
 
     String getDefaultValue();
