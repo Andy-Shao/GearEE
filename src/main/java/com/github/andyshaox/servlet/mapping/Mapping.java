@@ -1,6 +1,8 @@
 package com.github.andyshaox.servlet.mapping;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -16,9 +18,9 @@ import java.util.Objects;
 public interface Mapping {
     static class DefaultRequestMapping implements Mapping {
         private String consumes;
-        private String[] headers;
+        private Map<String , Object> headers = new HashMap<>();
         private MethodType[] methodType;
-        private String[] params;
+        private Map<String, Object> params = new HashMap<>();
         private String produces;
         private String url;
 
@@ -27,8 +29,8 @@ public interface Mapping {
             if (obj instanceof DefaultRequestMapping) {
                 DefaultRequestMapping that = (DefaultRequestMapping) obj;
                 return Objects.equals(this.consumes , that.consumes) && Objects.equals(this.produces , that.produces)
-                    && Objects.equals(this.url , that.url) && Arrays.deepEquals(this.headers , that.headers)
-                    && Arrays.deepEquals(this.params , that.params)
+                    && Objects.equals(this.url , that.url) && Objects.equals(this.headers , that.headers)
+                    && Objects.equals(this.params , that.params)
                     && Arrays.deepEquals(this.methodType , that.methodType);
             } else return false;
         }
@@ -39,7 +41,7 @@ public interface Mapping {
         }
 
         @Override
-        public String[] getHeaders() {
+        public Map<String, Object> getHeaders() {
             return this.headers;
         }
 
@@ -49,7 +51,7 @@ public interface Mapping {
         }
 
         @Override
-        public String[] getParams() {
+        public Map<String, Object> getParams() {
             return this.params;
         }
 
@@ -65,9 +67,7 @@ public interface Mapping {
 
         @Override
         public int hashCode() {
-            int hashCode = Objects.hash(this.consumes , this.produces , this.url);
-            hashCode = hashCode * 31 + Arrays.hashCode(this.headers);
-            hashCode = hashCode * 31 + Arrays.hashCode(this.params);
+            int hashCode = Objects.hash(this.consumes , this.produces , this.url, this.headers, this.params);
             hashCode = hashCode * 31 + Arrays.hashCode(this.methodType);
             return hashCode;
         }
@@ -78,18 +78,8 @@ public interface Mapping {
         }
 
         @Override
-        public void setHeaders(String[] headers) {
-            this.headers = headers;
-        }
-
-        @Override
-        public void setMethodType(MethodType[] methodType) {
+        public void setMethodType(MethodType... methodType) {
             this.methodType = methodType;
-        }
-
-        @Override
-        public void setParams(String[] params) {
-            this.params = params;
         }
 
         @Override
@@ -104,9 +94,8 @@ public interface Mapping {
 
         @Override
         public String toString() {
-            return "DefaultRequestMapping [consumes=" + this.consumes + ", headers=" + Arrays.toString(this.headers)
-                + ", params=" + Arrays.toString(this.params) + ", produces=" + this.produces + ", url=" + this.url
-                + ", methodType=" + Arrays.toString(this.methodType) + "]";
+            return "DefaultRequestMapping [consumes=" + consumes + ", headers=" + headers + ", methodType="
+                + Arrays.toString(methodType) + ", params=" + params + ", produces=" + produces + ", url=" + url + "]";
         }
     }
     
@@ -116,11 +105,11 @@ public interface Mapping {
 
     String getConsumes();
 
-    String[] getHeaders();
+    Map<String , Object> getHeaders();
 
     MethodType[] getMethodType();
 
-    String[] getParams();
+    Map<String , Object> getParams();
 
     String getProduces();
 
@@ -128,11 +117,7 @@ public interface Mapping {
 
     void setConsumes(String consumes);
 
-    void setHeaders(String[] headers);
-
-    void setMethodType(MethodType[] methodType);
-
-    void setParams(String[] params);
+    void setMethodType(MethodType... methodType);
 
     void setProduces(String produces);
 
