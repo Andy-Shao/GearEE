@@ -18,8 +18,10 @@ import javax.servlet.http.HttpServletResponse;
  * @author Andy.Shao
  *
  */
-public class ControlServlet extends HttpServlet {
+public class ServletModel extends HttpServlet {
     private static final long serialVersionUID = -7123339878356609676L;
+    private MappingFactory factory;
+    private ServletControl servletControl;
 
     @Override
     protected void doDelete(HttpServletRequest req , HttpServletResponse resp) throws ServletException , IOException {
@@ -36,6 +38,9 @@ public class ControlServlet extends HttpServlet {
         }
         mapping.setProduces(mapping.getHeaders().get("Accept").toString());
         mapping.setConsumes(mapping.getHeaders().get("Content-Type").toString());
+
+        View view = this.servletControl.doProcess(req , resp , this.factory.buildMappingMap());
+        req.getRequestDispatcher(view.getView()).forward(req , resp);
     }
 
     @Override
@@ -53,6 +58,9 @@ public class ControlServlet extends HttpServlet {
         }
         mapping.setProduces(mapping.getHeaders().get("Accept").toString());
         mapping.setConsumes(mapping.getHeaders().get("Content-Type").toString());
+
+        View view = this.servletControl.doProcess(req , resp , this.factory.buildMappingMap());
+        req.getRequestDispatcher(view.getView()).forward(req , resp);
     }
 
     @Override
@@ -70,6 +78,9 @@ public class ControlServlet extends HttpServlet {
         }
         mapping.setProduces(mapping.getHeaders().get("Accept").toString());
         mapping.setConsumes(mapping.getHeaders().get("Content-Type").toString());
+
+        View view = this.servletControl.doProcess(req , resp , this.factory.buildMappingMap());
+        req.getRequestDispatcher(view.getView()).forward(req , resp);
     }
 
     @Override
@@ -87,6 +98,24 @@ public class ControlServlet extends HttpServlet {
         }
         mapping.setProduces(mapping.getHeaders().get("Accept").toString());
         mapping.setConsumes(mapping.getHeaders().get("Content-Type").toString());
+
+        View view = this.servletControl.doProcess(req , resp , this.factory.buildMappingMap());
+        req.getRequestDispatcher(view.getView()).forward(req , resp);
     }
 
+    public MappingFactory getFactory() {
+        return this.factory;
+    }
+
+    public ServletControl getServletControl() {
+        return this.servletControl;
+    }
+
+    public void setFactory(MappingFactory factory) {
+        this.factory = factory;
+    }
+
+    public void setServletControl(ServletControl servletControl) {
+        this.servletControl = servletControl;
+    }
 }

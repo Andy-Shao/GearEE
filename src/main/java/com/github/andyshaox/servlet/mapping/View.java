@@ -14,20 +14,14 @@ import java.util.Objects;
  */
 public interface View {
     static class DefaultView implements View {
-        private String basePath = View.super.getBasePath();
         private String view;
 
         @Override
         public boolean equals(Object obj) {
             if (obj instanceof View) {
                 DefaultView that = (DefaultView) obj;
-                return Objects.equals(this.basePath , that.basePath) && Objects.equals(this.view , that.view);
+                return Objects.equals(this.view , that.view);
             } else return false;
-        }
-
-        @Override
-        public String getBasePath() {
-            return this.basePath;
         }
 
         @Override
@@ -37,12 +31,7 @@ public interface View {
 
         @Override
         public int hashCode() {
-            return Objects.hash(this.basePath , this.view);
-        }
-
-        @Override
-        public void setBasePath(String basePath) {
-            this.basePath = basePath;
+            return Objects.hash(this.view);
         }
 
         @Override
@@ -52,7 +41,7 @@ public interface View {
 
         @Override
         public String toString() {
-            return "DefaultView [basePath=" + this.basePath + ", view=" + this.view + "]";
+            return "DefaultView [view=" + view + "]";
         }
     }
 
@@ -60,13 +49,7 @@ public interface View {
         return new View.DefaultView();
     }
 
-    default String getBasePath() {
-        return "/WEB-INF/view";
-    }
-
     String getView();
-
-    void setBasePath(String basePath);
 
     void setView(String view);
 }
