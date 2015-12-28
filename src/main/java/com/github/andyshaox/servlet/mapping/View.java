@@ -48,6 +48,12 @@ public interface View {
     static View defaultView() {
         return new View.DefaultView();
     }
+    
+    static View defaultView(String url){
+        View view = new View.DefaultView();
+        view.setView(url);
+        return view;
+    }
 
     String getView();
 

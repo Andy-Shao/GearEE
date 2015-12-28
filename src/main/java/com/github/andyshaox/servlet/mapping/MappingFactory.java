@@ -12,5 +12,5 @@ import java.util.Map;
  *
  */
 public interface MappingFactory {
-    Map<String , Mapping> buildMappingMap();
+    void buildMappingMap(Map<String , Mapping> map);
 }

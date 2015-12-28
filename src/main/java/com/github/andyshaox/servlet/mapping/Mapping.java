@@ -18,12 +18,12 @@ import java.util.Objects;
  */
 public interface Mapping {
     static class DefaultRequestMapping implements Mapping , Cloneable {
+        private Class<?> clazz;
         private String consumes;
         private Map<String , Object> headers = new HashMap<>();
         private MethodType[] methodType;
         private Map<String , Object> params = new HashMap<>();
         private Method processMethod;
-        private Object processObject;
         private String produces;
         private String url;
 
@@ -41,7 +41,6 @@ public interface Mapping {
                 mapping.setConsumes(this.consumes);
                 mapping.setMethodType(this.methodType);
                 mapping.setProcessMethod(this.processMethod);
-                mapping.setProcessObject(this.processObject);
                 mapping.setUrl(this.url);
                 mapping.getHeaders().putAll(this.headers);
                 mapping.getParams().putAll(this.params);
@@ -57,10 +56,14 @@ public interface Mapping {
                 return Objects.equals(this.consumes , that.consumes) && Objects.equals(this.produces , that.produces)
                     && Objects.equals(this.url , that.url) && Objects.equals(this.headers , that.headers)
                     && Objects.equals(this.params , that.params)
-                    && Objects.equals(this.processObject , that.processObject)
                     && Objects.equals(this.processMethod , that.processMethod)
-                    && Arrays.deepEquals(this.methodType , that.methodType);
+                    && Objects.equals(this.clazz , that.clazz) && Arrays.deepEquals(this.methodType , that.methodType);
             } else return false;
+        }
+
+        @Override
+        public Class<?> getClazz() {
+            return this.clazz;
         }
 
         @Override
@@ -89,11 +92,6 @@ public interface Mapping {
         }
 
         @Override
-        public Object getProcessObject() {
-            return this.processObject;
-        }
-
-        @Override
         public String getProduces() {
             return this.produces;
         }
@@ -106,9 +104,14 @@ public interface Mapping {
         @Override
         public int hashCode() {
             int hashCode = Objects.hash(this.consumes , this.produces , this.url , this.headers , this.params ,
-                this.processObject , this.processMethod);
+                this.processMethod , this.clazz);
             hashCode = hashCode * 31 + Arrays.hashCode(this.methodType);
             return hashCode;
+        }
+
+        @Override
+        public void setClazz(Class<?> clazz) {
+            this.clazz = clazz;
         }
 
         @Override
@@ -127,11 +130,6 @@ public interface Mapping {
         }
 
         @Override
-        public void setProcessObject(Object object) {
-            this.processObject = object;
-        }
-
-        @Override
         public void setProduces(String produces) {
             this.produces = produces;
         }
@@ -144,9 +142,8 @@ public interface Mapping {
         @Override
         public String toString() {
             return "DefaultRequestMapping [consumes=" + this.consumes + ", headers=" + this.headers + ", methodType="
-                + Arrays.toString(this.methodType) + ", params=" + this.params + ", produces=" + this.produces
-                + ", url=" + this.url + ", processObject=" + this.processObject + ", processMethod="
-                + this.processMethod + "]";
+                + Arrays.toString(this.methodType) + ", params=" + this.params + ", processMethod=" + this.processMethod
+                + ", produces=" + this.produces + ", url=" + this.url + ", clazz=" + this.clazz + "]";
         }
     }
 
@@ -155,6 +152,8 @@ public interface Mapping {
     }
 
     Mapping duplicate();
+
+    Class<?> getClazz();
 
     String getConsumes();
 
@@ -166,19 +165,17 @@ public interface Mapping {
 
     Method getProcessMethod();
 
-    Object getProcessObject();
-
     String getProduces();
 
     String getUrl();
+
+    void setClazz(Class<?> clazz);
 
     void setConsumes(String consumes);
 
     void setMethodType(MethodType... methodType);
 
     void setProcessMethod(Method method);
-
-    void setProcessObject(Object object);
 
     void setProduces(String produces);
 

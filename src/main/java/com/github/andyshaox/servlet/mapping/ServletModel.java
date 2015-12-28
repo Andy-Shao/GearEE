@@ -2,6 +2,8 @@ package com.github.andyshaox.servlet.mapping;
 
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,8 +22,15 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class ServletModel extends HttpServlet {
     private static final long serialVersionUID = -7123339878356609676L;
-    private MappingFactory factory;
+    private final MappingFactory factory;
+    private Map<String , Mapping> mappingInfo;
     private ServletControl servletControl;
+    
+    public ServletModel(MappingFactory factory) {
+        this.factory = factory;
+        this.mappingInfo = new HashMap<>();
+        this.factory.buildMappingMap(this.mappingInfo);
+    }
 
     @Override
     protected void doDelete(HttpServletRequest req , HttpServletResponse resp) throws ServletException , IOException {
@@ -39,7 +48,7 @@ public class ServletModel extends HttpServlet {
         mapping.setProduces(mapping.getHeaders().get("Accept").toString());
         mapping.setConsumes(mapping.getHeaders().get("Content-Type").toString());
 
-        View view = this.servletControl.doProcess(req , resp , this.factory.buildMappingMap());
+        View view = this.servletControl.doProcess(req , resp , this.mappingInfo);
         req.getRequestDispatcher(view.getView()).forward(req , resp);
     }
 
@@ -59,7 +68,7 @@ public class ServletModel extends HttpServlet {
         mapping.setProduces(mapping.getHeaders().get("Accept").toString());
         mapping.setConsumes(mapping.getHeaders().get("Content-Type").toString());
 
-        View view = this.servletControl.doProcess(req , resp , this.factory.buildMappingMap());
+        View view = this.servletControl.doProcess(req , resp , this.mappingInfo);
         req.getRequestDispatcher(view.getView()).forward(req , resp);
     }
 
@@ -79,7 +88,7 @@ public class ServletModel extends HttpServlet {
         mapping.setProduces(mapping.getHeaders().get("Accept").toString());
         mapping.setConsumes(mapping.getHeaders().get("Content-Type").toString());
 
-        View view = this.servletControl.doProcess(req , resp , this.factory.buildMappingMap());
+        View view = this.servletControl.doProcess(req , resp , this.mappingInfo);
         req.getRequestDispatcher(view.getView()).forward(req , resp);
     }
 
@@ -99,20 +108,12 @@ public class ServletModel extends HttpServlet {
         mapping.setProduces(mapping.getHeaders().get("Accept").toString());
         mapping.setConsumes(mapping.getHeaders().get("Content-Type").toString());
 
-        View view = this.servletControl.doProcess(req , resp , this.factory.buildMappingMap());
+        View view = this.servletControl.doProcess(req , resp , this.mappingInfo);
         req.getRequestDispatcher(view.getView()).forward(req , resp);
-    }
-
-    public MappingFactory getFactory() {
-        return this.factory;
     }
 
     public ServletControl getServletControl() {
         return this.servletControl;
-    }
-
-    public void setFactory(MappingFactory factory) {
-        this.factory = factory;
     }
 
     public void setServletControl(ServletControl servletControl) {

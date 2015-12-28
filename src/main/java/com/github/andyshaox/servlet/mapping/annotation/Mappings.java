@@ -41,6 +41,7 @@ public final class Mappings {
         Mappings.format(mapping.params() , result.getParams());
         result.setProduces(mapping.produces().equals("") ? null : mapping.produces());
         result.setUrl(mapping.value().equals("") ? method.getName() : mapping.value());
+        result.setClazz(method.getDeclaringClass());
         return result;
     }
 
@@ -57,6 +58,7 @@ public final class Mappings {
         Mappings.format(mapping.params() , result.getParams());
         result.setProduces(mapping.produces().equals("") ? null : mapping.produces());
         result.setUrl(mapping.value().equals("") ? clazz.getSimpleName() : mapping.value());
+        result.setClazz(clazz);
         return result;
     }
 
