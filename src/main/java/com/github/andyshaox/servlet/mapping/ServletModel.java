@@ -1,7 +1,6 @@
 package com.github.andyshaox.servlet.mapping;
 
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,8 +23,9 @@ public class ServletModel extends HttpServlet {
     private static final long serialVersionUID = -7123339878356609676L;
     private final MappingFactory factory;
     private Map<String , Mapping> mappingInfo;
-    private ServletControl servletControl;
-    
+    private MappingProcess mappingProcess;
+    private FindingMapping servletControl;
+
     public ServletModel(MappingFactory factory) {
         this.factory = factory;
         this.mappingInfo = new HashMap<>();
@@ -34,89 +34,59 @@ public class ServletModel extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req , HttpServletResponse resp) throws ServletException , IOException {
-        Mapping mapping = Mapping.defaultMapping();
-        mapping.setMethodType(MethodType.DELETE);
-        mapping.setUrl(req.getRequestURI());
-        for (Enumeration<String> e = req.getHeaderNames() ; e.hasMoreElements() ;) {
-            String name = e.nextElement().toString();
-            mapping.getHeaders().put(name , req.getAttribute(name));
-        }
-        for (Enumeration<String> e = req.getParameterNames() ; e.hasMoreElements() ;) {
-            String name = e.nextElement().toString();
-            mapping.getParams().put(name , req.getAttribute(name));
-        }
-        mapping.setProduces(mapping.getHeaders().get("Accept").toString());
-        mapping.setConsumes(mapping.getHeaders().get("Content-Type").toString());
+        //        Mapping mapping = Mapping.defaultMapping();
+        //        mapping.setMethodType(MethodType.DELETE);
+        //        mapping.setUrl(req.getRequestURI());
+        //        for (Enumeration<String> e = req.getHeaderNames() ; e.hasMoreElements() ;) {
+        //            String name = e.nextElement().toString();
+        //            mapping.getHeaders().put(name , req.getAttribute(name));
+        //        }
+        //        for (Enumeration<String> e = req.getParameterNames() ; e.hasMoreElements() ;) {
+        //            String name = e.nextElement().toString();
+        //            mapping.getParams().put(name , req.getAttribute(name));
+        //        }
+        //        mapping.setProduces(mapping.getHeaders().get("Accept").toString());
+        //        mapping.setConsumes(mapping.getHeaders().get("Content-Type").toString());
 
-        View view = this.servletControl.doProcess(req , resp , this.mappingInfo);
+        Mapping map = this.servletControl.doProcess(req , resp , this.mappingInfo);
+        View view = this.mappingProcess.doProcess(req , resp , map , new ProcessType());
         req.getRequestDispatcher(view.getView()).forward(req , resp);
     }
 
     @Override
     protected void doGet(HttpServletRequest req , HttpServletResponse resp) throws ServletException , IOException {
-        Mapping mapping = Mapping.defaultMapping();
-        mapping.setMethodType(MethodType.GET);
-        mapping.setUrl(req.getRequestURI());
-        for (Enumeration<String> e = req.getHeaderNames() ; e.hasMoreElements() ;) {
-            String name = e.nextElement().toString();
-            mapping.getHeaders().put(name , req.getAttribute(name));
-        }
-        for (Enumeration<String> e = req.getParameterNames() ; e.hasMoreElements() ;) {
-            String name = e.nextElement().toString();
-            mapping.getParams().put(name , req.getAttribute(name));
-        }
-        mapping.setProduces(mapping.getHeaders().get("Accept").toString());
-        mapping.setConsumes(mapping.getHeaders().get("Content-Type").toString());
-
-        View view = this.servletControl.doProcess(req , resp , this.mappingInfo);
+        Mapping map = this.servletControl.doProcess(req , resp , this.mappingInfo);
+        View view = this.mappingProcess.doProcess(req , resp , map , new ProcessType());
         req.getRequestDispatcher(view.getView()).forward(req , resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req , HttpServletResponse resp) throws ServletException , IOException {
-        Mapping mapping = Mapping.defaultMapping();
-        mapping.setMethodType(MethodType.POST);
-        mapping.setUrl(req.getRequestURI());
-        for (Enumeration<String> e = req.getHeaderNames() ; e.hasMoreElements() ;) {
-            String name = e.nextElement().toString();
-            mapping.getHeaders().put(name , req.getAttribute(name));
-        }
-        for (Enumeration<String> e = req.getParameterNames() ; e.hasMoreElements() ;) {
-            String name = e.nextElement().toString();
-            mapping.getParams().put(name , req.getAttribute(name));
-        }
-        mapping.setProduces(mapping.getHeaders().get("Accept").toString());
-        mapping.setConsumes(mapping.getHeaders().get("Content-Type").toString());
-
-        View view = this.servletControl.doProcess(req , resp , this.mappingInfo);
+        Mapping map = this.servletControl.doProcess(req , resp , this.mappingInfo);
+        View view = this.mappingProcess.doProcess(req , resp , map , new ProcessType());
         req.getRequestDispatcher(view.getView()).forward(req , resp);
     }
 
     @Override
     protected void doPut(HttpServletRequest req , HttpServletResponse resp) throws ServletException , IOException {
-        Mapping mapping = Mapping.defaultMapping();
-        mapping.setMethodType(MethodType.PUT);
-        mapping.setUrl(req.getRequestURI());
-        for (Enumeration<String> e = req.getHeaderNames() ; e.hasMoreElements() ;) {
-            String name = e.nextElement().toString();
-            mapping.getHeaders().put(name , req.getAttribute(name));
-        }
-        for (Enumeration<String> e = req.getParameterNames() ; e.hasMoreElements() ;) {
-            String name = e.nextElement().toString();
-            mapping.getParams().put(name , req.getAttribute(name));
-        }
-        mapping.setProduces(mapping.getHeaders().get("Accept").toString());
-        mapping.setConsumes(mapping.getHeaders().get("Content-Type").toString());
-
-        View view = this.servletControl.doProcess(req , resp , this.mappingInfo);
+        Mapping map = this.servletControl.doProcess(req , resp , this.mappingInfo);
+        View view = this.mappingProcess.doProcess(req , resp , map , new ProcessType());
         req.getRequestDispatcher(view.getView()).forward(req , resp);
     }
 
-    public ServletControl getServletControl() {
+    public MappingProcess getMappingProcess() {
+        return this.mappingProcess;
+    }
+
+    public FindingMapping getServletControl() {
         return this.servletControl;
     }
 
-    public void setServletControl(ServletControl servletControl) {
+    public void setMappingProcess(MappingProcess mappingProcess) {
+        this.mappingProcess = mappingProcess;
+    }
+
+    public void setServletControl(FindingMapping servletControl) {
         this.servletControl = servletControl;
     }
 }

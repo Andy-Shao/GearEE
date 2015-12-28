@@ -17,7 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  * @author Andy.Shao
  *
  */
-public interface ServletControl {
-    public View doProcess(HttpServletRequest request , HttpServletResponse response , Map<String , Mapping> mappingMap)
-        throws ServletException , IOException;
+public interface FindingMapping {
+    public Mapping
+        doProcess(HttpServletRequest request , HttpServletResponse response , Map<String , Mapping> mappingMap)
+            throws ServletException , IOException;
 }

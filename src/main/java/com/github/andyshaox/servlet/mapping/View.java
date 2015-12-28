@@ -41,15 +41,15 @@ public interface View {
 
         @Override
         public String toString() {
-            return "DefaultView [view=" + view + "]";
+            return "DefaultView [view=" + this.view + "]";
         }
     }
 
     static View defaultView() {
         return new View.DefaultView();
     }
-    
-    static View defaultView(String url){
+
+    static View defaultView(String url) {
         View view = new View.DefaultView();
         view.setView(url);
         return view;
