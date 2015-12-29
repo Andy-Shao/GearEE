@@ -23,10 +23,11 @@ public interface Mapping {
         private Map<String , Object> headers = new HashMap<>();
         private boolean isClass;
         private MethodType[] methodType;
-        private Map<String , Object> params = new HashMap<>();
+        private Map<String , Object> attributes = new HashMap<>();
         private Method processMethod;
         private String produces;
         private String url;
+        private String[] parameterNames;
 
         @Override
         public Object clone() throws CloneNotSupportedException {
@@ -44,7 +45,7 @@ public interface Mapping {
                 mapping.setProcessMethod(this.processMethod);
                 mapping.setUrl(this.url);
                 mapping.getHeaders().putAll(this.headers);
-                mapping.getParams().putAll(this.params);
+                mapping.getAttributes().putAll(this.attributes);
                 mapping.setProduces(this.produces);
                 mapping.setClass(this.isClass);
                 return mapping;
@@ -57,7 +58,7 @@ public interface Mapping {
                 DefaultRequestMapping that = (DefaultRequestMapping) obj;
                 return Objects.equals(this.consumes , that.consumes) && Objects.equals(this.produces , that.produces)
                     && Objects.equals(this.url , that.url) && Objects.equals(this.headers , that.headers)
-                    && Objects.equals(this.params , that.params)
+                    && Objects.equals(this.attributes , that.attributes)
                     && Objects.equals(this.processMethod , that.processMethod)
                     && Objects.equals(this.isClass , that.isClass) && Objects.equals(this.clazz , that.clazz)
                     && Arrays.deepEquals(this.methodType , that.methodType);
@@ -85,8 +86,8 @@ public interface Mapping {
         }
 
         @Override
-        public Map<String , Object> getParams() {
-            return this.params;
+        public Map<String , Object> getAttributes() {
+            return this.attributes;
         }
 
         @Override
@@ -106,7 +107,7 @@ public interface Mapping {
 
         @Override
         public int hashCode() {
-            int hashCode = Objects.hash(this.consumes , this.produces , this.url , this.headers , this.params ,
+            int hashCode = Objects.hash(this.consumes , this.produces , this.url , this.headers , this.attributes ,
                 this.processMethod , this.clazz , this.isClass);
             hashCode = hashCode * 31 + Arrays.hashCode(this.methodType);
             return hashCode;
@@ -156,14 +157,28 @@ public interface Mapping {
         public String toString() {
             return "DefaultRequestMapping [clazz=" + this.clazz + ", consumes=" + this.consumes + ", headers="
                 + this.headers + ", isClass=" + this.isClass + ", methodType=" + Arrays.toString(this.methodType)
-                + ", params=" + this.params + ", processMethod=" + this.processMethod + ", produces=" + this.produces
+                + ", attributes=" + this.attributes + ", processMethod=" + this.processMethod + ", produces=" + this.produces
                 + ", url=" + this.url + "]";
+        }
+
+        @Override
+        public String[] getParameterNames() {
+            return this.parameterNames;
+        }
+
+        @Override
+        public void setPramameterNames(String[] parameterNames) {
+            this.parameterNames = parameterNames;
         }
     }
 
     static Mapping defaultMapping() {
         return new Mapping.DefaultRequestMapping();
     }
+    
+    String[] getParameterNames();
+    
+    void setPramameterNames(String[] parameterNames);
 
     Mapping duplicate();
 
@@ -175,7 +190,7 @@ public interface Mapping {
 
     MethodType[] getMethodType();
 
-    Map<String , Object> getParams();
+    Map<String , Object> getAttributes();
 
     Method getProcessMethod();
 

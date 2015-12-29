@@ -12,6 +12,7 @@ import java.lang.annotation.Target;
  * Descript:<br>
  * Copyright: Copryright(c) Dec 27, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  */

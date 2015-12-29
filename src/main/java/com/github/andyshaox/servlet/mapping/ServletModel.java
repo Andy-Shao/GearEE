@@ -1,13 +1,14 @@
 package com.github.andyshaox.servlet.mapping;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.github.andyshao.data.structure.Bitree;
+import com.github.andyshao.data.structure.Bitree.BitreeNode;
 
 /**
  * 
@@ -22,13 +23,13 @@ import javax.servlet.http.HttpServletResponse;
 public class ServletModel extends HttpServlet {
     private static final long serialVersionUID = -7123339878356609676L;
     private final MappingFactory factory;
-    private Map<String , Mapping> mappingInfo;
+    private Bitree<Mapping> mappingInfo;
     private MappingProcess mappingProcess;
     private FindingMapping servletControl;
 
     public ServletModel(MappingFactory factory) {
         this.factory = factory;
-        this.mappingInfo = new HashMap<>();
+        this.mappingInfo = Bitree.<Mapping> defaultBitTree(() -> BitreeNode.<Mapping> defaultBitreeNode());
         this.factory.buildMappingMap(this.mappingInfo);
     }
 

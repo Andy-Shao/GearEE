@@ -26,7 +26,7 @@ public class BasicMappingProcess implements MappingProcess {
             throws ServletException , IOException {
         View view = null;
         if (processType.processObject != null) {
-            Object result = Reflects.invoked(processType.processObject , processType.processMethod , processType.args);
+            Object result = Reflects.invoked(processType.processObject , mapping.getProcessMethod() , processType.args);
             if (result instanceof View) view = (View) result;
             else view = View.defaultView(result.toString());
         } else view = View.defaultView(mapping.getUrl());

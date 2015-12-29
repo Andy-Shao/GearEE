@@ -1,10 +1,15 @@
 package com.github.andyshaox.servlet.mapping.annotation;
 
 import java.lang.reflect.Method;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
+import com.github.andyshao.data.structure.Bitree;
+import com.github.andyshao.data.structure.Bitree.BitreeNode;
+import com.github.andyshao.reflect.Reflects;
 import com.github.andyshaox.servlet.mapping.Mapping;
 import com.github.andyshaox.servlet.mapping.MappingFactory;
+import com.github.andyshaox.servlet.mapping.MethodType;
 
 /**
  * 
@@ -20,23 +25,65 @@ public class AnnotationMappingFactory implements MappingFactory {
     private Class<?>[] classes = new Class<?>[0];
 
     @Override
-    public void buildMappingMap(Map<String , Mapping> map) {
+    public void buildMappingMap(Bitree<Mapping> bitree) {
+        BitreeNode<Mapping> tmp = null;
         for (Class<?> clazz : this.classes) {
-            Mapping mapping = null;
-            if(Mappings.constain(clazz)) {
-                mapping = Mappings.covertByType(clazz);
-                map.put(mapping.getUrl() , mapping);
-            } else {
-                mapping = Mapping.defaultMapping();
-                mapping.setUrl("");
-            }
-            Method[] methods = clazz.getMethods();
-            for (Method method : methods)
+            Mapping classMapping = Mappings.covertByType(clazz);
+            tmp = bitree.insLeft(tmp , classMapping);
+            final Method[] methods = clazz.getMethods();
+            final List<Mapping> children = new ArrayList<>();
+            for (Method method : methods) {
+                Mapping methodMapping = null;
                 if (Mappings.constain(method)) {
-                    Mapping method_mapping = Mappings.convertByMethod(method);
-                    method_mapping.setUrl(mapping.getUrl() + method_mapping.getUrl());
-                    map.put(method_mapping.getUrl() , method_mapping);
+                    methodMapping = Mappings.convertByMethod(method);
+                    methodMapping.setPramameterNames(Reflects.getMethodParamNames(method));
+                    children.add(methodMapping);
+                } else SW: switch (method.getName()) {
+                case "doGet":
+                    methodMapping = classMapping.duplicate();
+                    methodMapping.setClass(false);
+                    methodMapping.setMethodType(MethodType.GET);
+                    methodMapping.setUrl("");
+                    methodMapping.setProcessMethod(method);
+                    methodMapping.setPramameterNames(Reflects.getMethodParamNames(method));
+                    children.add(methodMapping);
+                    break SW;
+                case "doPost":
+                    methodMapping = classMapping.duplicate();
+                    methodMapping.setClass(false);
+                    methodMapping.setMethodType(MethodType.POST);
+                    methodMapping.setUrl("");
+                    methodMapping.setProcessMethod(method);
+                    methodMapping.setPramameterNames(Reflects.getMethodParamNames(method));
+                    children.add(methodMapping);
+                    break SW;
+                case "doPut":
+                    methodMapping = classMapping.duplicate();
+                    methodMapping.setClass(false);
+                    methodMapping.setMethodType(MethodType.PUT);
+                    methodMapping.setProcessMethod(method);
+                    methodMapping.setPramameterNames(Reflects.getMethodParamNames(method));
+                    children.add(methodMapping);
+                    break SW;
+                case "doDelete":
+                    methodMapping = classMapping.duplicate();
+                    methodMapping.setClass(false);
+                    methodMapping.setMethodType(MethodType.DELETE);
+                    methodMapping.setUrl("");
+                    methodMapping.setProcessMethod(method);
+                    methodMapping.setPramameterNames(Reflects.getMethodParamNames(method));
+                    children.add(methodMapping);
+                    break;
+                default:
+                    break SW;
                 }
+            }
+            if (children.size() != 0) {
+                BitreeNode<Mapping> node = null;
+                for (int i = 0 ; i < children.size() ; i++)
+                    if (i == 0) node = bitree.insRight(tmp , children.get(i));
+                    else node = bitree.insRight(node , children.get(i));
+            }
         }
     }
 

@@ -102,7 +102,7 @@ public @interface Mapping {
      * expressions, with a request only mapped if each such parameter is found
      * to have the given value. Expressions can be negated by using the "!="
      * operator,
-     * as in "myParam!=myValue". "myParam" style expressions are also supported,
+     * as in "myAttributes!=myValue". "myParam" style expressions are also supported,
      * with such parameters having to be present in the request (allowed to have
      * any value). Finally, "!myParam" style expressions indicate that the
      * specified parameter is <i>not</i> supposed to be present in the request.
@@ -127,7 +127,7 @@ public @interface Mapping {
      * mapped onto the same portlet mode, as long as their parameter mappings
      * differ.
      */
-    String[] params() default "";
+    String[] attributes() default "";
 
     /**
      * The producible media types of the mapped request, narrowing the primary

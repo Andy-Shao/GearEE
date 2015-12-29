@@ -26,13 +26,13 @@ public class BindingParameter implements MappingProcess {
     public View
         doProcess(HttpServletRequest request , HttpServletResponse response , Mapping mapping , ProcessType processType)
             throws ServletException , IOException {
-        if (processType.processMethod != null) {
-            Map<Integer , Attribute> annotationDefinition = Attributes.analyzeParameters(processType.processMethod);
+        if (mapping.getProcessMethod() != null) {
+            Map<Integer , Attribute> annotationDefinition = Attributes.analyzeParameters(mapping.getProcessMethod());
             for (int i = 0 ; i < processType.args.length ; i++)
                 if (annotationDefinition.containsKey(new Integer(i))) {
                     Attribute attribute = annotationDefinition.get(new Integer(i));
                     String paramName = null;
-                    if (attribute.getParamName() == null) paramName = processType.parameterNames[i];
+                    if (attribute.getParamName() == null) paramName = mapping.getParameterNames()[i];
                     else paramName = attribute.getParamName();
                     Object value = request.getAttribute(paramName);
                     if (value == null)

@@ -1,6 +1,6 @@
 package com.github.andyshaox.servlet.mapping;
 
-import java.util.Map;
+import com.github.andyshao.data.structure.Bitree;
 
 /**
  * 
@@ -13,5 +13,11 @@ import java.util.Map;
  *
  */
 public interface MappingFactory {
-    void buildMappingMap(Map<String , Mapping> map);
+    /**
+     * The left branch of bitree is same level<br>
+     * The right branch of bitree is his children<br>
+     * 
+     * @param bitree the Mapping bitree
+     */
+    void buildMappingMap(Bitree<Mapping> bitree);
 }

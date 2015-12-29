@@ -36,8 +36,9 @@ public final class Mappings {
             com.github.andyshaox.servlet.mapping.Mapping.defaultMapping();
         result.setConsumes(mapping.consumes().isEmpty() ? null : mapping.consumes());
         Mappings.format(mapping.headers() , result.getHeaders());
-        result.setMethodType(Arrays.deepEquals(mapping.methodType() , EMPTY_STR_ARRAY) ? null : mapping.methodType());
-        Mappings.format(mapping.params() , result.getParams());
+        result.setMethodType(
+            Arrays.deepEquals(mapping.methodType() , Mappings.EMPTY_STR_ARRAY) ? null : mapping.methodType());
+        Mappings.format(mapping.attributes() , result.getAttributes());
         result.setProduces(mapping.produces().isEmpty() ? null : mapping.produces());
         result.setUrl(mapping.value().isEmpty() ? method.getName() : mapping.value());
         result.setClazz(method.getDeclaringClass());
@@ -56,7 +57,7 @@ public final class Mappings {
         Mappings.format(mapping.headers() , result.getHeaders());
         result.setMethodType(
             Arrays.deepEquals(mapping.methodType() , Mappings.EMPTY_STR_ARRAY) ? null : mapping.methodType());
-        Mappings.format(mapping.params() , result.getParams());
+        Mappings.format(mapping.attributes() , result.getAttributes());
         result.setProduces(mapping.produces().isEmpty() ? null : mapping.produces());
         result.setUrl(mapping.value().isEmpty() ? clazz.getSimpleName() : mapping.value());
         result.setClazz(clazz);
