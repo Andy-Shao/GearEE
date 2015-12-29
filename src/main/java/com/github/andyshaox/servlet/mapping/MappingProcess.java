@@ -19,5 +19,5 @@ import javax.servlet.http.HttpServletResponse;
 public interface MappingProcess {
     View doProcess(
         HttpServletRequest request , HttpServletResponse response , Mapping mapping , ProcessType processType)
-            throws ServletException , IOException;
+            throws ServletException , IOException , MappingProcessException;
 }

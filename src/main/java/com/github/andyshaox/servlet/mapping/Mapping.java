@@ -21,6 +21,7 @@ public interface Mapping {
         private Class<?> clazz;
         private String consumes;
         private Map<String , Object> headers = new HashMap<>();
+        private boolean isClass;
         private MethodType[] methodType;
         private Map<String , Object> params = new HashMap<>();
         private Method processMethod;
@@ -45,6 +46,7 @@ public interface Mapping {
                 mapping.getHeaders().putAll(this.headers);
                 mapping.getParams().putAll(this.params);
                 mapping.setProduces(this.produces);
+                mapping.setClass(this.isClass);
                 return mapping;
             }
         }
@@ -57,7 +59,8 @@ public interface Mapping {
                     && Objects.equals(this.url , that.url) && Objects.equals(this.headers , that.headers)
                     && Objects.equals(this.params , that.params)
                     && Objects.equals(this.processMethod , that.processMethod)
-                    && Objects.equals(this.clazz , that.clazz) && Arrays.deepEquals(this.methodType , that.methodType);
+                    && Objects.equals(this.isClass , that.isClass) && Objects.equals(this.clazz , that.clazz)
+                    && Arrays.deepEquals(this.methodType , that.methodType);
             } else return false;
         }
 
@@ -104,9 +107,19 @@ public interface Mapping {
         @Override
         public int hashCode() {
             int hashCode = Objects.hash(this.consumes , this.produces , this.url , this.headers , this.params ,
-                this.processMethod , this.clazz);
+                this.processMethod , this.clazz , this.isClass);
             hashCode = hashCode * 31 + Arrays.hashCode(this.methodType);
             return hashCode;
+        }
+
+        @Override
+        public boolean isClass() {
+            return this.isClass;
+        }
+
+        @Override
+        public void setClass(boolean isClass) {
+            this.isClass = isClass;
         }
 
         @Override
@@ -141,9 +154,10 @@ public interface Mapping {
 
         @Override
         public String toString() {
-            return "DefaultRequestMapping [consumes=" + this.consumes + ", headers=" + this.headers + ", methodType="
-                + Arrays.toString(this.methodType) + ", params=" + this.params + ", processMethod=" + this.processMethod
-                + ", produces=" + this.produces + ", url=" + this.url + ", clazz=" + this.clazz + "]";
+            return "DefaultRequestMapping [clazz=" + this.clazz + ", consumes=" + this.consumes + ", headers="
+                + this.headers + ", isClass=" + this.isClass + ", methodType=" + Arrays.toString(this.methodType)
+                + ", params=" + this.params + ", processMethod=" + this.processMethod + ", produces=" + this.produces
+                + ", url=" + this.url + "]";
         }
     }
 
@@ -168,6 +182,10 @@ public interface Mapping {
     String getProduces();
 
     String getUrl();
+
+    boolean isClass();
+
+    void setClass(boolean isClass);
 
     void setClazz(Class<?> clazz);
 

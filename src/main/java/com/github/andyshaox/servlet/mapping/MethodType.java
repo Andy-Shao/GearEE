@@ -12,4 +12,24 @@ package com.github.andyshaox.servlet.mapping;
  */
 public enum MethodType {
     DELETE , GET , POST , PUT;
+    public static final MethodType covert(String methodType) {
+        MethodType result = null;
+        switch (methodType) {
+        case "GET":
+            result = MethodType.GET;
+            break;
+        case "POST":
+            result = MethodType.POST;
+            break;
+        case "PUT":
+            result = MethodType.PUT;
+            break;
+        case "DELETE":
+            result = MethodType.DELETE;
+            break;
+        default:
+            break;
+        }
+        return result;
+    }
 }

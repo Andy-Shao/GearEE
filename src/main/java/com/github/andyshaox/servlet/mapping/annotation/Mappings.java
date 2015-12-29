@@ -34,14 +34,15 @@ public final class Mappings {
 
         com.github.andyshaox.servlet.mapping.Mapping result =
             com.github.andyshaox.servlet.mapping.Mapping.defaultMapping();
-        final String[] emptyStrArray = new String[] { "" };
-        result.setConsumes(mapping.consumes().equals("") ? null : mapping.consumes());
+        result.setConsumes(mapping.consumes().isEmpty() ? null : mapping.consumes());
         Mappings.format(mapping.headers() , result.getHeaders());
-        result.setMethodType(Arrays.deepEquals(mapping.methodType() , emptyStrArray) ? null : mapping.methodType());
+        result.setMethodType(Arrays.deepEquals(mapping.methodType() , EMPTY_STR_ARRAY) ? null : mapping.methodType());
         Mappings.format(mapping.params() , result.getParams());
-        result.setProduces(mapping.produces().equals("") ? null : mapping.produces());
-        result.setUrl(mapping.value().equals("") ? method.getName() : mapping.value());
+        result.setProduces(mapping.produces().isEmpty() ? null : mapping.produces());
+        result.setUrl(mapping.value().isEmpty() ? method.getName() : mapping.value());
         result.setClazz(method.getDeclaringClass());
+        result.setProcessMethod(method);
+        result.setClass(false);
         return result;
     }
 
@@ -51,14 +52,15 @@ public final class Mappings {
 
         com.github.andyshaox.servlet.mapping.Mapping result =
             com.github.andyshaox.servlet.mapping.Mapping.defaultMapping();
-        result.setConsumes(mapping.consumes().equals("") ? null : mapping.consumes());
+        result.setConsumes(mapping.consumes().isEmpty() ? null : mapping.consumes());
         Mappings.format(mapping.headers() , result.getHeaders());
         result.setMethodType(
             Arrays.deepEquals(mapping.methodType() , Mappings.EMPTY_STR_ARRAY) ? null : mapping.methodType());
         Mappings.format(mapping.params() , result.getParams());
-        result.setProduces(mapping.produces().equals("") ? null : mapping.produces());
-        result.setUrl(mapping.value().equals("") ? clazz.getSimpleName() : mapping.value());
+        result.setProduces(mapping.produces().isEmpty() ? null : mapping.produces());
+        result.setUrl(mapping.value().isEmpty() ? clazz.getSimpleName() : mapping.value());
         result.setClazz(clazz);
+        result.setClass(true);
         return result;
     }
 
