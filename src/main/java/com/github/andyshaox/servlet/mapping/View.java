@@ -14,29 +14,40 @@ import java.util.Objects;
  */
 public interface View {
     static class DefaultView implements View {
-        private String view;
+        private Object view;
+        private ViewProcess viewProcess;
 
         @Override
         public boolean equals(Object obj) {
             if (obj instanceof View) {
                 DefaultView that = (DefaultView) obj;
-                return Objects.equals(this.view , that.view);
+                return Objects.equals(this.view , that.view) && Objects.equals(this.viewProcess , that.viewProcess);
             } else return false;
         }
 
         @Override
-        public String getView() {
+        public Object getView() {
             return this.view;
         }
 
         @Override
-        public int hashCode() {
-            return Objects.hash(this.view);
+        public ViewProcess getViewProcess() {
+            return this.viewProcess == null ? View.super.getViewProcess() : this.viewProcess;
         }
 
         @Override
-        public void setView(String view) {
+        public int hashCode() {
+            return Objects.hash(this.view , this.viewProcess);
+        }
+
+        @Override
+        public void setView(Object view) {
             this.view = view;
+        }
+
+        @Override
+        public void setViewProcess(ViewProcess viewProcess) {
+            this.viewProcess = viewProcess;
         }
 
         @Override
@@ -55,7 +66,13 @@ public interface View {
         return view;
     }
 
-    String getView();
+    Object getView();
 
-    void setView(String view);
+    default ViewProcess getViewProcess() {
+        return ViewProcess.EMPTY;
+    }
+
+    void setView(Object view);
+
+    void setViewProcess(ViewProcess viewProcess);
 }

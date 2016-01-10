@@ -15,6 +15,7 @@ import com.github.andyshao.data.structure.Bitree.BitreeNode;
  * Descript:<br>
  * Copyright: Copryright(c) Dec 29, 2015<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  */
@@ -26,17 +27,17 @@ public class GeneralFindingMapping implements FindingMapping {
         String url = request.getRequestURI();
         BitreeNode<Mapping> node = bitree.root();
         boolean isFinding = false;
-        
+
         //Finding class
-        do{
-            if(url.startsWith(node.data().getUrl())) {
+        do {
+            if (url.startsWith(node.data().getUrl())) {
                 isFinding = true;
                 break;
             }
             node = node.left();
-        }while(node != null);
-        if(!isFinding) return null;
-        
+        } while (node != null);
+        if (!isFinding) return null;
+
         //Finding method
         isFinding = false;
         return null;

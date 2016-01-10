@@ -18,16 +18,16 @@ import java.util.Objects;
  */
 public interface Mapping {
     static class DefaultRequestMapping implements Mapping , Cloneable {
+        private Map<String , Object> attributes = new HashMap<>();
         private Class<?> clazz;
         private String consumes;
         private Map<String , Object> headers = new HashMap<>();
         private boolean isClass;
         private MethodType[] methodType;
-        private Map<String , Object> attributes = new HashMap<>();
+        private String[] parameterNames;
         private Method processMethod;
         private String produces;
         private String url;
-        private String[] parameterNames;
 
         @Override
         public Object clone() throws CloneNotSupportedException {
@@ -66,6 +66,11 @@ public interface Mapping {
         }
 
         @Override
+        public Map<String , Object> getAttributes() {
+            return this.attributes;
+        }
+
+        @Override
         public Class<?> getClazz() {
             return this.clazz;
         }
@@ -86,8 +91,8 @@ public interface Mapping {
         }
 
         @Override
-        public Map<String , Object> getAttributes() {
-            return this.attributes;
+        public String[] getParameterNames() {
+            return this.parameterNames;
         }
 
         @Override
@@ -139,6 +144,11 @@ public interface Mapping {
         }
 
         @Override
+        public void setPramameterNames(String[] parameterNames) {
+            this.parameterNames = parameterNames;
+        }
+
+        @Override
         public void setProcessMethod(Method method) {
             this.processMethod = method;
         }
@@ -157,30 +167,18 @@ public interface Mapping {
         public String toString() {
             return "DefaultRequestMapping [clazz=" + this.clazz + ", consumes=" + this.consumes + ", headers="
                 + this.headers + ", isClass=" + this.isClass + ", methodType=" + Arrays.toString(this.methodType)
-                + ", attributes=" + this.attributes + ", processMethod=" + this.processMethod + ", produces=" + this.produces
-                + ", url=" + this.url + "]";
-        }
-
-        @Override
-        public String[] getParameterNames() {
-            return this.parameterNames;
-        }
-
-        @Override
-        public void setPramameterNames(String[] parameterNames) {
-            this.parameterNames = parameterNames;
+                + ", attributes=" + this.attributes + ", processMethod=" + this.processMethod + ", produces="
+                + this.produces + ", url=" + this.url + "]";
         }
     }
 
     static Mapping defaultMapping() {
         return new Mapping.DefaultRequestMapping();
     }
-    
-    String[] getParameterNames();
-    
-    void setPramameterNames(String[] parameterNames);
 
     Mapping duplicate();
+
+    Map<String , Object> getAttributes();
 
     Class<?> getClazz();
 
@@ -190,7 +188,7 @@ public interface Mapping {
 
     MethodType[] getMethodType();
 
-    Map<String , Object> getAttributes();
+    String[] getParameterNames();
 
     Method getProcessMethod();
 
@@ -207,6 +205,8 @@ public interface Mapping {
     void setConsumes(String consumes);
 
     void setMethodType(MethodType... methodType);
+
+    void setPramameterNames(String[] parameterNames);
 
     void setProcessMethod(Method method);
 

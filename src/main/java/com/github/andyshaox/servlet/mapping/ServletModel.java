@@ -50,29 +50,25 @@ public class ServletModel extends HttpServlet {
         //        mapping.setConsumes(mapping.getHeaders().get("Content-Type").toString());
 
         Mapping map = this.servletControl.doProcess(req , resp , this.mappingInfo);
-        View view = this.mappingProcess.doProcess(req , resp , map , new ProcessType());
-        req.getRequestDispatcher(view.getView()).forward(req , resp);
+        this.mappingProcess.doProcess(req , resp , map , new ProcessType()).getViewProcess().process(req , resp);
     }
 
     @Override
     protected void doGet(HttpServletRequest req , HttpServletResponse resp) throws ServletException , IOException {
         Mapping map = this.servletControl.doProcess(req , resp , this.mappingInfo);
-        View view = this.mappingProcess.doProcess(req , resp , map , new ProcessType());
-        req.getRequestDispatcher(view.getView()).forward(req , resp);
+        this.mappingProcess.doProcess(req , resp , map , new ProcessType()).getViewProcess().process(req , resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req , HttpServletResponse resp) throws ServletException , IOException {
         Mapping map = this.servletControl.doProcess(req , resp , this.mappingInfo);
-        View view = this.mappingProcess.doProcess(req , resp , map , new ProcessType());
-        req.getRequestDispatcher(view.getView()).forward(req , resp);
+        this.mappingProcess.doProcess(req , resp , map , new ProcessType()).getViewProcess().process(req , resp);
     }
 
     @Override
     protected void doPut(HttpServletRequest req , HttpServletResponse resp) throws ServletException , IOException {
         Mapping map = this.servletControl.doProcess(req , resp , this.mappingInfo);
-        View view = this.mappingProcess.doProcess(req , resp , map , new ProcessType());
-        req.getRequestDispatcher(view.getView()).forward(req , resp);
+        this.mappingProcess.doProcess(req , resp , map , new ProcessType()).getViewProcess().process(req , resp);
     }
 
     public MappingProcess getMappingProcess() {
