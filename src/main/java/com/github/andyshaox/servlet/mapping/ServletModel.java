@@ -29,7 +29,7 @@ public class ServletModel extends HttpServlet {
 
     public ServletModel(MappingFactory factory) {
         this.factory = factory;
-        this.mappingInfo = Bitree.<Mapping> defaultBitTree(() -> BitreeNode.<Mapping> defaultBitreeNode());
+        this.mappingInfo = Bitree.<Mapping> defaultBitTree(BitreeNode::defaultBitreeNode);
         this.factory.buildMappingMap(this.mappingInfo);
     }
 
