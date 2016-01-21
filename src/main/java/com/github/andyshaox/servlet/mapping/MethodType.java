@@ -12,6 +12,10 @@ package com.github.andyshaox.servlet.mapping;
  */
 public enum MethodType {
     DELETE , GET , POST , PUT;
+    public static final String covert(MethodType methodType) {
+        return methodType.toString();
+    }
+
     public static final MethodType covert(String methodType) {
         MethodType result = null;
         switch (methodType) {

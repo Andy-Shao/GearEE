@@ -1,13 +1,14 @@
 package com.github.andyshaox.servlet.mapping;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.github.andyshao.data.structure.Bitree;
-import com.github.andyshao.data.structure.Bitree.BitreeNode;
 
 /**
  * 
@@ -20,27 +21,19 @@ import com.github.andyshao.data.structure.Bitree.BitreeNode;
  *
  */
 public class GeneralFindingMapping implements FindingMapping {
+    private FindingMappingEngine findingMappingEngine;
 
     @Override
-    public Mapping doProcess(HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree)
+    public Mapping search(HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree)
         throws ServletException , IOException {
-        String url = request.getRequestURI();
-        BitreeNode<Mapping> node = bitree.root();
-        boolean isFinding = false;
+        List<Mapping> mappings = new ArrayList<>();
+        this.findingMappingEngine.search(request , response , bitree , mappings);
+        if (mappings.size() == 0) return null;
+        else return mappings.get(0);
+    }
 
-        //Finding class
-        do {
-            if (url.startsWith(node.data().getUrl())) {
-                isFinding = true;
-                break;
-            }
-            node = node.left();
-        } while (node != null);
-        if (!isFinding) return null;
-
-        //Finding method
-        isFinding = false;
-        return null;
+    public void setFindingMappingEngine(FindingMappingEngine findingMappingEngine) {
+        this.findingMappingEngine = findingMappingEngine;
     }
 
 }
