@@ -23,9 +23,9 @@ import com.github.andyshao.data.structure.Bitree.BitreeNode;
 public class ServletModel extends HttpServlet {
     private static final long serialVersionUID = -7123339878356609676L;
     private final MappingFactory factory;
+    private FindingMapping findingMapping;
     private Bitree<Mapping> mappingInfo;
     private MappingProcess mappingProcess;
-    private FindingMapping servletControl;
 
     public ServletModel(MappingFactory factory) {
         this.factory = factory;
@@ -49,41 +49,33 @@ public class ServletModel extends HttpServlet {
         //        mapping.setProduces(mapping.getHeaders().get("Accept").toString());
         //        mapping.setConsumes(mapping.getHeaders().get("Content-Type").toString());
 
-        Mapping map = this.servletControl.search(req , resp , this.mappingInfo);
-        this.mappingProcess.doProcess(req , resp , map , new ProcessType()).getViewProcess().process(req , resp);
+        Mapping map = this.findingMapping.search(req , resp , this.mappingInfo);
+        this.mappingProcess.doProcess(req , resp , map , new ProcessType()).process(req , resp);
     }
 
     @Override
     protected void doGet(HttpServletRequest req , HttpServletResponse resp) throws ServletException , IOException {
-        Mapping map = this.servletControl.search(req , resp , this.mappingInfo);
-        this.mappingProcess.doProcess(req , resp , map , new ProcessType()).getViewProcess().process(req , resp);
+        Mapping map = this.findingMapping.search(req , resp , this.mappingInfo);
+        this.mappingProcess.doProcess(req , resp , map , new ProcessType()).process(req , resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req , HttpServletResponse resp) throws ServletException , IOException {
-        Mapping map = this.servletControl.search(req , resp , this.mappingInfo);
-        this.mappingProcess.doProcess(req , resp , map , new ProcessType()).getViewProcess().process(req , resp);
+        Mapping map = this.findingMapping.search(req , resp , this.mappingInfo);
+        this.mappingProcess.doProcess(req , resp , map , new ProcessType()).process(req , resp);
     }
 
     @Override
     protected void doPut(HttpServletRequest req , HttpServletResponse resp) throws ServletException , IOException {
-        Mapping map = this.servletControl.search(req , resp , this.mappingInfo);
-        this.mappingProcess.doProcess(req , resp , map , new ProcessType()).getViewProcess().process(req , resp);
+        Mapping map = this.findingMapping.search(req , resp , this.mappingInfo);
+        this.mappingProcess.doProcess(req , resp , map , new ProcessType()).process(req , resp);
     }
 
-    public MappingProcess getMappingProcess() {
-        return this.mappingProcess;
-    }
-
-    public FindingMapping getServletControl() {
-        return this.servletControl;
+    public void setFindingMapping(FindingMapping findingMapping) {
+        this.findingMapping = findingMapping;
     }
 
     public void setMappingProcess(MappingProcess mappingProcess) {
         this.mappingProcess = mappingProcess;
-    }
-
-    public void setServletControl(FindingMapping servletControl) {
-        this.servletControl = servletControl;
     }
 }

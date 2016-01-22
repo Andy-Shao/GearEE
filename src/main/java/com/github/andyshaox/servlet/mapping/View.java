@@ -1,6 +1,11 @@
 package com.github.andyshaox.servlet.mapping;
 
+import java.io.IOException;
 import java.util.Objects;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 
@@ -66,10 +71,21 @@ public interface View {
         return view;
     }
 
+    static View defaultView(String url , ViewProcess viewProcess) {
+        View view = View.defaultView(url);
+        view.setViewProcess(viewProcess);
+        return view;
+    }
+
     Object getView();
 
     default ViewProcess getViewProcess() {
         return ViewProcess.EMPTY;
+    }
+
+    default void process(HttpServletRequest request , HttpServletResponse response)
+        throws ServletException , IOException {
+        this.getViewProcess().process(request , response , this);
     }
 
     void setView(Object view);
