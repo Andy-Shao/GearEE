@@ -19,20 +19,20 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface View {
     static class DefaultView implements View {
-        private Object view;
+        private Object resource;
         private ViewProcess viewProcess;
 
         @Override
         public boolean equals(Object obj) {
             if (obj instanceof View) {
                 DefaultView that = (DefaultView) obj;
-                return Objects.equals(this.view , that.view) && Objects.equals(this.viewProcess , that.viewProcess);
+                return Objects.equals(this.resource , that.resource) && Objects.equals(this.viewProcess , that.viewProcess);
             } else return false;
         }
 
         @Override
-        public Object getView() {
-            return this.view;
+        public Object getResource() {
+            return this.resource;
         }
 
         @Override
@@ -42,12 +42,12 @@ public interface View {
 
         @Override
         public int hashCode() {
-            return Objects.hash(this.view , this.viewProcess);
+            return Objects.hash(this.resource , this.viewProcess);
         }
 
         @Override
-        public void setView(Object view) {
-            this.view = view;
+        public void setResource(Object resource) {
+            this.resource = resource;
         }
 
         @Override
@@ -57,7 +57,7 @@ public interface View {
 
         @Override
         public String toString() {
-            return "DefaultView [view=" + this.view + "]";
+            return "DefaultView [view=" + this.resource + "]";
         }
     }
 
@@ -67,7 +67,7 @@ public interface View {
 
     static View defaultView(String url) {
         View view = new View.DefaultView();
-        view.setView(url);
+        view.setResource(url);
         return view;
     }
 
@@ -77,7 +77,7 @@ public interface View {
         return view;
     }
 
-    Object getView();
+    Object getResource();
 
     default ViewProcess getViewProcess() {
         return ViewProcess.EMPTY;
@@ -88,7 +88,7 @@ public interface View {
         this.getViewProcess().process(request , response , this);
     }
 
-    void setView(Object view);
+    void setResource(Object resource);
 
     void setViewProcess(ViewProcess viewProcess);
 }

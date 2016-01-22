@@ -71,7 +71,7 @@ public interface Mapping {
         }
 
         @Override
-        public Class<?> getClazz() {
+        public Class<?> getDefineClass() {
             return this.clazz;
         }
 
@@ -180,7 +180,7 @@ public interface Mapping {
 
     Map<String , Object> getAttributes();
 
-    Class<?> getClazz();
+    Class<?> getDefineClass();
 
     String getConsumes();
 

@@ -19,7 +19,7 @@ public class PageViewProcess implements ViewProcess{
     @Override
     public void process(HttpServletRequest request , HttpServletResponse response, View view)
         throws ServletException , IOException {
-        request.getRequestDispatcher(view.getView().toString()).forward(request , response);
+        request.getRequestDispatcher(view.getResource().toString()).forward(request , response);
     }
 
 }

@@ -44,6 +44,7 @@ public @interface Mapping {
      * When used at the type level, all method-level mappings override
      * this consumes restriction.<br>
      * 指定处理请求的提交内容类型（Content-Type），例如application/json, text/html
+     * @return consumes
      */
     String consumes() default "";
 
@@ -77,6 +78,7 @@ public @interface Mapping {
      * <p>
      * Maps against HttpServletRequest headers in a Servlet environment,
      * and against PortletRequest properties in a Portlet 2.0 environment.
+     * @return headers
      */
     String[] headers() default "";
 
@@ -92,6 +94,7 @@ public @interface Mapping {
      * Supported for Servlet environments as well as Portlet 2.0 environments.
      * return methodType. default is {@link MethodType#GET} and
      * {@link MethodType#POST}
+     * @return method type
      */
     MethodType[] methodType() default { MethodType.GET , MethodType.POST };
 
@@ -126,6 +129,7 @@ public @interface Mapping {
      * be
      * mapped onto the same portlet mode, as long as their parameter mappings
      * differ.
+     * @return attributes
      */
     String[] attributes() default "";
 
@@ -151,6 +155,7 @@ public @interface Mapping {
      * When used at the type level, all method-level mappings override
      * this consumes restriction.<br>
      * 指定返回的内容类型，仅当request请求头中的(Accept)类型中包含该指定类型才返回
+     * @return produces
      */
     String produces() default "";
 
@@ -169,6 +174,7 @@ public @interface Mapping {
      * <b>Supported at the type level as well as at the method level!</b>
      * When used at the type level, all method-level mappings inherit
      * this primary mapping, narrowing it for a specific handler method.
+     * @return path
      */
     String value() default "";
 }

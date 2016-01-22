@@ -23,6 +23,7 @@ public @interface PathVariable {
 
     /**
      * The URI template variable to bind to.
+     * @return variable name
      */
     String value() default "";
 

@@ -19,19 +19,17 @@ import com.github.andyshao.reflect.Reflects;
  *
  */
 public class GenericMappingProcess implements MappingProcess {
-
     @Override
     public View
         doProcess(HttpServletRequest request , HttpServletResponse response , Mapping mapping , ProcessType processType)
             throws ServletException , IOException {
-        if(mapping == null) return View.defaultView(request.getRequestURI(), new PageViewProcess());
         View view = null;
-        if (processType.processObject != null) {
+        if (mapping == null) view = View.defaultView(request.getRequestURI() , new PageViewProcess());
+        else if (processType.processObject != null) {
             Object result = Reflects.invoked(processType.processObject , mapping.getProcessMethod() , processType.args);
             if (result instanceof View) view = (View) result;
-            else view = View.defaultView(result.toString(), new PageViewProcess());
-        } else view = View.defaultView(mapping.getUrl(), new PageViewProcess());
+            else view = View.defaultView(result.toString() , new PageViewProcess());
+        } else view = View.defaultView(mapping.getUrl() , new PageViewProcess());
         return view;
     }
-
 }

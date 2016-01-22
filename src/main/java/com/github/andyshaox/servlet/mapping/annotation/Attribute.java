@@ -24,6 +24,7 @@ public @interface Attribute {
      * The default value to use as a fallback when the request parameter value
      * is not provided or empty. Supplying a default value implicitly sets
      * {@link #required()} to false.
+     * @return default value
      */
     String defaultValue() default "";
 
@@ -36,11 +37,13 @@ public @interface Attribute {
      * <p>
      * Alternatively, provide a {@link #defaultValue() defaultValue},
      * which implicitly sets this flag to {@code false}.
+     * @return required
      */
     boolean required() default true;
 
     /**
      * The name of the request parameter to bind to.
+     * @return attribute name
      */
     String value() default "";
 }
