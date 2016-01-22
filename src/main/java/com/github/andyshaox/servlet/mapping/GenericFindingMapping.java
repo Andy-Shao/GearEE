@@ -20,7 +20,7 @@ import com.github.andyshao.data.structure.Bitree;
  * @author Andy.Shao
  *
  */
-public class GeneralFindingMapping implements FindingMapping {
+public class GenericFindingMapping implements FindingMapping {
     private FindingMappingEngine findingMappingEngine;
 
     @Override
