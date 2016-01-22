@@ -18,7 +18,7 @@ import com.github.andyshao.reflect.Reflects;
  * @author Andy.Shao
  *
  */
-public class BasicMappingProcess implements MappingProcess {
+public class GenericMappingProcess implements MappingProcess {
 
     @Override
     public View

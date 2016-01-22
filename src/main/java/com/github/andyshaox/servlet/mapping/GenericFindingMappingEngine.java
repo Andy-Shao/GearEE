@@ -21,7 +21,7 @@ import com.github.andyshao.reflect.ArrayOperation;
  * @author Andy.Shao
  *
  */
-public class BasicFindingMappingEngine implements FindingMappingEngine {
+public class GenericFindingMappingEngine implements FindingMappingEngine {
     static final String removeFileType(String url) {
         if (url.lastIndexOf(".") != -1) return url.substring(0 , url.lastIndexOf("."));
         else return url;
@@ -34,7 +34,7 @@ public class BasicFindingMappingEngine implements FindingMappingEngine {
     public void search(
         HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree , List<Mapping> result)
             throws ServletException , IOException {
-        String url = BasicFindingMappingEngine.removeFileType(request.getRequestURI());
+        String url = GenericFindingMappingEngine.removeFileType(request.getRequestURI());
         BitreeNode<Mapping> node = bitree.root();
         //check root
         if (!url.startsWith(node.data().getUrl())) return;
