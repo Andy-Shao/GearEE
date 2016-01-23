@@ -18,8 +18,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @FunctionalInterface
 public interface ViewProcess {
-    public static final ViewProcess EMPTY = (req , resp, view) -> {
+    public static final ViewProcess EMPTY = (req , resp , view) -> {
     };
 
-    void process(HttpServletRequest request , HttpServletResponse response, View view) throws ServletException , IOException;
+    void process(HttpServletRequest request , HttpServletResponse response , View view)
+        throws ServletException , IOException;
 }

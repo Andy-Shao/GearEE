@@ -26,7 +26,8 @@ public interface View {
         public boolean equals(Object obj) {
             if (obj instanceof View) {
                 DefaultView that = (DefaultView) obj;
-                return Objects.equals(this.resource , that.resource) && Objects.equals(this.viewProcess , that.viewProcess);
+                return Objects.equals(this.resource , that.resource)
+                    && Objects.equals(this.viewProcess , that.viewProcess);
             } else return false;
         }
 

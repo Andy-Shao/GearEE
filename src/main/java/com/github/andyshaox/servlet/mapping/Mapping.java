@@ -71,13 +71,13 @@ public interface Mapping {
         }
 
         @Override
-        public Class<?> getDefineClass() {
-            return this.clazz;
+        public String getConsumes() {
+            return this.consumes;
         }
 
         @Override
-        public String getConsumes() {
-            return this.consumes;
+        public Class<?> getDefineClass() {
+            return this.clazz;
         }
 
         @Override
@@ -180,9 +180,9 @@ public interface Mapping {
 
     Map<String , Object> getAttributes();
 
-    Class<?> getDefineClass();
-
     String getConsumes();
+
+    Class<?> getDefineClass();
 
     Map<String , Object> getHeaders();
 

@@ -12,12 +12,13 @@ import javax.servlet.http.HttpServletResponse;
  * Descript:<br>
  * Copyright: Copryright(c) Jan 22, 2016<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  */
-public class PageViewProcess implements ViewProcess{
+public class PageViewProcess implements ViewProcess {
     @Override
-    public void process(HttpServletRequest request , HttpServletResponse response, View view)
+    public void process(HttpServletRequest request , HttpServletResponse response , View view)
         throws ServletException , IOException {
         request.getRequestDispatcher(view.getResource().toString()).forward(request , response);
     }

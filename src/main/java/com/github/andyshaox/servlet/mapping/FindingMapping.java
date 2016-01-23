@@ -20,12 +20,13 @@ import com.github.andyshao.data.structure.Bitree;
  */
 public interface FindingMapping {
     /**
-     * find mapping 
+     * find mapping
+     * 
      * @param request request
-     * @param response response 
+     * @param response response
      * @param bitree Mapping information
      * @return if cannot find out then return null
-     * @throws ServletException  {@link ServletException}
+     * @throws ServletException {@link ServletException}
      * @throws IOException {@link IOException}
      */
     public Mapping search(HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree)

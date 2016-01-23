@@ -23,6 +23,43 @@ import com.github.andyshaox.servlet.mapping.MethodType;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Mapping {
     /**
+     * The parameters of the mapped request, narrowing the primary mapping.
+     * <p>
+     * Same format for any environment: a sequence of "myParam=myValue" style
+     * expressions, with a request only mapped if each such parameter is found
+     * to have the given value. Expressions can be negated by using the "!="
+     * operator,
+     * as in "myAttributes!=myValue". "myParam" style expressions are also
+     * supported,
+     * with such parameters having to be present in the request (allowed to have
+     * any value). Finally, "!myParam" style expressions indicate that the
+     * specified parameter is <i>not</i> supposed to be present in the request.
+     * <p>
+     * <b>Supported at the type level as well as at the method level!</b>
+     * When used at the type level, all method-level mappings inherit
+     * this parameter restriction (i.e. the type-level restriction
+     * gets checked before the handler method is even resolved).
+     * <p>
+     * In a Servlet environment, parameter mappings are considered as
+     * restrictions
+     * that are enforced at the type level. The primary path mapping (i.e. the
+     * specified URI value) still has to uniquely identify the target handler,
+     * with
+     * parameter mappings simply expressing preconditions for invoking the
+     * handler.
+     * <p>
+     * In a Portlet environment, parameters are taken into account as mapping
+     * differentiators, i.e. the primary portlet mode mapping plus the parameter
+     * conditions uniquely identify the target handler. Different handlers may
+     * be
+     * mapped onto the same portlet mode, as long as their parameter mappings
+     * differ.
+     * 
+     * @return attributes
+     */
+    String[] attributes() default "";
+
+    /**
      * The consumable media types of the mapped request, narrowing the primary
      * mapping.
      * <p>
@@ -44,6 +81,7 @@ public @interface Mapping {
      * When used at the type level, all method-level mappings override
      * this consumes restriction.<br>
      * 指定处理请求的提交内容类型（Content-Type），例如application/json, text/html
+     * 
      * @return consumes
      */
     String consumes() default "";
@@ -78,6 +116,7 @@ public @interface Mapping {
      * <p>
      * Maps against HttpServletRequest headers in a Servlet environment,
      * and against PortletRequest properties in a Portlet 2.0 environment.
+     * 
      * @return headers
      */
     String[] headers() default "";
@@ -94,44 +133,10 @@ public @interface Mapping {
      * Supported for Servlet environments as well as Portlet 2.0 environments.
      * return methodType. default is {@link MethodType#GET} and
      * {@link MethodType#POST}
+     * 
      * @return method type
      */
     MethodType[] methodType() default { MethodType.GET , MethodType.POST };
-
-    /**
-     * The parameters of the mapped request, narrowing the primary mapping.
-     * <p>
-     * Same format for any environment: a sequence of "myParam=myValue" style
-     * expressions, with a request only mapped if each such parameter is found
-     * to have the given value. Expressions can be negated by using the "!="
-     * operator,
-     * as in "myAttributes!=myValue". "myParam" style expressions are also supported,
-     * with such parameters having to be present in the request (allowed to have
-     * any value). Finally, "!myParam" style expressions indicate that the
-     * specified parameter is <i>not</i> supposed to be present in the request.
-     * <p>
-     * <b>Supported at the type level as well as at the method level!</b>
-     * When used at the type level, all method-level mappings inherit
-     * this parameter restriction (i.e. the type-level restriction
-     * gets checked before the handler method is even resolved).
-     * <p>
-     * In a Servlet environment, parameter mappings are considered as
-     * restrictions
-     * that are enforced at the type level. The primary path mapping (i.e. the
-     * specified URI value) still has to uniquely identify the target handler,
-     * with
-     * parameter mappings simply expressing preconditions for invoking the
-     * handler.
-     * <p>
-     * In a Portlet environment, parameters are taken into account as mapping
-     * differentiators, i.e. the primary portlet mode mapping plus the parameter
-     * conditions uniquely identify the target handler. Different handlers may
-     * be
-     * mapped onto the same portlet mode, as long as their parameter mappings
-     * differ.
-     * @return attributes
-     */
-    String[] attributes() default "";
 
     /**
      * The producible media types of the mapped request, narrowing the primary
@@ -155,6 +160,7 @@ public @interface Mapping {
      * When used at the type level, all method-level mappings override
      * this consumes restriction.<br>
      * 指定返回的内容类型，仅当request请求头中的(Accept)类型中包含该指定类型才返回
+     * 
      * @return produces
      */
     String produces() default "";
@@ -174,6 +180,7 @@ public @interface Mapping {
      * <b>Supported at the type level as well as at the method level!</b>
      * When used at the type level, all method-level mappings inherit
      * this primary mapping, narrowing it for a specific handler method.
+     * 
      * @return path
      */
     String value() default "";
