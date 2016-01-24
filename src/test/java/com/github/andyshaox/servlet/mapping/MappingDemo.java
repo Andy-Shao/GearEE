@@ -28,7 +28,7 @@ public class MappingDemo {
         return "/testingTwo.html";
     }
 
-    @Mapping
+    @Mapping("/pp")
     public String requestProcess3(@Attribute String username , HttpServletRequest request) {
         return "/testingThree.html";
     }
