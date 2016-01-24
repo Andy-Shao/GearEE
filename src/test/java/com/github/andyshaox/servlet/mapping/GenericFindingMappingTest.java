@@ -1,4 +1,4 @@
-package com.github.andyshaox.servlet.mapping.annotation;
+package com.github.andyshaox.servlet.mapping;
 
 import java.io.IOException;
 
@@ -13,11 +13,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import com.github.andyshao.data.structure.Bitree;
-import com.github.andyshaox.servlet.mapping.GenericFindingMapping;
-import com.github.andyshaox.servlet.mapping.GenericFindingMappingEngine;
-import com.github.andyshaox.servlet.mapping.Mapping;
-import com.github.andyshaox.servlet.mapping.MappingDemo;
-import com.github.andyshaox.servlet.mapping.MethodType;
+import com.github.andyshaox.servlet.mapping.annotation.AnnotationMappingFactory;
 
 public class GenericFindingMappingTest {
     private GenericFindingMapping genericFindingMapping;
@@ -41,7 +37,7 @@ public class GenericFindingMappingTest {
 
         Mapping mapping = this.genericFindingMapping.search(request , response , mappingTree);
         Assert.assertThat(mapping.getProcessMethod().getName() , Matchers.is("doGet"));
-        Assert.assertThat(mapping.getMethodType() , Matchers.is(new MethodType[]{MethodType.GET}));
+        Assert.assertThat(mapping.getMethodType() , Matchers.is(new MethodType[] { MethodType.GET }));
     }
-    
+
 }

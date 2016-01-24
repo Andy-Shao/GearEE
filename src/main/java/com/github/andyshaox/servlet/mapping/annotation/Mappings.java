@@ -41,7 +41,7 @@ public final class Mappings {
         Mappings.format(mapping.attributes() , result.getAttributes());
         result.setProduces(mapping.produces().isEmpty() ? null : mapping.produces());
         result.setUrl(mapping.value());
-        result.setClazz(method.getDeclaringClass());
+        result.setDefineClass(method.getDeclaringClass());
         result.setProcessMethod(method);
         result.setClass(false);
         return result;
@@ -60,7 +60,7 @@ public final class Mappings {
         Mappings.format(mapping.attributes() , result.getAttributes());
         result.setProduces(mapping.produces().isEmpty() ? null : mapping.produces());
         result.setUrl(mapping.value().isEmpty() ? "/" + clazz.getSimpleName() : mapping.value());
-        result.setClazz(clazz);
+        result.setDefineClass(clazz);
         result.setClass(true);
         return result;
     }

@@ -129,7 +129,7 @@ public interface Mapping {
         }
 
         @Override
-        public void setClazz(Class<?> clazz) {
+        public void setDefineClass(Class<?> clazz) {
             this.defineClass = clazz;
         }
 
@@ -201,7 +201,7 @@ public interface Mapping {
 
     void setClass(boolean isClass);
 
-    void setClazz(Class<?> clazz);
+    void setDefineClass(Class<?> clazz);
 
     void setConsumes(String consumes);
 
