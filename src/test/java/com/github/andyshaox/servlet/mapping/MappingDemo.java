@@ -7,7 +7,7 @@ import com.github.andyshaox.servlet.mapping.annotation.Mapping;
 import com.github.andyshaox.servlet.mapping.annotation.PathVariable;
 
 @Mapping("/mapping")
-public class MappingTestingClass {
+public class MappingDemo {
 
     public View doGet() {
         return View.defaultView("/testing.html");
@@ -24,7 +24,7 @@ public class MappingTestingClass {
     }
 
     @Mapping("/process2")
-    public String requestProcess2(@Attribute("password") String password) {
+    public String requestProcess2(@Attribute("pd") String password) {
         return "/testingTwo.html";
     }
 

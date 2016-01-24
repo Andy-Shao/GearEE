@@ -19,7 +19,7 @@ import java.util.Objects;
 public interface Mapping {
     static class DefaultRequestMapping implements Mapping , Cloneable {
         private Map<String , Object> attributes = new HashMap<>();
-        private Class<?> clazz;
+        private Class<?> defineClass;
         private String consumes;
         private Map<String , Object> headers = new HashMap<>();
         private boolean isClass;
@@ -60,7 +60,7 @@ public interface Mapping {
                     && Objects.equals(this.url , that.url) && Objects.equals(this.headers , that.headers)
                     && Objects.equals(this.attributes , that.attributes)
                     && Objects.equals(this.processMethod , that.processMethod)
-                    && Objects.equals(this.isClass , that.isClass) && Objects.equals(this.clazz , that.clazz)
+                    && Objects.equals(this.isClass , that.isClass) && Objects.equals(this.defineClass , that.defineClass)
                     && Arrays.deepEquals(this.methodType , that.methodType);
             } else return false;
         }
@@ -77,7 +77,7 @@ public interface Mapping {
 
         @Override
         public Class<?> getDefineClass() {
-            return this.clazz;
+            return this.defineClass;
         }
 
         @Override
@@ -113,7 +113,7 @@ public interface Mapping {
         @Override
         public int hashCode() {
             int hashCode = Objects.hash(this.consumes , this.produces , this.url , this.headers , this.attributes ,
-                this.processMethod , this.clazz , this.isClass);
+                this.processMethod , this.defineClass , this.isClass);
             hashCode = hashCode * 31 + Arrays.hashCode(this.methodType);
             return hashCode;
         }
@@ -130,7 +130,7 @@ public interface Mapping {
 
         @Override
         public void setClazz(Class<?> clazz) {
-            this.clazz = clazz;
+            this.defineClass = clazz;
         }
 
         @Override
@@ -165,11 +165,12 @@ public interface Mapping {
 
         @Override
         public String toString() {
-            return "DefaultRequestMapping [clazz=" + this.clazz + ", consumes=" + this.consumes + ", headers="
-                + this.headers + ", isClass=" + this.isClass + ", methodType=" + Arrays.toString(this.methodType)
-                + ", attributes=" + this.attributes + ", processMethod=" + this.processMethod + ", produces="
-                + this.produces + ", url=" + this.url + "]";
+            return "DefaultRequestMapping [attributes=" + attributes + ", defineClass=" + defineClass + ", consumes="
+                + consumes + ", headers=" + headers + ", isClass=" + isClass + ", methodType="
+                + Arrays.toString(methodType) + ", parameterNames=" + Arrays.toString(parameterNames)
+                + ", processMethod=" + processMethod + ", produces=" + produces + ", url=" + url + "]";
         }
+
     }
 
     static Mapping defaultMapping() {

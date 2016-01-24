@@ -13,7 +13,7 @@ import com.github.andyshao.lang.Convert;
  * 
  * @author Andy.Shao
  *
- * @param <OUT>
+ * @param <OUT> output type
  */
 public interface JdbcReturnConvert<OUT> extends Convert<ResultSet , OUT> {
 

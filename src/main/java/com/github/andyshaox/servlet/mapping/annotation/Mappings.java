@@ -40,7 +40,7 @@ public final class Mappings {
             Arrays.deepEquals(mapping.methodType() , Mappings.EMPTY_STR_ARRAY) ? null : mapping.methodType());
         Mappings.format(mapping.attributes() , result.getAttributes());
         result.setProduces(mapping.produces().isEmpty() ? null : mapping.produces());
-        result.setUrl(mapping.value().isEmpty() ? method.getName() : mapping.value());
+        result.setUrl(mapping.value());
         result.setClazz(method.getDeclaringClass());
         result.setProcessMethod(method);
         result.setClass(false);
@@ -59,7 +59,7 @@ public final class Mappings {
             Arrays.deepEquals(mapping.methodType() , Mappings.EMPTY_STR_ARRAY) ? null : mapping.methodType());
         Mappings.format(mapping.attributes() , result.getAttributes());
         result.setProduces(mapping.produces().isEmpty() ? null : mapping.produces());
-        result.setUrl(mapping.value().isEmpty() ? clazz.getSimpleName() : mapping.value());
+        result.setUrl(mapping.value().isEmpty() ? "/" + clazz.getSimpleName() : mapping.value());
         result.setClazz(clazz);
         result.setClass(true);
         return result;
