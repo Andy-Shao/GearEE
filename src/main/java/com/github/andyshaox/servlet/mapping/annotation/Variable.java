@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.github.andyshaox.servlet.mapping.ArgLevel;
+import com.github.andyshaox.servlet.mapping.VariableLevel;
 
 /**
  * 
@@ -21,7 +21,7 @@ import com.github.andyshaox.servlet.mapping.ArgLevel;
 @Documented
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Args {
+public @interface Variable {
     /**
      * The default value to use as a fallback when the request parameter value
      * is not provided or empty. Supplying a default value implicitly sets
@@ -31,7 +31,7 @@ public @interface Args {
      */
     String defaultValue() default "";
 
-    ArgLevel level() default ArgLevel.REQUEST;
+    VariableLevel level() default VariableLevel.REQUEST;
 
     /**
      * Whether the parameter is required.

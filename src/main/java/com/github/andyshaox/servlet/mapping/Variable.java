@@ -12,11 +12,12 @@ import java.util.Objects;
  * @author Andy.Shao
  *
  */
-public interface Attribute {
-    static class DefaultRequestParam implements Attribute {
+public interface Variable {
+    static class DefaultRequestParam implements Variable {
         private String defaultValue;
+        private VariableLevel level = Variable.super.getLevel();
         private String paramName;
-        private boolean required = Attribute.super.getRequired();
+        private boolean required = Variable.super.getRequired();
 
         @Override
         public boolean equals(Object obj) {
@@ -24,13 +25,18 @@ public interface Attribute {
                 DefaultRequestParam that = (DefaultRequestParam) obj;
                 return Objects.equals(this.paramName , that.paramName)
                     && Objects.equals(this.defaultValue , that.defaultValue)
-                    && Objects.equals(this.required , that.required);
+                    && Objects.equals(this.required , that.required) && Objects.equals(this.level , that.level);
             } else return false;
         }
 
         @Override
         public String getDefaultValue() {
             return this.defaultValue;
+        }
+
+        @Override
+        public VariableLevel getLevel() {
+            return this.level;
         }
 
         @Override
@@ -45,12 +51,17 @@ public interface Attribute {
 
         @Override
         public int hashCode() {
-            return Objects.hash(this.paramName , this.defaultValue , this.required);
+            return Objects.hash(this.paramName , this.defaultValue , this.required , this.level);
         }
 
         @Override
         public void setDefaultValue(String defaultValue) {
             this.defaultValue = defaultValue;
+        }
+
+        @Override
+        public void setLevel(VariableLevel level) {
+            this.level = level;
         }
 
         @Override
@@ -65,16 +76,20 @@ public interface Attribute {
 
         @Override
         public String toString() {
-            return "DefaultRequestParam [paramName=" + this.paramName + ", defaultValue=" + this.defaultValue
-                + ", required=" + this.required + "]";
+            return "DefaultRequestParam [defaultValue=" + this.defaultValue + ", level=" + this.level + ", paramName="
+                + this.paramName + ", required=" + this.required + "]";
         }
     }
 
-    static Attribute defaultAttribute() {
-        return new Attribute.DefaultRequestParam();
+    static Variable defaultAttribute() {
+        return new Variable.DefaultRequestParam();
     }
 
     String getDefaultValue();
+
+    default VariableLevel getLevel() {
+        return VariableLevel.REQUEST;
+    }
 
     String getParamName();
 
@@ -83,6 +98,8 @@ public interface Attribute {
     }
 
     void setDefaultValue(String defaultValue);
+
+    void setLevel(VariableLevel level);
 
     void setParamName(String value);
 

@@ -10,6 +10,6 @@ package com.github.andyshaox.servlet.mapping;
  * @author Andy.Shao
  *
  */
-public enum ArgLevel {
+public enum VariableLevel {
     REQUEST , SESSION , APPLICATION;
 }

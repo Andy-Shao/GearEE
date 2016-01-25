@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.github.andyshaox.servlet.mapping.ArgLevel;
+import com.github.andyshaox.servlet.mapping.VariableLevel;
 
 /**
  * 
@@ -24,5 +24,5 @@ import com.github.andyshaox.servlet.mapping.ArgLevel;
 public @interface ArgsDemanding {
     String value();
 
-    ArgLevel level() default ArgLevel.REQUEST;
+    VariableLevel level() default VariableLevel.REQUEST;
 }

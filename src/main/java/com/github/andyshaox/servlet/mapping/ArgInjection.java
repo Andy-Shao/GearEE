@@ -14,6 +14,6 @@ public interface ArgInjection {
     String key();
     void value(Object value);
     Object value();
-    void setArgLevel(ArgLevel argLevel);
-    ArgLevel getArgLevel();
+    void setArgLevel(VariableLevel argLevel);
+    VariableLevel getArgLevel();
 }

@@ -15,24 +15,25 @@ import java.util.Map;
  * @author Andy.Shao
  *
  */
-public final class Attributes {
-    public static final Map<Integer , com.github.andyshaox.servlet.mapping.Attribute> analyzeParameters(Method method) {
-        Map<Integer , com.github.andyshaox.servlet.mapping.Attribute> result = new HashMap<>();
+public final class Variables {
+    public static final Map<Integer , com.github.andyshaox.servlet.mapping.Variable> analyzeParameters(Method method) {
+        Map<Integer , com.github.andyshaox.servlet.mapping.Variable> result = new HashMap<>();
         Parameter[] parameters = method.getParameters();
         for (int i = 0 ; i < parameters.length ; i++) {
-            Args attribute = parameters[0].getAnnotation(Args.class);
+            Variable attribute = parameters[0].getAnnotation(Variable.class);
             if (attribute == null) continue;
-            com.github.andyshaox.servlet.mapping.Attribute tmp =
-                com.github.andyshaox.servlet.mapping.Attribute.defaultAttribute();
+            com.github.andyshaox.servlet.mapping.Variable tmp =
+                com.github.andyshaox.servlet.mapping.Variable.defaultAttribute();
             result.put(i , tmp);
             tmp.setDefaultValue(attribute.defaultValue().isEmpty() ? null : attribute.defaultValue());
             tmp.setRequired(attribute.required());
             tmp.setParamName(attribute.value().isEmpty() ? null : attribute.value());
+            tmp.setLevel(attribute.level());
         }
         return result;
     }
 
-    private Attributes() {
-        throw new AssertionError("No " + Attributes.class + " for you!");
+    private Variables() {
+        throw new AssertionError("No " + Variables.class + " for you!");
     }
 }

@@ -2,7 +2,7 @@ package com.github.andyshaox.servlet.mapping;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.github.andyshaox.servlet.mapping.annotation.Args;
+import com.github.andyshaox.servlet.mapping.annotation.Variable;
 import com.github.andyshaox.servlet.mapping.annotation.Mapping;
 import com.github.andyshaox.servlet.mapping.annotation.PathVariable;
 
@@ -10,7 +10,7 @@ import com.github.andyshaox.servlet.mapping.annotation.PathVariable;
 public class MappingDemo {
 
     @Mapping(value = "/pets" , methodType = MethodType.POST , consumes = "application/json")
-    public String addPet(@Args Pet pet , HttpServletRequest request) {
+    public String addPet(@Variable Pet pet , HttpServletRequest request) {
         //process the value of Content-Type is 'application/json' in request
         return "/addPet";
     }
@@ -53,12 +53,12 @@ public class MappingDemo {
     }
 
     @Mapping("/process2")
-    public String requestProcess2(@Args("pd") String password) {
+    public String requestProcess2(@Variable("pd") String password) {
         return "/testingTwo";
     }
 
     @Mapping("/pp")
-    public String requestProcess3(@Args(level = ArgLevel.SESSION) String username , HttpServletRequest request) {
+    public String requestProcess3(@Variable(level = VariableLevel.SESSION) String username , HttpServletRequest request) {
         return "/testingThree";
     }
 

@@ -8,7 +8,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.github.andyshaox.servlet.mapping.annotation.Attributes;
+import com.github.andyshaox.servlet.mapping.annotation.Variables;
 
 /**
  * 
@@ -28,10 +28,10 @@ public class BindingParameter implements MappingProcess {
         ServletConfig config , HttpServletRequest request , HttpServletResponse response , Mapping mapping ,
         ProcessType processType) throws ServletException , IOException {
         if (mapping.getProcessMethod() != null) {
-            Map<Integer , Attribute> annotationDefinition = Attributes.analyzeParameters(mapping.getProcessMethod());
+            Map<Integer , Variable> annotationDefinition = Variables.analyzeParameters(mapping.getProcessMethod());
             for (int i = 0 ; i < processType.args.length ; i++)
                 if (annotationDefinition.containsKey(new Integer(i))) {
-                    Attribute attribute = annotationDefinition.get(new Integer(i));
+                    Variable attribute = annotationDefinition.get(new Integer(i));
                     String paramName = null;
                     if (attribute.getParamName() == null) paramName = mapping.getParameterNames()[i];
                     else paramName = attribute.getParamName();
