@@ -3,6 +3,7 @@ package com.github.andyshaox.servlet.mapping;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +22,6 @@ import com.github.andyshao.data.structure.Bitree;
  */
 public interface FindingMappingEngine {
     void search(
-        HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree , List<Mapping> result)
-            throws ServletException , IOException;
+        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree ,
+        List<Mapping> result) throws ServletException , IOException;
 }

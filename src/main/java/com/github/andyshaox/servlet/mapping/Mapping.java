@@ -19,8 +19,8 @@ import java.util.Objects;
 public interface Mapping {
     static class DefaultRequestMapping implements Mapping , Cloneable {
         private Map<String , Object> attributes = new HashMap<>();
-        private Class<?> defineClass;
         private String consumes;
+        private Class<?> defineClass;
         private Map<String , Object> headers = new HashMap<>();
         private boolean isClass;
         private MethodType[] methodType;
@@ -60,7 +60,8 @@ public interface Mapping {
                     && Objects.equals(this.url , that.url) && Objects.equals(this.headers , that.headers)
                     && Objects.equals(this.attributes , that.attributes)
                     && Objects.equals(this.processMethod , that.processMethod)
-                    && Objects.equals(this.isClass , that.isClass) && Objects.equals(this.defineClass , that.defineClass)
+                    && Objects.equals(this.isClass , that.isClass)
+                    && Objects.equals(this.defineClass , that.defineClass)
                     && Arrays.deepEquals(this.methodType , that.methodType);
             } else return false;
         }
@@ -129,13 +130,13 @@ public interface Mapping {
         }
 
         @Override
-        public void setDefineClass(Class<?> clazz) {
-            this.defineClass = clazz;
+        public void setConsumes(String consumes) {
+            this.consumes = consumes;
         }
 
         @Override
-        public void setConsumes(String consumes) {
-            this.consumes = consumes;
+        public void setDefineClass(Class<?> clazz) {
+            this.defineClass = clazz;
         }
 
         @Override
@@ -165,10 +166,11 @@ public interface Mapping {
 
         @Override
         public String toString() {
-            return "DefaultRequestMapping [attributes=" + attributes + ", defineClass=" + defineClass + ", consumes="
-                + consumes + ", headers=" + headers + ", isClass=" + isClass + ", methodType="
-                + Arrays.toString(methodType) + ", parameterNames=" + Arrays.toString(parameterNames)
-                + ", processMethod=" + processMethod + ", produces=" + produces + ", url=" + url + "]";
+            return "DefaultRequestMapping [attributes=" + this.attributes + ", defineClass=" + this.defineClass
+                + ", consumes=" + this.consumes + ", headers=" + this.headers + ", isClass=" + this.isClass
+                + ", methodType=" + Arrays.toString(this.methodType) + ", parameterNames="
+                + Arrays.toString(this.parameterNames) + ", processMethod=" + this.processMethod + ", produces="
+                + this.produces + ", url=" + this.url + "]";
         }
 
     }
@@ -201,9 +203,9 @@ public interface Mapping {
 
     void setClass(boolean isClass);
 
-    void setDefineClass(Class<?> clazz);
-
     void setConsumes(String consumes);
+
+    void setDefineClass(Class<?> clazz);
 
     void setMethodType(MethodType... methodType);
 

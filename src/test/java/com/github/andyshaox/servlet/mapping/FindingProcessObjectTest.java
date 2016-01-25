@@ -2,6 +2,7 @@ package com.github.andyshaox.servlet.mapping;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +22,7 @@ public class FindingProcessObjectTest {
 
     @Test
     public void test() throws MappingProcessException, ServletException, IOException {
-        MappingProcess mappingProcess = (req , resp , mapping , type) -> {
+        MappingProcess mappingProcess = (conf, req , resp , mapping , type) -> {
             Assert.assertTrue(type.processObject instanceof MappingDemo);
             return View.defaultView();
         };
@@ -29,9 +30,10 @@ public class FindingProcessObjectTest {
         this.findingProcessObject.setProcessObjects(new Object[]{new MappingDemo()});
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
+        ServletConfig config = Mockito.mock(ServletConfig.class);
         ProcessType processType = new ProcessType();
         Mapping mapping = Mapping.defaultMapping();
         mapping.setDefineClass(MappingDemo.class);
-        this.findingProcessObject.doProcess(request , response , mapping , processType);
+        this.findingProcessObject.doProcess(config, request , response , mapping , processType);
     }
 }

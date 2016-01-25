@@ -49,26 +49,30 @@ public class ServletModel extends HttpServlet {
         //        mapping.setProduces(mapping.getHeaders().get("Accept").toString());
         //        mapping.setConsumes(mapping.getHeaders().get("Content-Type").toString());
 
-        Mapping map = this.findingMapping.search(req , resp , this.mappingInfo);
-        this.mappingProcess.doProcess(req , resp , map , new ProcessType()).process(req , resp);
+        Mapping map = this.findingMapping.search(this.getServletConfig() , req , resp , this.mappingInfo);
+        this.mappingProcess.doProcess(this.getServletConfig() , req , resp , map , new ProcessType())
+            .process(this.getServletConfig() , req , resp);
     }
 
     @Override
     protected void doGet(HttpServletRequest req , HttpServletResponse resp) throws ServletException , IOException {
-        Mapping map = this.findingMapping.search(req , resp , this.mappingInfo);
-        this.mappingProcess.doProcess(req , resp , map , new ProcessType()).process(req , resp);
+        Mapping map = this.findingMapping.search(this.getServletConfig() , req , resp , this.mappingInfo);
+        this.mappingProcess.doProcess(this.getServletConfig() , req , resp , map , new ProcessType())
+            .process(this.getServletConfig() , req , resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req , HttpServletResponse resp) throws ServletException , IOException {
-        Mapping map = this.findingMapping.search(req , resp , this.mappingInfo);
-        this.mappingProcess.doProcess(req , resp , map , new ProcessType()).process(req , resp);
+        Mapping map = this.findingMapping.search(this.getServletConfig() , req , resp , this.mappingInfo);
+        this.mappingProcess.doProcess(this.getServletConfig() , req , resp , map , new ProcessType())
+            .process(this.getServletConfig() , req , resp);
     }
 
     @Override
     protected void doPut(HttpServletRequest req , HttpServletResponse resp) throws ServletException , IOException {
-        Mapping map = this.findingMapping.search(req , resp , this.mappingInfo);
-        this.mappingProcess.doProcess(req , resp , map , new ProcessType()).process(req , resp);
+        Mapping map = this.findingMapping.search(this.getServletConfig() , req , resp , this.mappingInfo);
+        this.mappingProcess.doProcess(this.getServletConfig() , req , resp , map , new ProcessType())
+            .process(this.getServletConfig() , req , resp);
     }
 
     public void setFindingMapping(FindingMapping findingMapping) {

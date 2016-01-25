@@ -10,31 +10,31 @@ import com.github.andyshaox.servlet.mapping.annotation.PathVariable;
 public class MappingDemo {
 
     public View doGet() {
-        return View.defaultView("/testing.html");
+        return View.defaultView("/testing");
     }
 
     @Mapping(methodType = MethodType.POST)
     public String doIt() {
-        return "/doTesting.html";
+        return "/doTesting";
     }
 
     @Mapping("/process")
     public String requestProcess(String username) {
-        return "/testingOne.html";
+        return "/testingOne";
     }
 
     @Mapping("/process2")
     public String requestProcess2(@Attribute("pd") String password) {
-        return "/testingTwo.html";
+        return "/testingTwo";
     }
 
     @Mapping("/pp")
     public String requestProcess3(@Attribute String username , HttpServletRequest request) {
-        return "/testingThree.html";
+        return "/testingThree";
     }
 
     @Mapping("/process4/{username}/{passwd}")
     public String requestProcess4(String username , @PathVariable("passwd") String password) {
-        return "/testingFour.html";
+        return "/testingFour";
     }
 }

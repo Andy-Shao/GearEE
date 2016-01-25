@@ -2,6 +2,7 @@ package com.github.andyshaox.servlet.mapping;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,8 +35,10 @@ public class GenericMapingProcessTest {
         mapping.setProcessMethod(MethodOperation.getMethod(MappingDemo.class , "doGet"));
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
+        ServletConfig config = Mockito.mock(ServletConfig.class);
 
-        View view = this.genericMappingProcess.doProcess(request , response , mapping , processType);
-        Assert.assertThat(view.getResource() , Matchers.is("/testing.html"));
+        View view = this.genericMappingProcess.doProcess(config, request , response , mapping , processType);
+        Assert.assertThat(view.getResource() , Matchers.is("/testing"));
+        System.out.println(view.getViewProcess());
     }
 }

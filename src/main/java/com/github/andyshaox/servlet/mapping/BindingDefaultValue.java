@@ -3,6 +3,7 @@ package com.github.andyshaox.servlet.mapping;
 import java.io.IOException;
 import java.lang.reflect.Parameter;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,9 +22,9 @@ public class BindingDefaultValue implements MappingProcess {
     private MappingProcess mappingProcess;
 
     @Override
-    public View
-        doProcess(HttpServletRequest request , HttpServletResponse response , Mapping mapping , ProcessType processType)
-            throws ServletException , IOException , MappingProcessException {
+    public View doProcess(
+        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Mapping mapping ,
+        ProcessType processType) throws ServletException , IOException , MappingProcessException {
         if (mapping.getProcessMethod() != null) {
             Class<?>[] parameterType = mapping.getProcessMethod().getParameterTypes();
             Parameter[] parameters = mapping.getProcessMethod().getParameters();
@@ -33,7 +34,7 @@ public class BindingDefaultValue implements MappingProcess {
                 else if (parameters[i].getAnnotations().length == 0)
                     processType.args[i] = request.getAttribute(mapping.getParameterNames()[i]);
         }
-        return this.doProcess(request , response , mapping , processType);
+        return this.doProcess(config , request , response , mapping , processType);
     }
 
     public MappingProcess getMappingProcess() {

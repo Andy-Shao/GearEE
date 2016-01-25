@@ -3,12 +3,14 @@ package com.github.andyshaox.servlet.mapping;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.github.andyshao.data.structure.Bitree;
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
+import com.github.andyshao.lang.StringOperation;
 import com.github.andyshao.reflect.ArrayOperation;
 
 /**
@@ -22,19 +24,25 @@ import com.github.andyshao.reflect.ArrayOperation;
  *
  */
 public class GenericFindingMappingEngine implements FindingMappingEngine {
+    static final String buildUrl(HttpServletRequest request) {
+        String url = request.getRequestURI();
+        url = StringOperation.replaceFirst(url , request.getContextPath() , "");
+        return GenericFindingMappingEngine.removeFileType(url);
+    }
+
     static final String removeFileType(String url) {
         if (url.lastIndexOf(".") != -1) return url.substring(0 , url.lastIndexOf("."));
         else return url;
     }
 
-    private FindingMappingEngine otherOperation = (req , resp , bitree , result) -> {
+    private FindingMappingEngine otherOperation = (conf , req , resp , bitree , result) -> {
     };
 
     @Override
     public void search(
-        HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree , List<Mapping> result)
-            throws ServletException , IOException {
-        String url = GenericFindingMappingEngine.removeFileType(request.getRequestURI());
+        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree ,
+        List<Mapping> result) throws ServletException , IOException {
+        String url = GenericFindingMappingEngine.buildUrl(request);
         BitreeNode<Mapping> node = bitree.root();
         //check root
         if (!url.startsWith(node.data().getUrl())) return;
@@ -65,7 +73,7 @@ public class GenericFindingMappingEngine implements FindingMappingEngine {
         for (int i = 0 ; i < result.size() ; i++)
             if (ArrayOperation.indexOf(result.get(i).getMethodType() , methodType) == -1) result.remove(i);
 
-        this.otherOperation.search(request , response , bitree , result);
+        this.otherOperation.search(config , request , response , bitree , result);
     }
 
     public void setOtherOperation(FindingMappingEngine otherOperation) {

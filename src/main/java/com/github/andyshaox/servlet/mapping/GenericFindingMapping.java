@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,10 +25,11 @@ public class GenericFindingMapping implements FindingMapping {
     private FindingMappingEngine findingMappingEngine;
 
     @Override
-    public Mapping search(HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree)
-        throws ServletException , IOException {
+    public Mapping search(
+        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree)
+            throws ServletException , IOException {
         List<Mapping> mappings = new ArrayList<>();
-        this.findingMappingEngine.search(request , response , bitree , mappings);
+        this.findingMappingEngine.search(config , request , response , bitree , mappings);
         if (mappings.size() == 0) return null;
         else return mappings.get(0);
     }

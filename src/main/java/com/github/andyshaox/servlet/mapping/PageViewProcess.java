@@ -2,6 +2,7 @@ package com.github.andyshaox.servlet.mapping;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class PageViewProcess implements ViewProcess {
     @Override
-    public void process(HttpServletRequest request , HttpServletResponse response , View view)
+    public void process(ServletConfig config , HttpServletRequest request , HttpServletResponse response , View view)
         throws ServletException , IOException {
         request.getRequestDispatcher(view.getResource().toString()).forward(request , response);
     }

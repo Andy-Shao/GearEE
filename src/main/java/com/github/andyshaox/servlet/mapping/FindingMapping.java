@@ -2,6 +2,7 @@ package com.github.andyshaox.servlet.mapping;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,6 +23,7 @@ public interface FindingMapping {
     /**
      * find mapping
      * 
+     * @param config configure
      * @param request request
      * @param response response
      * @param bitree Mapping information
@@ -29,6 +31,7 @@ public interface FindingMapping {
      * @throws ServletException {@link ServletException}
      * @throws IOException {@link IOException}
      */
-    public Mapping search(HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree)
-        throws ServletException , IOException;
+    public Mapping search(
+        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree)
+            throws ServletException , IOException;
 }

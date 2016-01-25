@@ -2,6 +2,7 @@ package com.github.andyshaox.servlet.mapping;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,11 +32,13 @@ public class GenericFindingMappingTest {
         factory.buildMappingMap(mappingTree);
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
+        ServletConfig config = Mockito.mock(ServletConfig.class);
         Mockito.when(request.getMethod()).thenReturn("GET");
-        Mockito.when(request.getRequestURI()).thenReturn("/mapping.html");
+        Mockito.when(request.getRequestURI()).thenReturn("/webName/mapping.html");
+        Mockito.when(request.getContextPath()).thenReturn("/webName");
         this.genericFindingMapping.setFindingMappingEngine(new GenericFindingMappingEngine());
 
-        Mapping mapping = this.genericFindingMapping.search(request , response , mappingTree);
+        Mapping mapping = this.genericFindingMapping.search(config, request , response , mappingTree);
         Assert.assertThat(mapping.getProcessMethod().getName() , Matchers.is("doGet"));
         Assert.assertThat(mapping.getMethodType() , Matchers.is(new MethodType[] { MethodType.GET }));
     }

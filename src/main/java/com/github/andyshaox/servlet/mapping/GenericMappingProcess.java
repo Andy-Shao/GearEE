@@ -2,6 +2,7 @@ package com.github.andyshaox.servlet.mapping;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,9 +21,9 @@ import com.github.andyshao.reflect.Reflects;
  */
 public class GenericMappingProcess implements MappingProcess {
     @Override
-    public View
-        doProcess(HttpServletRequest request , HttpServletResponse response , Mapping mapping , ProcessType processType)
-            throws ServletException , IOException {
+    public View doProcess(
+        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Mapping mapping ,
+        ProcessType processType) throws ServletException , IOException {
         View view = null;
         if (mapping == null) view = View.defaultView(request.getRequestURI() , new PageViewProcess());
         else if (processType.processObject != null) {

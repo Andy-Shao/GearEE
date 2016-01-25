@@ -7,7 +7,6 @@ public class ListReturnConvert implements JdbcReturnConvert<List<User>> {
 
     @Override
     public List<User> convert(ResultSet in) {
-        // TODO Auto-generated method stub
         return null;
     }
 

@@ -2,6 +2,7 @@ package com.github.andyshaox.servlet.mapping;
 
 import java.io.IOException;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,6 +19,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface MappingProcess {
     View doProcess(
-        HttpServletRequest request , HttpServletResponse response , Mapping mapping , ProcessType processType)
-            throws ServletException , IOException , MappingProcessException;
+        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Mapping mapping ,
+        ProcessType processType) throws ServletException , IOException , MappingProcessException;
 }
