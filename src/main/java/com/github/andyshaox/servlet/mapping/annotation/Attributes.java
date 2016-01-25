@@ -20,7 +20,7 @@ public final class Attributes {
         Map<Integer , com.github.andyshaox.servlet.mapping.Attribute> result = new HashMap<>();
         Parameter[] parameters = method.getParameters();
         for (int i = 0 ; i < parameters.length ; i++) {
-            Attribute attribute = parameters[0].getAnnotation(Attribute.class);
+            Args attribute = parameters[0].getAnnotation(Args.class);
             if (attribute == null) continue;
             com.github.andyshaox.servlet.mapping.Attribute tmp =
                 com.github.andyshaox.servlet.mapping.Attribute.defaultAttribute();

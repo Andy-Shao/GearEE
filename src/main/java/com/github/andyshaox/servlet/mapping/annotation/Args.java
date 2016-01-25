@@ -6,6 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.github.andyshaox.servlet.mapping.ArgLevel;
+
 /**
  * 
  * Title:<br>
@@ -19,7 +21,7 @@ import java.lang.annotation.Target;
 @Documented
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Attribute {
+public @interface Args {
     /**
      * The default value to use as a fallback when the request parameter value
      * is not provided or empty. Supplying a default value implicitly sets
@@ -28,6 +30,8 @@ public @interface Attribute {
      * @return default value
      */
     String defaultValue() default "";
+
+    ArgLevel level() default ArgLevel.REQUEST;
 
     /**
      * Whether the parameter is required.
