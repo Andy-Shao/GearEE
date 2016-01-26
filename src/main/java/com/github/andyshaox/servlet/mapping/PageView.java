@@ -5,11 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  * 
@@ -23,6 +21,7 @@ import javax.servlet.http.HttpSession;
  */
 public class PageView extends GenericView {
     private List<ArgInjection> injections = new ArrayList<>();
+
     public PageView() {
         super.viewProcess = new PageViewProcess();
     }
@@ -31,31 +30,24 @@ public class PageView extends GenericView {
         this();
         super.resource = resource;
     }
-    
-    public void addInjection(ArgInjection injection){
+
+    public void addInjection(ArgInjection injection) {
         this.injections.add(injection);
+    }
+
+    public void addInjection(String key , Object value) {
+        this.addInjection(ArgInjection.defaultArgInjection(key , value));
+    }
+
+    public void addInjection(String key , Object value , VariableLevel level) {
+        this.addInjection(ArgInjection.defaultArgInjection(key , value , level));
     }
 
     @Override
     public void process(ServletConfig config , HttpServletRequest request , HttpServletResponse response)
         throws ServletException , IOException {
-        for(ArgInjection injection : this.injections){
-            switch(injection.getArgLevel()){
-            case REQUEST:
-                request.setAttribute(injection.key() , injection.value());
-                break;
-            case SESSION:
-                HttpSession session = request.getSession();
-                session.setAttribute(injection.key() , injection.value());
-                break;
-            case APPLICATION:
-                ServletContext application = request.getSession().getServletContext();
-                application.setAttribute(injection.key() , injection.value());
-                break;
-            default:
-                break;
-            }
-        }
+        for (ArgInjection injection : this.injections)
+            injection.inject(request);
         super.process(config , request , response);
     }
 }

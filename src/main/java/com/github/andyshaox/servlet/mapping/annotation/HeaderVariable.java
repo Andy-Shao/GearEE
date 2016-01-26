@@ -18,6 +18,6 @@ import java.lang.annotation.Target;
 @Documented
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface HeaderAttribute {
+public @interface HeaderVariable {
     String value() default "";
 }

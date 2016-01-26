@@ -12,6 +12,7 @@ import com.github.andyshao.data.structure.Bitree;
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
 import com.github.andyshao.lang.StringOperation;
 import com.github.andyshao.reflect.ArrayOperation;
+import com.github.andyshaox.servlet.ServeltOperation;
 
 /**
  * 
@@ -26,13 +27,8 @@ import com.github.andyshao.reflect.ArrayOperation;
 public class GenericFindingMappingEngine implements FindingMappingEngine {
     static final String buildUrl(HttpServletRequest request) {
         String url = request.getRequestURI();
-        url = StringOperation.replaceFirst(url , request.getContextPath() , "");
-        return GenericFindingMappingEngine.removeFileType(url);
-    }
-
-    static final String removeFileType(String url) {
-        if (url.lastIndexOf(".") != -1) return url.substring(0 , url.lastIndexOf("."));
-        else return url;
+        url = url.substring(request.getContextPath().length());
+        return ServeltOperation.removeFileType(url);
     }
 
     private FindingMappingEngine otherOperation = (conf , req , resp , bitree , result) -> {
@@ -43,30 +39,37 @@ public class GenericFindingMappingEngine implements FindingMappingEngine {
         ServletConfig config , HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree ,
         List<Mapping> result) throws ServletException , IOException {
         String url = GenericFindingMappingEngine.buildUrl(request);
-        BitreeNode<Mapping> node = bitree.root();
+        BitreeNode<Mapping> classNode = bitree.root();
         //check root
-        if (!url.startsWith(node.data().getUrl())) return;
-        node = node.right();
+        do
+            if (url.startsWith(classNode.data().getUrl())) break;
+        while ((classNode = classNode.left()) != null);
+        if (classNode == null) return;
+        BitreeNode<Mapping> methodNode = classNode.right();
         //search doPost, doGet, doPut, doDelete methods
         if (url.equals(bitree.root().data().getUrl())) do
-            switch (node.data().getProcessMethod().getName()) {
+            switch (methodNode.data().getProcessMethod().getName()) {
             case "doGet":
             case "doPost":
             case "doPut":
             case "doDelete":
-                result.add(node.data());
+                result.add(methodNode.data());
                 break;
             default:
                 break;
             }
-        while ((node = node.left()) != null);
+        while ((methodNode = methodNode.left()) != null);
         else {
-            url = url.substring(node.data().getUrl().length() - 1 , url.length() - 1);
+            url = url.substring(classNode.data().getUrl().length());
 
             //check method
-            do
-                if (url.startsWith(node.data().getUrl())) result.add(node.data());
-            while ((node = node.left()) != null);
+            METHOD: do {
+                String methodUrl = methodNode.data().getUrl();
+                if (methodUrl == null || methodUrl.isEmpty() || methodNode.equals("/")) {
+                    if (url.isEmpty() || url.equals("/")) result.add(methodNode.data());
+                    else continue METHOD;
+                } else if (url.startsWith(methodUrl)) result.add(methodNode.data());
+            } while ((methodNode = methodNode.left()) != null);
         }
 
         MethodType methodType = MethodType.covert(request.getMethod());

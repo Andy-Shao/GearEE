@@ -1,14 +1,14 @@
 package com.github.andyshaox.servlet.mapping;
 
 import com.github.andyshaox.servlet.mapping.annotation.CookieValue;
-import com.github.andyshaox.servlet.mapping.annotation.HeaderAttribute;
+import com.github.andyshaox.servlet.mapping.annotation.HeaderVariable;
 import com.github.andyshaox.servlet.mapping.annotation.Mapping;
 
 @Mapping
 public class MappingDemo3 {
     @Mapping("/displayHeaderInfo")
     public String displayHeaderInfo(
-        @HeaderAttribute("Accept-Encoding") String encoding , @HeaderAttribute("Keep-Alive") long keepAlive) {
+        @HeaderVariable("Accept-Encoding") String encoding , @HeaderVariable("Keep-Alive") long keepAlive) {
         return "/displayHeaderInfo";
     }
     
