@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.github.andyshao.data.structure.Bitree;
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
-import com.github.andyshao.lang.StringOperation;
 import com.github.andyshao.reflect.ArrayOperation;
 import com.github.andyshaox.servlet.ServeltOperation;
 
@@ -47,7 +46,7 @@ public class GenericFindingMappingEngine implements FindingMappingEngine {
         if (classNode == null) return;
         BitreeNode<Mapping> methodNode = classNode.right();
         //search doPost, doGet, doPut, doDelete methods
-        if (url.equals(bitree.root().data().getUrl())) do
+        if (url.equals(classNode.data().getUrl())) do
             switch (methodNode.data().getProcessMethod().getName()) {
             case "doGet":
             case "doPost":
@@ -56,6 +55,8 @@ public class GenericFindingMappingEngine implements FindingMappingEngine {
                 result.add(methodNode.data());
                 break;
             default:
+                String methodUrl = methodNode.data().getUrl();
+                if (methodUrl.isEmpty() || methodUrl.equals("/")) result.add(methodNode.data());
                 break;
             }
         while ((methodNode = methodNode.left()) != null);
@@ -63,13 +64,9 @@ public class GenericFindingMappingEngine implements FindingMappingEngine {
             url = url.substring(classNode.data().getUrl().length());
 
             //check method
-            METHOD: do {
-                String methodUrl = methodNode.data().getUrl();
-                if (methodUrl == null || methodUrl.isEmpty() || methodNode.equals("/")) {
-                    if (url.isEmpty() || url.equals("/")) result.add(methodNode.data());
-                    else continue METHOD;
-                } else if (url.startsWith(methodUrl)) result.add(methodNode.data());
-            } while ((methodNode = methodNode.left()) != null);
+            do
+                if (url.startsWith(methodNode.data().getUrl())) result.add(methodNode.data());
+            while ((methodNode = methodNode.left()) != null);
         }
 
         MethodType methodType = MethodType.covert(request.getMethod());

@@ -32,7 +32,7 @@ public final class Variables {
             else {
                 tmp.setDefaultValue(variable.defaultValue().isEmpty() ? null : variable.defaultValue());
                 tmp.setRequired(variable.required());
-                tmp.setParamName(variable.value().isEmpty() ? null : variable.value());
+                tmp.setParamName(variable.value().isEmpty() ? mapping.getParameterNames()[i] : variable.value());
                 tmp.setLevel(variable.level());
             }
             result[i] = tmp;

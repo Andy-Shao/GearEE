@@ -26,10 +26,10 @@ public class AnnotationMappingFactory implements MappingFactory {
 
     @Override
     public void buildMappingMap(Bitree<Mapping> bitree) {
-        BitreeNode<Mapping> tmp = null;
+        BitreeNode<Mapping> classNode = null;
         for (Class<?> clazz : this.classes) {
             Mapping classMapping = Mappings.covertByType(clazz);
-            tmp = bitree.insLeft(tmp , classMapping);
+            classNode = bitree.insLeft(classNode , classMapping);
             final Method[] methods = clazz.getMethods();
             final List<Mapping> children = new ArrayList<>();
             for (Method method : methods) {
@@ -79,10 +79,10 @@ public class AnnotationMappingFactory implements MappingFactory {
                 }
             }
             if (children.size() != 0) {
-                BitreeNode<Mapping> node = null;
+                BitreeNode<Mapping> childNode = null;
                 for (int i = 0 ; i < children.size() ; i++)
-                    if (i == 0) node = bitree.insRight(tmp , children.get(i));
-                    else node = bitree.insRight(node , children.get(i));
+                    if (i == 0) childNode = bitree.insRight(classNode , children.get(i));
+                    else childNode = bitree.insLeft(childNode , children.get(i));
             }
         }
     }
