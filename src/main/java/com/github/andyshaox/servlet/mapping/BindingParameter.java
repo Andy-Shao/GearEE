@@ -41,7 +41,8 @@ public class BindingParameter implements MappingProcess {
                 Object value = null;
                 switch (variable.getLevel()) {
                 case REQUEST:
-                    value = request.getAttribute(variable.getParamName());
+                    value = request.getParameter(variable.getParamName());
+                    if(value == null) value = request.getAttribute(variable.getParamName());
                     break;
                 case APPLICATION:
                     value = request.getSession().getAttribute(variable.getParamName());
