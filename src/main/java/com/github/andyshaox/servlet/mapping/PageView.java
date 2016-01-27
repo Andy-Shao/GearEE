@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  */
 public class PageView extends GenericView {
-    private List<ArgInjection> injections = new ArrayList<>();
+    private final List<ArgInjection> injections = new ArrayList<>();
 
     public PageView() {
         super.viewProcess = new PageViewProcess();

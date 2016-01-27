@@ -31,30 +31,9 @@ public class BasePathMappingProcessProxy implements MappingProcess {
         ServletConfig config , HttpServletRequest request , HttpServletResponse response , Mapping mapping ,
         ProcessType processType) throws ServletException , IOException , MappingProcessException {
         final View view = this.target.doProcess(config , request , response , mapping , processType);
-        if (view.getViewProcess() instanceof PageViewProcess) return new View() {
-
-            @Override
-            public Object getResource() {
-                return BasePathMappingProcessProxy.this.basePath + view.getResource()
-                    + BasePathMappingProcessProxy.this.suffix;
-            }
-
-            @Override
-            public void setResource(Object resource) {
-                view.setResource(resource);
-            }
-
-            @Override
-            public void setViewProcess(ViewProcess viewProcess) {
-                view.setViewProcess(viewProcess);
-            }
-
-            @Override
-            public ViewProcess getViewProcess() {
-                return view.getViewProcess();
-            }
-        };
-        else return view;
+        if (view.getViewProcess() instanceof PageViewProcess)
+            view.setResource(this.basePath + view.getResource() + this.suffix);
+        return view;
     }
 
     public void setBasePath(String basePath) {
