@@ -6,6 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.github.andyshaox.servlet.mapping.ParameterFormat;
 import com.github.andyshaox.servlet.mapping.VariableLevel;
 
 /**
@@ -53,4 +54,6 @@ public @interface Variable {
      * @return attribute name
      */
     String value() default "";
+    
+    Class<? extends ParameterFormat> formatClass() default ParameterFormat.class;
 }

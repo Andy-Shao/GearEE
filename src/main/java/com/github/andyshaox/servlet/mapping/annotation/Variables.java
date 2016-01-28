@@ -34,6 +34,7 @@ public final class Variables {
                 tmp.setRequired(variable.required());
                 tmp.setParamName(variable.value().isEmpty() ? mapping.getParameterNames()[i] : variable.value());
                 tmp.setLevel(variable.level());
+                tmp.setFormatClass(variable.formatClass());
             }
             result[i] = tmp;
         }

@@ -22,6 +22,7 @@ import com.github.andyshaox.servlet.mapping.annotation.Variables;
  */
 public class BindingParameter implements MappingProcess {
     private MappingProcess mappingProcess;
+    private ParameterFormat parameterFormat = ParameterFormat.DO_NOTHING;
     private Function<Mapping , Variable[]> variableFactory = (mapping) -> Variables.analyzeParameters(mapping);
 
     @Override
@@ -38,21 +39,7 @@ public class BindingParameter implements MappingProcess {
             else if (type.isInstance(response)) args[i] = response;
             else {
                 Variable variable = variables[i];
-                Object value = null;
-                switch (variable.getLevel()) {
-                case REQUEST:
-                    value = request.getParameter(variable.getParamName());
-                    if(value == null) value = request.getAttribute(variable.getParamName());
-                    break;
-                case APPLICATION:
-                    value = request.getSession().getAttribute(variable.getParamName());
-                    break;
-                case SESSION:
-                    value = request.getSession().getServletContext().getAttribute(variable.getParamName());
-                    break;
-                default:
-                    break;
-                }
+                Object value = this.parameterFormat.covert(config , request , response , variable , type);
                 if (variable.getRequired() && value == null)
                     throw new NullPointerException(variable.getParamName() + " is null");
                 args[i] = value == null ? variable.getDefaultValue() : value;
@@ -64,6 +51,10 @@ public class BindingParameter implements MappingProcess {
 
     public void setMappingProcess(MappingProcess mappingProcess) {
         this.mappingProcess = mappingProcess;
+    }
+
+    public void setParameterFormat(ParameterFormat parameterFormat) {
+        this.parameterFormat = parameterFormat;
     }
 
     public void setVariableFactory(Function<Mapping , Variable[]> variableFactory) {
