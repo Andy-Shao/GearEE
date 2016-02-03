@@ -64,9 +64,11 @@ public class GenericFindingMappingEngine implements FindingMappingEngine {
             url = url.substring(classNode.data().getUrl().length());
 
             //check method
-            do
-                if (url.startsWith(methodNode.data().getUrl())) result.add(methodNode.data());
-            while ((methodNode = methodNode.left()) != null);
+            do{
+                String methodUrl = methodNode.data().getUrl();
+                if(methodUrl.isEmpty() || methodUrl.equals("/")) continue;
+                if (url.startsWith(methodUrl)) result.add(methodNode.data());
+            }while ((methodNode = methodNode.left()) != null);
         }
 
         MethodType methodType = MethodType.covert(request.getMethod());
