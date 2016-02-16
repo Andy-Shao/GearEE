@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.github.andyshao.data.structure.Bitree;
 import com.github.andyshao.data.structure.Bitree.BitreeNode;
-import com.github.andyshao.reflect.Reflects;
+import com.github.andyshao.reflect.ParameterOperation;
 import com.github.andyshaox.servlet.mapping.Mapping;
 import com.github.andyshaox.servlet.mapping.MappingFactory;
 import com.github.andyshaox.servlet.mapping.MethodType;
@@ -36,7 +36,7 @@ public class AnnotationMappingFactory implements MappingFactory {
                 Mapping methodMapping = null;
                 if (Mappings.constain(method)) {
                     methodMapping = Mappings.convertByMethod(method);
-                    methodMapping.setPramameterNames(Reflects.getMethodParamNames(method));
+                    methodMapping.setPramameterNames(ParameterOperation.getMethodParamNames(method));
                     children.add(methodMapping);
                 } else SW: switch (method.getName()) {
                 case "doGet":
@@ -45,7 +45,7 @@ public class AnnotationMappingFactory implements MappingFactory {
                     methodMapping.setMethodType(MethodType.GET);
                     methodMapping.setUrl("");
                     methodMapping.setProcessMethod(method);
-                    methodMapping.setPramameterNames(Reflects.getMethodParamNames(method));
+                    methodMapping.setPramameterNames(ParameterOperation.getMethodParamNames(method));
                     children.add(methodMapping);
                     break SW;
                 case "doPost":
@@ -54,7 +54,7 @@ public class AnnotationMappingFactory implements MappingFactory {
                     methodMapping.setMethodType(MethodType.POST);
                     methodMapping.setUrl("");
                     methodMapping.setProcessMethod(method);
-                    methodMapping.setPramameterNames(Reflects.getMethodParamNames(method));
+                    methodMapping.setPramameterNames(ParameterOperation.getMethodParamNames(method));
                     children.add(methodMapping);
                     break SW;
                 case "doPut":
@@ -62,7 +62,7 @@ public class AnnotationMappingFactory implements MappingFactory {
                     methodMapping.setClass(false);
                     methodMapping.setMethodType(MethodType.PUT);
                     methodMapping.setProcessMethod(method);
-                    methodMapping.setPramameterNames(Reflects.getMethodParamNames(method));
+                    methodMapping.setPramameterNames(ParameterOperation.getMethodParamNames(method));
                     children.add(methodMapping);
                     break SW;
                 case "doDelete":
@@ -71,7 +71,7 @@ public class AnnotationMappingFactory implements MappingFactory {
                     methodMapping.setMethodType(MethodType.DELETE);
                     methodMapping.setUrl("");
                     methodMapping.setProcessMethod(method);
-                    methodMapping.setPramameterNames(Reflects.getMethodParamNames(method));
+                    methodMapping.setPramameterNames(ParameterOperation.getMethodParamNames(method));
                     children.add(methodMapping);
                     break;
                 default:

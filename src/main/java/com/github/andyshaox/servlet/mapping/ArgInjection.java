@@ -55,7 +55,7 @@ public interface ArgInjection {
 
         @Override
         public void setKey(String key) {
-            if(key == null) throw new NullPointerException("key's value cannot null!");
+            if (key == null) throw new NullPointerException("key's value cannot null!");
             this.key = key;
         }
 

@@ -22,7 +22,7 @@ import com.github.andyshaox.servlet.mapping.VariableLevel;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ArgsDemanding {
-    String value();
-
     VariableLevel level() default VariableLevel.REQUEST;
+
+    String value();
 }

@@ -7,7 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.github.andyshao.reflect.Reflects;
+import com.github.andyshao.reflect.MethodOperation;
 
 /**
  * 
@@ -27,7 +27,8 @@ public class GenericMappingProcess implements MappingProcess {
         View view = null;
         if (mapping == null) view = View.defaultView(request.getRequestURI() , new PageViewProcess());
         else if (processType.processObject != null) {
-            Object result = Reflects.invoked(processType.processObject , mapping.getProcessMethod() , processType.args);
+            Object result =
+                MethodOperation.invoked(processType.processObject , mapping.getProcessMethod() , processType.args);
             if (result instanceof View) view = (View) result;
             else view = View.defaultView(result.toString() , new PageViewProcess());
         } else view = View.defaultView(mapping.getUrl() , new PageViewProcess());

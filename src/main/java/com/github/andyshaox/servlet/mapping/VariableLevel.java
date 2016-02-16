@@ -11,5 +11,5 @@ package com.github.andyshaox.servlet.mapping;
  *
  */
 public enum VariableLevel {
-    REQUEST , SESSION , APPLICATION;
+    APPLICATION , REQUEST , SESSION;
 }

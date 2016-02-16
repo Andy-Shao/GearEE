@@ -32,6 +32,8 @@ public @interface Variable {
      */
     String defaultValue() default "";
 
+    Class<? extends ParameterFormat> formatClass() default ParameterFormat.class;
+
     VariableLevel level() default VariableLevel.REQUEST;
 
     /**
@@ -54,6 +56,4 @@ public @interface Variable {
      * @return attribute name
      */
     String value() default "";
-    
-    Class<? extends ParameterFormat> formatClass() default ParameterFormat.class;
 }

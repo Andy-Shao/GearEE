@@ -17,8 +17,7 @@ import com.github.andyshaox.servlet.mapping.Mapping;
  */
 public final class Variables {
 
-    public static final com.github.andyshaox.servlet.mapping.Variable[]
-        analyzeParameters(Mapping mapping) {
+    public static final com.github.andyshaox.servlet.mapping.Variable[] analyzeParameters(Mapping mapping) {
         Method method = mapping.getProcessMethod();
         Parameter[] parameters = method.getParameters();
         com.github.andyshaox.servlet.mapping.Variable[] result =

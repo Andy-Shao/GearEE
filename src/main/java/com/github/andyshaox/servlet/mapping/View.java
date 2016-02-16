@@ -36,12 +36,12 @@ public interface View {
 
     Object getResource();
 
-    default ViewProcess getViewProcess(){
+    default ViewProcess getViewProcess() {
         return ViewProcess.EMPTY;
     }
 
     default void process(ServletConfig config , HttpServletRequest request , HttpServletResponse response)
-        throws ServletException , IOException{
+        throws ServletException , IOException {
         this.getViewProcess().process(config , request , response , this);
     }
 
