@@ -12,6 +12,6 @@ import java.lang.reflect.Method;
  * @author Andy.Shao
  *
  */
-public interface ProcessSql {
-    Object invoke(Dao dao , Method processMethod , Object... args);
+public interface SqlExecution {
+    Object invoke(Dao dao , Method processMethod , String excutableSql , Object... args);
 }

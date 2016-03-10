@@ -26,13 +26,15 @@ import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
  * @author Andy.Shao
  *
  */
-public abstract class GenericDaoFactory implements DaoFactory {
+public class GenericDaoFactory implements DaoFactory {
+    private SqlExecution sqlExcution = new JdbcExecution();
+
     @Override
     public Object getDao(final Dao dao) {
         final Class<?> interfaceClass = dao.getDefineClass();
         if (!interfaceClass.isInterface()) throw new JdbcProcessException("Defining class should be a interface");
         final String targetName = interfaceClass.getName() + "Entity";
-        final String processFieldName = "processSql";
+        final String processFieldName = "sqlExcution";
         final ClassSignature csig = new SignatureDetector(Opcodes.ASM5).getSignature(interfaceClass);
         String classSignature = null;
         if (csig.classSignature != null) {
@@ -51,7 +53,7 @@ public abstract class GenericDaoFactory implements DaoFactory {
         cw.visit(Version.V1_8.getVersion() , Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER , targetName.replace('.' , '/') ,
             classSignature , "java/lang/Object" , new String[] { interfaceClass.getName().replace('.' , '/') });
         FieldVisitor fv = cw.visitField(Opcodes.ACC_PRIVATE + Opcodes.ACC_FINAL , processFieldName ,
-            "Lcom/github/andyshaox/jdbc/ProcessSql;" , null , this.getProcessFieldValue(dao));
+            "Lcom/github/andyshaox/jdbc/SqlExcution;" , null , this.sqlExcution);
         fv.visitEnd();
         MethodVisitor mv = null;
         {
@@ -129,6 +131,7 @@ public abstract class GenericDaoFactory implements DaoFactory {
         return ClassOperation.newInstance(ClassAssembly.DEFAULT.assemble(targetName , bs));
     }
 
-    protected abstract ProcessSql getProcessFieldValue(final Dao dao);
-
+    public void setSqlExcution(SqlExecution sqlExcution) {
+        this.sqlExcution = sqlExcution;
+    }
 }

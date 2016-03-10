@@ -138,7 +138,7 @@ public interface Sql {
 
     @SuppressWarnings("rawtypes")
     default Class<? extends JdbcReturnConvert> getRetConvertor() {
-        return JdbcReturnConvert.class;
+        return GenericJdbcReturnConvert.class;
     }
 
     String getSql();

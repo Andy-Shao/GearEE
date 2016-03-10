@@ -6,6 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.github.andyshaox.jdbc.GenericJdbcReturnConvert;
 import com.github.andyshaox.jdbc.JdbcReturnConvert;
 import com.github.andyshaox.jdbc.SqlType;
 
@@ -26,7 +27,7 @@ public @interface Sql {
     boolean isSign() default false;
 
     @SuppressWarnings("rawtypes")
-    Class<? extends JdbcReturnConvert> retConvertor() default JdbcReturnConvert.class;
+    Class<? extends JdbcReturnConvert> retConvertor() default GenericJdbcReturnConvert.class;
 
     SqlType sqlType() default SqlType.QUERY;
 
