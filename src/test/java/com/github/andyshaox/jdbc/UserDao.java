@@ -22,7 +22,7 @@ public interface UserDao {
 
     void insert(User user);
 
-    void update(User user);
-    
     void update(Map<String , String> values);
+
+    void update(User user);
 }

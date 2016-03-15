@@ -46,13 +46,13 @@ public interface MySqlUserDao extends UserDao {
     @Override
     public void update(Map<String , String> values);
 
-    @Sql(value = "UPDATE user SET user_name = {userName} WHERE user_id = {userId}", sqlType= SqlType.EXECUTION)
+    @Sql(value = "UPDATE user SET user_name = {userName} WHERE user_id = {userId}" , sqlType = SqlType.EXECUTION)
     public void update(String userId , String userName);
 
-    @Sql(value = "UPDATE user SET user_name = {values[1]} WHERE user_id = {values[0]}", sqlType = SqlType.EXECUTION)
+    @Sql(value = "UPDATE user SET user_name = {values[1]} WHERE user_id = {values[0]}" , sqlType = SqlType.EXECUTION)
     public void update(String[] values);
 
-    @Sql(value = "UPDATE" , isSign = true, sqlType= SqlType.EXECUTION)
+    @Sql(value = "UPDATE" , isSign = true , sqlType = SqlType.EXECUTION)
     @Override
     public abstract void update(User user);
 }
