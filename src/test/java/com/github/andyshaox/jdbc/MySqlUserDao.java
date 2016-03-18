@@ -29,7 +29,7 @@ public interface MySqlUserDao extends UserDao {
     public User[] findByName(List<String> userNames);
 
     @Sql(value = "SELECT user_name AS userName, user_id AS userId FROM user WHERE user_name in ({userNames})" ,
-        retConvertor = MapConvert.class)
+        retConvertor = MapReturnConvert.class)
     @Override
     public Map<String , List<User>> findByNameForMap(List<String> userNames);
 

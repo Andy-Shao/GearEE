@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
-public class MapConvert implements JdbcReturnConvert<Map<String , List<User>>> {
+public class MapReturnConvert implements JdbcReturnConvert<Map<String , List<User>>> {
 
     @Override
     public Map<String , List<User>> convert(ResultSet in) {

@@ -27,7 +27,7 @@ public @interface Sql {
     boolean isSign() default false;
 
     @SuppressWarnings("rawtypes")
-    Class<? extends JdbcReturnConvert> retConvertor() default GenericJdbcReturnConvert.class;
+    Class<? extends JdbcReturnConvert> retConvertor() default JdbcReturnConvert.class;
 
     SqlType sqlType() default SqlType.QUERY;
 

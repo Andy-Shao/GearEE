@@ -29,7 +29,8 @@ public class UserDaoEntity implements MySqlUserDao {
     @SuppressWarnings("unchecked")
     public List<User> findById(String[] userIds) {
         return (List<User>) this.sqlExecution.invoke(this.dao ,
-            MethodOperation.getMethod(this.dao.getDefineClass() , "findById" , String[].class) , null , userIds);
+            MethodOperation.getMethod(this.dao.getDefineClass() , "findById" , String[].class) , null ,
+            new Object[] { userIds });
     }
 
     @Override
@@ -49,6 +50,15 @@ public class UserDaoEntity implements MySqlUserDao {
     public void insert(User user) {
         this.sqlExecution.invoke(this.dao ,
             MethodOperation.getMethod(this.dao.getDefineClass() , "insert" , User.class) , null , user);
+    }
+
+    public void myTest(
+        User userOne , User userTwo , User userThree , User userFour , String stringOne , String stringTwo ,
+        String stringThree , String stringFour) {
+        this.sqlExecution.invoke(this.dao ,
+            MethodOperation.getMethod(this.getClass() , "myTest" , User.class , User.class , User.class , User.class ,
+                String.class , String.class , String.class , String.class) ,
+            null , userOne , userTwo , userThree , userFour , stringOne , stringTwo , stringThree , stringFour);
     }
 
     public void setSqlExecution(SqlExecution sqlExecution) {
@@ -77,21 +87,14 @@ public class UserDaoEntity implements MySqlUserDao {
     @Override
     public void update(String[] values) {
         this.sqlExecution.invoke(this.dao ,
-            MethodOperation.getMethod(this.dao.getDefineClass() , "update" , String[].class) , null , values);
+            MethodOperation.getMethod(this.dao.getDefineClass() , "update" , String[].class) , null ,
+            new Object[] { values });
     }
 
     @Override
     public void update(User user) {
         this.sqlExecution.invoke(this.dao ,
             MethodOperation.getMethod(this.dao.getDefineClass() , "update" , User.class) , null , user);
-    }
-
-    public void myTest(
-        User userOne , User userTwo , User userThree , User userFour , String stringOne , String stringTwo ,
-        String stringThree, String stringFour) {
-        this.sqlExecution.invoke(this.dao , MethodOperation.getMethod(this.getClass() , "myTest" , User.class ,
-            User.class , User.class , User.class , String.class , String.class , String.class , String.class) , null ,
-            userOne, userTwo, userThree, userFour, stringOne, stringTwo, stringThree, stringFour);
     }
 
 }
