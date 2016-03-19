@@ -6,7 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import com.github.andyshaox.jdbc.GenericJdbcReturnConvert;
 import com.github.andyshaox.jdbc.JdbcReturnConvert;
 import com.github.andyshaox.jdbc.SqlType;
 
