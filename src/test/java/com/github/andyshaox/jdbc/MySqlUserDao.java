@@ -23,8 +23,7 @@ public interface MySqlUserDao extends UserDao {
     @Override
     public List<User> findById(String[] userIds);
 
-    @Sql(value = "SELECT user_id AS userId, user_name AS userName FROM user WHERE user_name in ({userNames})" ,
-        retConvertor = ArrayReturnConvert.class)
+    @Sql(value = "SELECT user_id AS userId, user_name AS userName FROM user WHERE user_name in ({userNames})")
     @Override
     public User[] findByName(List<String> userNames);
 

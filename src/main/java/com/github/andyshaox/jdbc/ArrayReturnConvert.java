@@ -1,6 +1,11 @@
 package com.github.andyshaox.jdbc;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.github.andyshao.reflect.ArrayOperation;
 
 /**
  * 
@@ -8,19 +13,30 @@ import java.sql.ResultSet;
  * Descript:<br>
  * Copyright: Copryright(c) Mar 18, 2016<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  */
-public class ArrayReturnConvert implements JdbcReturnConvert<Object>{
+public class ArrayReturnConvert implements JdbcReturnConvert<Object> {
     private Class<?> returnType = Object[].class;
-
-    public void setReturnType(Class<?> returnType) {
-        this.returnType = returnType;
-    }
 
     @Override
     public Object convert(ResultSet in) {
-        return null;
+        final List<Object> tmp = new ArrayList<>();
+        final Class<?> componentType = this.returnType.getClass().getComponentType();
+        try {
+            while (in.next()) {
+                Object value = JdbcReturnConvert.genericReturnConvert(componentType , in);
+                tmp.add(value);
+            }
+        } catch (SQLException e) {
+            throw new JdbcProcessException(e);
+        }
+        return ArrayOperation.pack_unpack(tmp.toArray() , this.returnType);
+    }
+
+    public void setReturnType(Class<?> returnType) {
+        this.returnType = returnType;
     }
 
 }

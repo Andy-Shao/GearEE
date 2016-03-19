@@ -1,14 +1,13 @@
 package com.github.andyshaox.jdbc;
 
-import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
+import com.github.andyshao.lang.StringOperation;
 import com.github.andyshao.reflect.ClassOperation;
 import com.github.andyshao.reflect.FieldOperation;
-import com.github.andyshao.reflect.NoSuchMethodException;
 
 /**
  * 
@@ -24,18 +23,17 @@ public class ObjectReturnConvert implements JdbcReturnConvert<Object> {
 
     @Override
     public Object convert(ResultSet in) {
-        final Set<Field> fields = new HashSet<>();
         final Object entity = ClassOperation.newInstance(this.returnType);
-        fields.addAll(Arrays.asList(FieldOperation.superGetDeclaredFields(this.returnType)));
-        fields.addAll(Arrays.asList(this.returnType.getFields()));
-        for (Field field : fields) {
-            Object value = JdbcReturnConvert.genericReturnConvert(field.getType() , in, field.getName());
-            if (value != null) try {
-                FieldOperation.setValueBySetMethod(entity , field.getName() , field.getType() , value);
-            } catch (NoSuchMethodException e) {
-                continue;
+        List<Method> methods = Arrays.asList(this.returnType.getMethods());
+        for (Method method : methods)
+            if (method.getName().startsWith("set") && method.getParameterTypes().length == 1) {
+                String fieldName = method.getName();
+                fieldName = StringOperation.replaceFirst(fieldName , "set" , "");
+                fieldName = fieldName.substring(0 , 1).toLowerCase() + fieldName.substring(1);
+                final Class<?> parameterType = method.getParameterTypes()[0];
+                final Object value = JdbcReturnConvert.genericReturnConvert(parameterType , in , fieldName);
+                FieldOperation.setValueBySetMethod(entity , fieldName , parameterType , value);
             }
-        }
         return entity;
     }
 
