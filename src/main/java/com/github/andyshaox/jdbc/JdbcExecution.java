@@ -13,7 +13,7 @@ import com.github.andyshao.reflect.ClassOperation;
 /**
  * 
  * Title:<br>
- * Descript:<br>
+ * Descript: <p style="color:red;">NOTE: No support transaction</p><br>
  * Copyright: Copryright(c) Mar 10, 2016<br>
  * Encoding:UNIX UTF-8
  * 
@@ -28,6 +28,7 @@ public class JdbcExecution implements SqlExecution {
         Object result = null;
         Sql sql = dao.getSqls().get(processMethod);
         switch (sql.getSqlType()) {
+        case UPDATE:
         case EXECUTION:
             try (Connection con = this.dataSource.getConnection();
                 PreparedStatement statement = con.prepareStatement(executableSql);) {

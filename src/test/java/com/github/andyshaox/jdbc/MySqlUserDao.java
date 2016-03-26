@@ -10,7 +10,7 @@ import com.github.andyshaox.jdbc.annotation.Sql;
 public interface MySqlUserDao extends UserDao {
     public static final String UPDATE = "UPDATE user SET user_name = {user.userName} WHERE user_id = {user.userId}";
 
-    @Sql(value = "DELETE From user WHERE user_id = {user.userId}" , sqlType = SqlType.EXECUTION)
+    @Sql(value = "DELETE From user WHERE user_id = {user.userId}" , sqlType = SqlType.UPDATE)
     @Override
     public abstract void delete(User user);
 
@@ -33,11 +33,11 @@ public interface MySqlUserDao extends UserDao {
     public Map<String , List<User>> findByNameForMap(List<String> userNames);
 
     @Sql(value = "INSERT INTO user(user_id, user_name) VALUES({user.userId},{user.userName})" ,
-        sqlType = SqlType.EXECUTION)
+        sqlType = SqlType.UPDATE)
     @Override
     public abstract void insert(User user);
 
-    @Sql(value = "UPDATE user SET user_name = {values[1]} WHERE user_id = {values[0]}" , sqlType = SqlType.EXECUTION)
+    @Sql(value = "UPDATE user SET user_name = {values[1]} WHERE user_id = {values[0]}" , sqlType = SqlType.UPDATE)
     public void update(List<String> values);
 
     @Sql(value = "UPDATE user SET user_name = {values[userName]} WHERE user_id = {values[user_id]}" ,
@@ -45,13 +45,13 @@ public interface MySqlUserDao extends UserDao {
     @Override
     public void update(Map<String , String> values);
 
-    @Sql(value = "UPDATE user SET user_name = {userName} WHERE user_id = {userId}" , sqlType = SqlType.EXECUTION)
+    @Sql(value = "UPDATE user SET user_name = {userName} WHERE user_id = {userId}" , sqlType = SqlType.UPDATE)
     public void update(String userId , String userName);
 
-    @Sql(value = "UPDATE user SET user_name = {values[1]} WHERE user_id = {values[0]}" , sqlType = SqlType.EXECUTION)
+    @Sql(value = "UPDATE user SET user_name = {values[1]} WHERE user_id = {values[0]}" , sqlType = SqlType.UPDATE)
     public void update(String[] values);
 
-    @Sql(value = "UPDATE" , isSign = true , sqlType = SqlType.EXECUTION)
+    @Sql(value = "UPDATE" , isSign = true , sqlType = SqlType.UPDATE)
     @Override
     public abstract void update(User user);
 }
