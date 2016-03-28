@@ -13,7 +13,11 @@ import com.github.andyshao.reflect.ClassOperation;
 /**
  * 
  * Title:<br>
- * Descript: <p style="color:red;">NOTE: No support transaction</p><br>
+ * Descript:
+ * <p style="color:red;">
+ * NOTE: No support transaction
+ * </p>
+ * <br>
  * Copyright: Copryright(c) Mar 10, 2016<br>
  * Encoding:UNIX UTF-8
  * 
@@ -43,10 +47,10 @@ public class JdbcExecution implements SqlExecution {
                 ResultSet rs = statement.executeQuery();) {
                 @SuppressWarnings("rawtypes")
                 final Class<? extends JdbcReturnConvert> retConvertor = sql.getRetConvertor();
-                if(!retConvertor.equals(JdbcReturnConvert.class)){
+                if (!retConvertor.equals(JdbcReturnConvert.class)) {
                     JdbcReturnConvert<?> jrc = ClassOperation.newInstance(retConvertor);
                     result = jrc.convert(rs);
-                } else result = JdbcReturnConvert.genericReturnConvert(processMethod.getReturnType(), rs);
+                } else result = JdbcReturnConvert.genericReturnConvert(processMethod.getReturnType() , rs);
             } catch (SQLException e) {
                 throw new JdbcProcessException(e);
             }

@@ -8,10 +8,11 @@ import java.lang.reflect.Method;
  * Descript:<br>
  * Copyright: Copryright(c) Mar 10, 2016<br>
  * Encoding:UNIX UTF-8
+ * 
  * @author Andy.Shao
  *
  */
-public class RootSqlExcution implements SqlExecution{
+public class RootSqlExcution implements SqlExecution {
     private SqlAssembly assembly = SqlAssembly.DEFAUL;
     private SqlExecution excution = null;
 

@@ -97,7 +97,7 @@ public class GenericDaoFactory implements DaoFactory {
         mv.visitMaxs(8 , parameterTypes.length + 1);
     }
 
-    private SqlExecution SqlExecution;
+    private SqlExecution sqlExecution;
 
     @Override
     public Object getDao(final Dao dao) {
@@ -186,7 +186,7 @@ public class GenericDaoFactory implements DaoFactory {
         cw.visitEnd();
         Object result = ClassOperation.newInstance(ClassAssembly.DEFAULT.assemble(targetName , cw.toByteArray()));
         FieldOperation.setValueBySetMethod(result , GenericDaoFactory.SQLEXCUTION_NAME , SqlExecution.class ,
-            this.SqlExecution);
+            this.sqlExecution);
         FieldOperation.setValueBySetMethod(result , GenericDaoFactory.DAO_NAME , Dao.class , dao);
         return result;
     }
@@ -338,6 +338,6 @@ public class GenericDaoFactory implements DaoFactory {
     }
 
     public void setSqlExecution(SqlExecution sqlExecution) {
-        this.SqlExecution = sqlExecution;
+        this.sqlExecution = sqlExecution;
     }
 }
