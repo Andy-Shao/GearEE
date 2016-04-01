@@ -1,5 +1,11 @@
 package com.github.andyshaox.jdbc.annotation;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
  * 
  * Title:<br>
@@ -10,6 +16,9 @@ package com.github.andyshaox.jdbc.annotation;
  * @author Andy.Shao
  *
  */
+@Documented
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
 public @interface Dao {
     String dataBase();
 }

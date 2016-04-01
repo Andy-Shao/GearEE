@@ -31,8 +31,8 @@ import com.github.andyshao.reflect.SignatureDetector.ClassSignature;
 public class GenericDaoFactory implements DaoFactory {
     private static final String DAO_DESC = "Lcom/github/andyshaox/jdbc/Dao;";
     private static final String DAO_NAME = "dao";
-    private static final String SQLEXCUTION_DESC = "Lcom/github/andyshaox/jdbc/SqlExcution;";
-    private static final String SQLEXCUTION_NAME = "sqlExcution";
+    private static final String SQLEXCUTION_DESC = "Lcom/github/andyshaox/jdbc/SqlExecution;";
+    private static final String SQLEXCUTION_NAME = "sqlExecution";
 
     static void
         doProcess(final String classDesc , MethodVisitor mv , Method method , Consumer<MethodVisitor> doReturn) {
@@ -44,8 +44,8 @@ public class GenericDaoFactory implements DaoFactory {
         mv.visitFieldInsn(Opcodes.GETFIELD , classDesc , GenericDaoFactory.DAO_NAME , GenericDaoFactory.DAO_DESC);
         mv.visitVarInsn(Opcodes.ALOAD , 0);
         mv.visitFieldInsn(Opcodes.GETFIELD , classDesc , GenericDaoFactory.DAO_NAME , GenericDaoFactory.DAO_DESC);
-        mv.visitMethodInsn(Opcodes.INVOKEINTERFACE , GenericDaoFactory.DAO_DESC , "getDefineClass" ,
-            "()Ljava/lang/Class" , true);
+        mv.visitMethodInsn(Opcodes.INVOKEINTERFACE , "com/github/andyshaox/jdbc/Dao" , "getDefineClass" ,
+            "()Ljava/lang/Class;" , true);
         mv.visitLdcInsn(method.getName());
         if (parameterTypes.length == 0) mv.visitInsn(Opcodes.ICONST_0);
         else if (parameterTypes.length == 1) mv.visitInsn(Opcodes.ICONST_1);
@@ -122,11 +122,14 @@ public class GenericDaoFactory implements DaoFactory {
         final ClassWriter cw = new ClassWriter(0);
         cw.visit(Version.V1_8.getVersion() , Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER , classDesc , classSignature ,
             "java/lang/Object" , new String[] { interfaceClass.getName().replace('.' , '/') });
-        FieldVisitor fv = cw.visitField(Opcodes.ACC_PRIVATE , GenericDaoFactory.SQLEXCUTION_NAME ,
-            GenericDaoFactory.SQLEXCUTION_DESC , null , null);
-        fv.visitEnd();
-        fv = cw.visitField(Opcodes.ACC_PRIVATE , GenericDaoFactory.DAO_NAME , GenericDaoFactory.DAO_DESC , null , null);
-        fv.visitEnd();
+        {
+            FieldVisitor fv = cw.visitField(Opcodes.ACC_PRIVATE , GenericDaoFactory.SQLEXCUTION_NAME ,
+                GenericDaoFactory.SQLEXCUTION_DESC , null , null);
+            fv.visitEnd();
+            fv = cw.visitField(Opcodes.ACC_PRIVATE , GenericDaoFactory.DAO_NAME , GenericDaoFactory.DAO_DESC , null ,
+                null);
+            fv.visitEnd();
+        }
         MethodVisitor mv = null;
         {
             mv = cw.visitMethod(Opcodes.ACC_PUBLIC , "<init>" , "()V" , null , null);
@@ -143,8 +146,8 @@ public class GenericDaoFactory implements DaoFactory {
             mv.visitCode();
             mv.visitVarInsn(Opcodes.ALOAD , 0);
             mv.visitVarInsn(Opcodes.ALOAD , 1);
-            mv.visitFieldInsn(Opcodes.PUTFIELD , "com/github/andyshaox/jdbc/UserDaoEntity" , "sqlExecution" ,
-                "Lcom/github/andyshaox/jdbc/SqlExecution;");
+            mv.visitFieldInsn(Opcodes.PUTFIELD , classDesc , GenericDaoFactory.SQLEXCUTION_NAME ,
+                GenericDaoFactory.SQLEXCUTION_DESC);
             mv.visitInsn(Opcodes.RETURN);
             mv.visitMaxs(2 , 2);
             mv.visitEnd();
@@ -154,8 +157,7 @@ public class GenericDaoFactory implements DaoFactory {
             mv.visitCode();
             mv.visitVarInsn(Opcodes.ALOAD , 0);
             mv.visitVarInsn(Opcodes.ALOAD , 1);
-            mv.visitFieldInsn(Opcodes.PUTFIELD , "com/github/andyshaox/jdbc/UserDaoEntity" ,
-                GenericDaoFactory.DAO_NAME , GenericDaoFactory.DAO_DESC);
+            mv.visitFieldInsn(Opcodes.PUTFIELD , classDesc , GenericDaoFactory.DAO_NAME , GenericDaoFactory.DAO_DESC);
             mv.visitInsn(Opcodes.RETURN);
             mv.visitMaxs(2 , 2);
             mv.visitEnd();

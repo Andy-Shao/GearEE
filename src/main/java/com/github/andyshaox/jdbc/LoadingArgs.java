@@ -30,6 +30,7 @@ public class LoadingArgs implements SqlAssembly {
     public String assemble(Dao dao , Method method , Object... args) {
         Sql sql = dao.getSqls().get(method);
         String rt = this.sqlAssembly.assemble(dao , method , args);
+        if(args == null) return rt;
         String[] parameterNames = sql.getParameterNames();
         for (int i = 0 ; i < args.length ; i++)
             if (this.isBasic(args[i])) {

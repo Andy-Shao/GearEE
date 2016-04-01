@@ -12,7 +12,7 @@ import java.lang.reflect.Method;
  * @author Andy.Shao
  *
  */
-public class RootSqlExcution implements SqlExecution {
+public class RootSqlExecution implements SqlExecution {
     private SqlAssembly assembly = SqlAssembly.DEFAUL;
     private SqlExecution excution = null;
 

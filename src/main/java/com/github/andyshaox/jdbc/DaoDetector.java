@@ -12,5 +12,5 @@ package com.github.andyshaox.jdbc;
  */
 public interface DaoDetector {
 
-    Object finding(Class<?> clazz);
+    <T> T finding(Class<T> clazz);
 }
