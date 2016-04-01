@@ -25,10 +25,10 @@ public class ArrayReturnConvert implements JdbcReturnConvert<Object> {
         final List<Object> tmp = new ArrayList<>();
         final Class<?> componentType = this.returnType.getClass().getComponentType();
         try {
-            while (in.next()) {
+            do {
                 Object value = JdbcReturnConvert.genericReturnConvert(componentType , in);
                 tmp.add(value);
-            }
+            } while(in.next());
         } catch (SQLException e) {
             throw new JdbcProcessException(e);
         }

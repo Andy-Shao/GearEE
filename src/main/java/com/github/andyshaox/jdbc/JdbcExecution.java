@@ -45,12 +45,14 @@ public class JdbcExecution implements SqlExecution {
             try (Connection con = this.dataSource.getConnection();
                 PreparedStatement statement = con.prepareStatement(executableSql);
                 ResultSet rs = statement.executeQuery();) {
-                @SuppressWarnings("rawtypes")
-                final Class<? extends JdbcReturnConvert> retConvertor = sql.getRetConvertor();
-                if (!retConvertor.equals(JdbcReturnConvert.class)) {
-                    JdbcReturnConvert<?> jrc = ClassOperation.newInstance(retConvertor);
-                    result = jrc.convert(rs);
-                } else result = JdbcReturnConvert.genericReturnConvert(processMethod.getReturnType() , rs);
+                if(rs.next()){
+                    @SuppressWarnings("rawtypes")
+                    final Class<? extends JdbcReturnConvert> retConvertor = sql.getRetConvertor();
+                    if (!retConvertor.equals(JdbcReturnConvert.class)) {
+                        JdbcReturnConvert<?> jrc = ClassOperation.newInstance(retConvertor);
+                        result = jrc.convert(rs);
+                    } else result = JdbcReturnConvert.genericReturnConvert(processMethod.getReturnType() , rs);
+                }
             } catch (SQLException e) {
                 throw new JdbcProcessException(e);
             }
