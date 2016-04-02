@@ -27,7 +27,7 @@ public @interface Sql {
     @SuppressWarnings("rawtypes")
     Class<? extends JdbcReturnConvert> retConvertor() default JdbcReturnConvert.class;
 
-    Class<SqlAssembly> sqlAssembly() default SqlAssembly.class;
+    Class<? extends SqlAssembly> sqlAssembly() default SqlAssembly.class;
 
     SqlType sqlType() default SqlType.QUERY;
 

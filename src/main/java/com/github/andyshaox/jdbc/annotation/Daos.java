@@ -20,6 +20,7 @@ public final class Daos {
         Dao result = Dao.getDefault();
         result.setDataBase(annotation.dataBase());
         result.setDefineClass(clazz);
+        result.setDomain(annotation.domain());
         Sqls.build(result.getSqls() , clazz);
         return result;
     }

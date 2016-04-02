@@ -22,7 +22,7 @@ public interface Sql {
         @SuppressWarnings("rawtypes")
         private Class<? extends JdbcReturnConvert> retConvertor = Sql.super.getRetConvertor();
         private String sql;
-        private Class<SqlAssembly> sqlAssembly = Sql.super.getSqlAssembly();
+        private Class<? extends SqlAssembly> sqlAssembly = Sql.super.getSqlAssembly();
         private SqlType sqlType = Sql.super.getSqlType();
 
         @Override
@@ -64,7 +64,7 @@ public interface Sql {
         }
 
         @Override
-        public Class<SqlAssembly> getSqlAssembly() {
+        public Class<? extends SqlAssembly> getSqlAssembly() {
             return this.sqlAssembly;
         }
 
@@ -109,7 +109,7 @@ public interface Sql {
         }
 
         @Override
-        public void setSqlAssembly(Class<SqlAssembly> sqlAssembly) {
+        public void setSqlAssembly(Class<? extends SqlAssembly> sqlAssembly) {
             this.sqlAssembly = sqlAssembly;
         }
 
@@ -144,7 +144,7 @@ public interface Sql {
 
     String getSql();
 
-    default Class<SqlAssembly> getSqlAssembly() {
+    default Class<? extends SqlAssembly> getSqlAssembly() {
         return SqlAssembly.class;
     }
 
@@ -163,7 +163,7 @@ public interface Sql {
 
     void setSql(String sql);
 
-    void setSqlAssembly(Class<SqlAssembly> sqlAssembly);
+    void setSqlAssembly(Class<? extends SqlAssembly> sqlAssembly);
 
     void setSqlType(SqlType sqlType);
 }

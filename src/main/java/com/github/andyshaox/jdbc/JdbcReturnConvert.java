@@ -1,5 +1,6 @@
 package com.github.andyshaox.jdbc;
 
+import java.lang.reflect.Method;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
@@ -73,6 +74,41 @@ public interface JdbcReturnConvert<OUT> {
         else if (Map.class.isAssignableFrom(returnType)) throw new JdbcProcessException("No support Map");
         else if (returnType.isArray()) throw new JdbcProcessException("No support Array");
         else {
+            final ObjectReturnConvert objectReturnConvert = new ObjectReturnConvert();
+            objectReturnConvert.setReturnType(returnType);
+            return objectReturnConvert.convert(rs);
+        }
+    }
+
+    static Object genericReturnConvert(Dao dao , Method method , ResultSet rs) throws SQLException {
+        Class<?> returnType = dao.getSqls().get(method).getProcessMethod().getReturnType();
+        if (int.class.isAssignableFrom(returnType)) return rs.getInt(1);
+        else if (Integer.class.isAssignableFrom(returnType)) return rs.getInt(1);
+        else if (long.class.isAssignableFrom(returnType)) return rs.getLong(1);
+        else if (Long.class.isAssignableFrom(returnType)) return rs.getLong(1);
+        else if (byte.class.isAssignableFrom(returnType)) return rs.getByte(1);
+        else if (byte.class.isAssignableFrom(returnType)) return rs.getByte(1);
+        else if (byte[].class.isAssignableFrom(returnType)) return rs.getBytes(1);
+        else if (Byte[].class.isAssignableFrom(returnType))
+            return ArrayOperation.pack_unpack(rs.getBytes(1) , Byte[].class);
+        else if (float.class.isAssignableFrom(returnType)) return rs.getFloat(1);
+        else if (Float.class.isAssignableFrom(returnType)) return rs.getFloat(1);
+        else if (double.class.isAssignableFrom(returnType)) return rs.getDouble(1);
+        else if (Double.class.isAssignableFrom(returnType)) return rs.getDouble(1);
+        else if (String.class.isAssignableFrom(returnType)) return rs.getString(1);
+        else if (Date.class.isAssignableFrom(returnType)) return rs.getDate(1);
+        else if (java.sql.Date.class.isAssignableFrom(returnType)) return rs.getDate(1);
+        else if (Collection.class.isAssignableFrom(returnType)) {
+            CollectionReturnConvert collectionReturnConvert = new CollectionReturnConvert();
+            collectionReturnConvert.setComponentType(dao.getDomain());
+            collectionReturnConvert.setReturnType(returnType);
+            return collectionReturnConvert.convert(rs);
+        } else if (Map.class.isAssignableFrom(returnType)) return new JdbcProcessException("No support Map");
+        else if (returnType.isArray()) {
+            final ArrayReturnConvert arrayReturnConvert = new ArrayReturnConvert();
+            arrayReturnConvert.setReturnType(returnType);
+            return arrayReturnConvert.convert(rs);
+        } else {
             final ObjectReturnConvert objectReturnConvert = new ObjectReturnConvert();
             objectReturnConvert.setReturnType(returnType);
             return objectReturnConvert.convert(rs);

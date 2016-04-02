@@ -19,6 +19,9 @@ public interface Dao {
     public static class DefaultDao implements Dao {
         private String dataBase;
         private Class<?> defineClass;
+
+        private Class<?> domain;
+
         private Map<Method , Sql> sqls = new HashMap<>();
 
         @Override
@@ -26,7 +29,8 @@ public interface Dao {
             if (obj instanceof DefaultDao) {
                 DefaultDao that = (DefaultDao) obj;
                 return Objects.equals(this.dataBase , that.dataBase)
-                    && Objects.equals(this.defineClass , that.defineClass) && Objects.equals(this.sqls , that.sqls);
+                    && Objects.equals(this.defineClass , that.defineClass) && Objects.equals(this.sqls , that.sqls)
+                    && Objects.equals(this.domain , that.domain);
             } else return false;
         }
 
@@ -41,13 +45,18 @@ public interface Dao {
         }
 
         @Override
+        public Class<?> getDomain() {
+            return this.domain;
+        }
+
+        @Override
         public Map<Method , Sql> getSqls() {
             return this.sqls;
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(this.dataBase , this.defineClass , this.sqls);
+            return Objects.hash(this.dataBase , this.defineClass , this.sqls, this.domain);
         }
 
         @Override
@@ -61,9 +70,14 @@ public interface Dao {
         }
 
         @Override
+        public void setDomain(Class<?> domain) {
+            this.domain = domain;
+        }
+
+        @Override
         public String toString() {
-            return "DefaultDao [dataBase=" + this.dataBase + ", defineClass=" + this.defineClass + ", sqls=" + this.sqls
-                + "]";
+            return "DefaultDao [dataBase=" + dataBase + ", defineClass=" + defineClass + ", domain=" + domain
+                + ", sqls=" + sqls + "]";
         }
     }
 
@@ -75,9 +89,13 @@ public interface Dao {
 
     Class<?> getDefineClass();
 
+    Class<?> getDomain();
+
     Map<Method , Sql> getSqls();
 
     void setDataBase(String dataBase);
 
     void setDefineClass(Class<?> clazz);
+
+    void setDomain(Class<?> clazz);
 }

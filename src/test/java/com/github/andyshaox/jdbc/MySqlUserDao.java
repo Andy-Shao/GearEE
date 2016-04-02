@@ -6,7 +6,7 @@ import java.util.Map;
 import com.github.andyshaox.jdbc.annotation.Dao;
 import com.github.andyshaox.jdbc.annotation.Sql;
 
-@Dao(dataBase = "MySQL")
+@Dao(dataBase = "MySQL", domain = User.class)
 public interface MySqlUserDao extends UserDao {
     @Sql(value = "DELETE From user WHERE user_id = {user.userId}" , sqlType = SqlType.UPDATE)
     @Override
