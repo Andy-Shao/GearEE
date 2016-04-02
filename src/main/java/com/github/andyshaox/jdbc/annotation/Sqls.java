@@ -36,7 +36,7 @@ public class Sqls {
         result.setProcessClass(method.getDeclaringClass());
         result.setProcessMethod(method);
         result.setRetConvertor(annotation.retConvertor());
-        result.setSign(annotation.isSign());
+        result.setSqlAssembly(annotation.sqlAssembly());
         result.setSql(annotation.value());
         result.setSqlType(annotation.sqlType());
         result.setParameterNames(ParameterOperation.getMethodParamNames(method));

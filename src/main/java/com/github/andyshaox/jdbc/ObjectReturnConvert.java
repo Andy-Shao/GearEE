@@ -2,6 +2,7 @@ package com.github.andyshaox.jdbc;
 
 import java.lang.reflect.Method;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class ObjectReturnConvert implements JdbcReturnConvert<Object> {
     private Class<?> returnType = Object.class;
 
     @Override
-    public Object convert(ResultSet in) {
+    public Object convert(ResultSet in) throws SQLException{
         final Object entity = ClassOperation.newInstance(this.returnType);
         List<Method> methods = Arrays.asList(this.returnType.getMethods());
         for (Method method : methods)

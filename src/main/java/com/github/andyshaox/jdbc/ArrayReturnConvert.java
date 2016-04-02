@@ -21,17 +21,13 @@ public class ArrayReturnConvert implements JdbcReturnConvert<Object> {
     private Class<?> returnType = Object[].class;
 
     @Override
-    public Object convert(ResultSet in) {
+    public Object convert(ResultSet in) throws SQLException {
         final List<Object> tmp = new ArrayList<>();
         final Class<?> componentType = this.returnType.getClass().getComponentType();
-        try {
-            do {
-                Object value = JdbcReturnConvert.genericReturnConvert(componentType , in);
-                tmp.add(value);
-            } while(in.next());
-        } catch (SQLException e) {
-            throw new JdbcProcessException(e);
-        }
+        do {
+            Object value = JdbcReturnConvert.genericReturnConvert(componentType , in);
+            tmp.add(value);
+        } while (in.next());
         return ArrayOperation.pack_unpack(tmp.toArray() , this.returnType);
     }
 

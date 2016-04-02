@@ -7,6 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import com.github.andyshaox.jdbc.JdbcReturnConvert;
+import com.github.andyshaox.jdbc.SqlAssembly;
 import com.github.andyshaox.jdbc.SqlType;
 
 /**
@@ -23,10 +24,10 @@ import com.github.andyshaox.jdbc.SqlType;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Sql {
-    boolean isSign() default false;
-
     @SuppressWarnings("rawtypes")
     Class<? extends JdbcReturnConvert> retConvertor() default JdbcReturnConvert.class;
+
+    Class<SqlAssembly> sqlAssembly() default SqlAssembly.class;
 
     SqlType sqlType() default SqlType.QUERY;
 

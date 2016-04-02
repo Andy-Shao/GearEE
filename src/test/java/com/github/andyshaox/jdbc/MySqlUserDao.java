@@ -8,8 +8,6 @@ import com.github.andyshaox.jdbc.annotation.Sql;
 
 @Dao(dataBase = "MySQL")
 public interface MySqlUserDao extends UserDao {
-    public static final String UPDATE = "UPDATE user SET user_name = {user.userName} WHERE user_id = {user.userId}";
-
     @Sql(value = "DELETE From user WHERE user_id = {user.userId}" , sqlType = SqlType.UPDATE)
     @Override
     public abstract void delete(User user);
@@ -41,7 +39,7 @@ public interface MySqlUserDao extends UserDao {
     public void update(List<String> values);
 
     @Sql(value = "UPDATE user SET user_name = {values[userName]} WHERE user_id = {values[user_id]}" ,
-        sqlType = SqlType.EXECUTION)
+        sqlType = SqlType.UPDATE)
     @Override
     public void update(Map<String , String> values);
 
@@ -51,7 +49,8 @@ public interface MySqlUserDao extends UserDao {
     @Sql(value = "UPDATE user SET user_name = {values[1]} WHERE user_id = {values[0]}" , sqlType = SqlType.UPDATE)
     public void update(String[] values);
 
-    @Sql(value = "UPDATE" , isSign = true , sqlType = SqlType.UPDATE)
     @Override
-    public abstract void update(User user);
+    public default void update(User user){
+        this.update(user.getUserId(), user.getUserName());
+    }
 }

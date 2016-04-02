@@ -16,20 +16,20 @@ import java.util.Objects;
  */
 public interface Sql {
     public static class DefaultSql implements Sql {
-        private boolean isSign = Sql.super.isSign();
         private String[] parameterNames;
         private Class<?> processClass;
         private Method processMethod;
         @SuppressWarnings("rawtypes")
         private Class<? extends JdbcReturnConvert> retConvertor = Sql.super.getRetConvertor();
         private String sql;
+        private Class<SqlAssembly> sqlAssembly = Sql.super.getSqlAssembly();
         private SqlType sqlType = Sql.super.getSqlType();
 
         @Override
         public boolean equals(Object obj) {
             if (obj instanceof DefaultSql) {
                 DefaultSql that = (DefaultSql) obj;
-                return Objects.equals(this.isSign , that.isSign)
+                return Objects.equals(this.sqlAssembly , that.sqlAssembly)
                     && Objects.equals(this.processClass , that.processClass)
                     && Objects.equals(this.processMethod , that.processMethod) && Objects.equals(this.sql , that.sql)
                     && Objects.equals(this.sqlType , that.sqlType)
@@ -64,6 +64,11 @@ public interface Sql {
         }
 
         @Override
+        public Class<SqlAssembly> getSqlAssembly() {
+            return this.sqlAssembly;
+        }
+
+        @Override
         public SqlType getSqlType() {
             return this.sqlType;
         }
@@ -71,15 +76,10 @@ public interface Sql {
         @Override
         public int hashCode() {
             int hashCode = 1;
-            hashCode = Objects.hash(this.isSign , this.processClass , this.processMethod , this.retConvertor ,
+            hashCode = Objects.hash(this.sqlAssembly , this.processClass , this.processMethod , this.retConvertor ,
                 this.sql , this.sqlType);
             hashCode = 31 * hashCode + Arrays.hashCode(this.parameterNames);
             return hashCode;
-        }
-
-        @Override
-        public boolean isSign() {
-            return this.isSign;
         }
 
         @Override
@@ -104,13 +104,13 @@ public interface Sql {
         }
 
         @Override
-        public void setSign(boolean isSign) {
-            this.isSign = isSign;
+        public void setSql(String sql) {
+            this.sql = sql;
         }
 
         @Override
-        public void setSql(String sql) {
-            this.sql = sql;
+        public void setSqlAssembly(Class<SqlAssembly> sqlAssembly) {
+            this.sqlAssembly = sqlAssembly;
         }
 
         @Override
@@ -120,9 +120,10 @@ public interface Sql {
 
         @Override
         public String toString() {
-            return "DefaultSql [isSign=" + this.isSign + ", parameterNames=" + Arrays.toString(this.parameterNames)
-                + ", processClass=" + this.processClass + ", processMethod=" + this.processMethod + ", retConvertor="
-                + this.retConvertor + ", sql=" + this.sql + ", sqlType=" + this.sqlType + "]";
+            return "DefaultSql [sqlAssembly=" + this.sqlAssembly + ", parameterNames="
+                + Arrays.toString(this.parameterNames) + ", processClass=" + this.processClass + ", processMethod="
+                + this.processMethod + ", retConvertor=" + this.retConvertor + ", sql=" + this.sql + ", sqlType="
+                + this.sqlType + "]";
         }
     }
 
@@ -143,12 +144,12 @@ public interface Sql {
 
     String getSql();
 
-    default SqlType getSqlType() {
-        return SqlType.QUERY;
+    default Class<SqlAssembly> getSqlAssembly() {
+        return SqlAssembly.class;
     }
 
-    default boolean isSign() {
-        return false;
+    default SqlType getSqlType() {
+        return SqlType.QUERY;
     }
 
     void setParameterNames(String[] parameterNames);
@@ -160,9 +161,9 @@ public interface Sql {
     @SuppressWarnings("rawtypes")
     public void setRetConvertor(Class<? extends JdbcReturnConvert> clazz);
 
-    void setSign(boolean isSign);
-
     void setSql(String sql);
+
+    void setSqlAssembly(Class<SqlAssembly> sqlAssembly);
 
     void setSqlType(SqlType sqlType);
 }
