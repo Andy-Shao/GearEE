@@ -6,8 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
-
-import com.github.andyshao.test.data.structure.Set;
+import java.util.Set;
 
 /**
  * 
