@@ -108,6 +108,11 @@ public class UserDaoEntity implements MySqlUserDao {
         return (long) this.sqlExecution.invoke(this.dao ,
             MethodOperation.getMethod(this.getClass() , "returnLong" , User.class) , null , new Object[] { user });
     }
+    
+    public void paramLong(long l){
+        this.sqlExecution.invoke(this.dao ,
+            MethodOperation.getMethod(this.getClass() , "paramLong" , long.class) , null , new Object[] { long.class });
+    }
 
     public void setDao(Dao dao) {
         this.dao = dao;

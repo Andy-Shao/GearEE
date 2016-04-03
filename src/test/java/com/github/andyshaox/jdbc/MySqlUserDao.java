@@ -38,7 +38,7 @@ public interface MySqlUserDao extends UserDao {
     @Sql(value = "UPDATE user SET user_name = {values[1]} WHERE user_id = {values[0]}" , sqlType = SqlType.UPDATE)
     public void update(List<String> values);
 
-    @Sql(value = "UPDATE user SET user_name = {values[userName]} WHERE user_id = {values[user_id]}" ,
+    @Sql(value = "UPDATE user SET user_name = {values[userName]} WHERE user_id = {values[userId]}" ,
         sqlType = SqlType.UPDATE)
     @Override
     public void update(Map<String , String> values);

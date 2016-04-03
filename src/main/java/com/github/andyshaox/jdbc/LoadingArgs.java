@@ -30,8 +30,9 @@ public class LoadingArgs implements SqlAssembly {
     public String assemble(Dao dao , Method method , Object... args) {
         Sql sql = dao.getSqls().get(method);
         String rt = this.sqlAssembly.assemble(dao , method , args);
-        if(args == null) return rt;
+        if (args == null) return rt;
         String[] parameterNames = sql.getParameterNames();
+        Class<?>[] parameterTypes = method.getParameterTypes();
         for (int i = 0 ; i < args.length ; i++)
             if (this.isBasic(args[i])) {
                 String key = "{" + parameterNames[i] + "}";
@@ -56,8 +57,8 @@ public class LoadingArgs implements SqlAssembly {
                 }
             } else {
                 Set<Field> fields = new HashSet<>();
-                fields.addAll(Arrays.asList(FieldOperation.superGetDeclaredFields(dao.getDefineClass())));
-                fields.addAll(Arrays.asList(dao.getClass().getFields()));
+                fields.addAll(Arrays.asList(FieldOperation.superGetDeclaredFields(parameterTypes[i])));
+                fields.addAll(Arrays.asList(parameterTypes[i].getFields()));
                 for (Field field : fields) {
                     String key = "{" + parameterNames[i] + "." + field.getName() + "}";
                     rt = this.replaceArgs(key , FieldOperation.getValueByGetMethod(args[i] , field.getName()) , rt);
@@ -70,7 +71,8 @@ public class LoadingArgs implements SqlAssembly {
         return arg instanceof Integer || int.class.isInstance(arg) || arg instanceof Short
             || short.class.isInstance(arg) || arg instanceof Float || float.class.isInstance(arg)
             || arg instanceof Double || double.class.isInstance(arg) || arg instanceof Long
-            || long.class.isInstance(arg) || arg instanceof Character || char.class.isInstance(arg);
+            || long.class.isInstance(arg) || arg instanceof Character || char.class.isInstance(arg)
+            || String.class.isInstance(arg);
     }
 
     String replaceArgs(String argName , Object argValue , String sql) {
