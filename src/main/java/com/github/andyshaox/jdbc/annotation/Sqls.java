@@ -39,7 +39,7 @@ public class Sqls {
         result.setSqlAssembly(annotation.sqlAssembly());
         result.setSql(annotation.value());
         result.setSqlType(annotation.sqlType());
-        result.setParameterNames(ParameterOperation.getMethodParamNames(method));
+        result.setParameterNames(ParameterOperation.getParamNamesByAnnotation(method));
         return result;
     }
 

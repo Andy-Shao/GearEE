@@ -3,3 +3,4 @@
 **What the updating in v3.3**
 
 Cancle isSign in Sql annotation and add sqlAssembly in it<br> 
+Adding log4j support<br>
