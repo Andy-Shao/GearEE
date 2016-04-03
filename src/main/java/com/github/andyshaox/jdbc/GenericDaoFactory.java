@@ -204,7 +204,7 @@ public class GenericDaoFactory implements DaoFactory {
         else {
             mv.visitInsn(Opcodes.ICONST_0);
             mv.visitInsn(Opcodes.IRETURN);
-            mv.visitMaxs(1 , 1);
+            mv.visitMaxs(1 , method.getParameterCount() + 1);
         }
     }
 
@@ -218,7 +218,7 @@ public class GenericDaoFactory implements DaoFactory {
         else {
             mv.visitInsn(Opcodes.ICONST_0);
             mv.visitInsn(Opcodes.IRETURN);
-            mv.visitMaxs(1 , 1);
+            mv.visitMaxs(1 , method.getParameterCount() + 1);
         }
     }
 
@@ -233,7 +233,7 @@ public class GenericDaoFactory implements DaoFactory {
         else {
             mv.visitInsn(Opcodes.ICONST_0);
             mv.visitInsn(Opcodes.IRETURN);
-            mv.visitMaxs(1 , 1);
+            mv.visitMaxs(1 , method.getParameterCount() + 1);
         }
     }
 
@@ -248,7 +248,7 @@ public class GenericDaoFactory implements DaoFactory {
         else {
             mv.visitInsn(Opcodes.DCONST_0);
             mv.visitInsn(Opcodes.DRETURN);
-            mv.visitMaxs(2 , 1);
+            mv.visitMaxs(2 , method.getParameterCount() + 1);
         }
     }
 
@@ -262,7 +262,7 @@ public class GenericDaoFactory implements DaoFactory {
         else {
             mv.visitInsn(Opcodes.FCONST_0);
             mv.visitInsn(Opcodes.FRETURN);
-            mv.visitMaxs(1 , 1);
+            mv.visitMaxs(1 , method.getParameterCount() + 1);
         }
     }
 
@@ -276,7 +276,7 @@ public class GenericDaoFactory implements DaoFactory {
         else {
             mv.visitInsn(Opcodes.ICONST_0);
             mv.visitInsn(Opcodes.IRETURN);
-            mv.visitMaxs(1 , 1);
+            mv.visitMaxs(1 , method.getParameterCount() + 1);
         }
     }
 
@@ -290,7 +290,7 @@ public class GenericDaoFactory implements DaoFactory {
         else {
             mv.visitInsn(Opcodes.LCONST_0);
             mv.visitInsn(Opcodes.LRETURN);
-            mv.visitMaxs(2 , 1);
+            mv.visitMaxs(2 , method.getParameterCount() + 1);
         }
     }
 
@@ -309,7 +309,7 @@ public class GenericDaoFactory implements DaoFactory {
         } else {
             mv.visitInsn(Opcodes.ACONST_NULL);
             mv.visitInsn(Opcodes.ARETURN);
-            mv.visitMaxs(1 , 1);
+            mv.visitMaxs(1 , method.getParameterCount() + 1);
         }
     }
 
@@ -323,7 +323,7 @@ public class GenericDaoFactory implements DaoFactory {
         else {
             mv.visitInsn(Opcodes.ICONST_0);
             mv.visitInsn(Opcodes.IRETURN);
-            mv.visitMaxs(1 , 1);
+            mv.visitMaxs(1 , method.getParameterCount() + 1);
         }
     }
 
@@ -335,7 +335,7 @@ public class GenericDaoFactory implements DaoFactory {
             });
         else {
             mv.visitInsn(Opcodes.RETURN);
-            mv.visitMaxs(0 , 1);
+            mv.visitMaxs(0 , method.getParameterCount() + 1);
         }
     }
 
