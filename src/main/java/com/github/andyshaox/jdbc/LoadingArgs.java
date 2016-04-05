@@ -11,6 +11,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import com.github.andyshao.lang.StringOperation;
+import com.github.andyshao.reflect.ClassOperation;
 import com.github.andyshao.reflect.FieldOperation;
 
 /**
@@ -33,23 +34,24 @@ public class LoadingArgs implements SqlAssembly {
         if (args == null) return rt;
         String[] parameterNames = sql.getParameterNames();
         Class<?>[] parameterTypes = method.getParameterTypes();
-        for (int i = 0 ; i < args.length ; i++)
-            if (this.isBasic(args[i])) {
+        for (int i = 0 ; i < args.length ; i++) {
+            final Object arg = args[i];
+            if (ClassOperation.isPrimitiveType(arg.getClass()) || String.class.isInstance(arg)) {
                 String key = "{" + parameterNames[i] + "}";
                 rt = this.replaceArgs(key , args[i] , rt);
-            } else if (args[i].getClass().isArray()) {
+            } else if (arg.getClass().isArray()) {
                 int length = Array.getLength(args[i]);
                 for (int j = 0 ; j < length ; j++) {
                     String key = "{" + parameterNames[i] + "[" + j + "]}";
                     rt = this.replaceArgs(key , Array.get(args[i] , j) , rt);
                 }
-            } else if (args[i] instanceof List) {
+            } else if (arg instanceof List) {
                 List<?> list = (List<?>) args[i];
                 for (int j = 0 ; j < list.size() ; j++) {
                     String key = "{" + parameterNames[i] + "[" + j + "]}";
                     rt = this.replaceArgs(key , list.get(j) , rt);
                 }
-            } else if (args[i] instanceof Map) {
+            } else if (arg instanceof Map) {
                 Map<? , ?> map = (Map<? , ?>) args[i];
                 for (Object key : map.keySet()) {
                     String argName = "{" + parameterNames[i] + "[" + key.toString() + "]}";
@@ -61,24 +63,18 @@ public class LoadingArgs implements SqlAssembly {
                 fields.addAll(Arrays.asList(parameterTypes[i].getFields()));
                 for (Field field : fields) {
                     String key = "{" + parameterNames[i] + "." + field.getName() + "}";
-                    rt = this.replaceArgs(key , FieldOperation.getValueByGetMethod(args[i] , field.getName()) , rt);
+                    rt = this.replaceArgs(key , FieldOperation.getValueByGetMethod(arg , field.getName()) , rt);
                 }
             }
+        }
         return rt;
-    }
-
-    protected boolean isBasic(Object arg) {
-        return arg instanceof Integer || int.class.isInstance(arg) || arg instanceof Short
-            || short.class.isInstance(arg) || arg instanceof Float || float.class.isInstance(arg)
-            || arg instanceof Double || double.class.isInstance(arg) || arg instanceof Long
-            || long.class.isInstance(arg) || arg instanceof Character || char.class.isInstance(arg)
-            || String.class.isInstance(arg);
     }
 
     String replaceArgs(String argName , Object argValue , String sql) {
         String result = sql;
         String value = "";
-        if (this.isBasic(argValue)) value = Objects.toString(argValue);
+        if (ClassOperation.isPrimitiveType(argValue.getClass()) || String.class.isInstance(argValue))
+            value = Objects.toString(argValue);
         else {
             value = Objects.toString(value);
             if (!value.equals("null")) value = "'" + value + "'";
