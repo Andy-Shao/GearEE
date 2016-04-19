@@ -30,7 +30,11 @@ public class UserDaoEntity implements MySqlUserDao {
             MethodOperation.getMethod(this.dao.getDefineClass() , "findById" , String[].class) , null ,
             new Object[] { userIds });
     }
-
+    
+    public List<User> returnListTest(String strOne, String strTwo){
+        return null;
+    }
+    
     @Override
     public User[] findByName(List<String> userNames) {
         return (User[]) this.sqlExecution.invoke(this.dao ,
