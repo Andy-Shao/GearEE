@@ -10,6 +10,7 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 
+import com.github.andyshao.asm.ClassVisitorOperation;
 import com.github.andyshao.asm.Version;
 import com.github.andyshao.lang.ClassAssembly;
 import com.github.andyshao.lang.StringOperation;
@@ -94,7 +95,7 @@ public class GenericDaoFactory implements DaoFactory {
             "(Lcom/github/andyshaox/jdbc/Dao;Ljava/lang/reflect/Method;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;" ,
             true);
         doReturn.accept(mv);
-        mv.visitMaxs(8 , parameterTypes.length + 1);
+        mv.visitMaxs(8 , ClassVisitorOperation.countBasicLocal(method));
     }
 
     private SqlExecution sqlExecution;
@@ -204,7 +205,7 @@ public class GenericDaoFactory implements DaoFactory {
         else {
             mv.visitInsn(Opcodes.ICONST_0);
             mv.visitInsn(Opcodes.IRETURN);
-            mv.visitMaxs(1 , method.getParameterCount() + 1);
+            mv.visitMaxs(1 , ClassVisitorOperation.countBasicLocal(method));
         }
     }
 
@@ -218,7 +219,7 @@ public class GenericDaoFactory implements DaoFactory {
         else {
             mv.visitInsn(Opcodes.ICONST_0);
             mv.visitInsn(Opcodes.IRETURN);
-            mv.visitMaxs(1 , method.getParameterCount() + 1);
+            mv.visitMaxs(1 , ClassVisitorOperation.countBasicLocal(method));
         }
     }
 
@@ -233,7 +234,7 @@ public class GenericDaoFactory implements DaoFactory {
         else {
             mv.visitInsn(Opcodes.ICONST_0);
             mv.visitInsn(Opcodes.IRETURN);
-            mv.visitMaxs(1 , method.getParameterCount() + 1);
+            mv.visitMaxs(1 , ClassVisitorOperation.countBasicLocal(method));
         }
     }
 
@@ -248,7 +249,7 @@ public class GenericDaoFactory implements DaoFactory {
         else {
             mv.visitInsn(Opcodes.DCONST_0);
             mv.visitInsn(Opcodes.DRETURN);
-            mv.visitMaxs(2 , method.getParameterCount() + 1);
+            mv.visitMaxs(2 , ClassVisitorOperation.countBasicLocal(method));
         }
     }
 
@@ -262,7 +263,7 @@ public class GenericDaoFactory implements DaoFactory {
         else {
             mv.visitInsn(Opcodes.FCONST_0);
             mv.visitInsn(Opcodes.FRETURN);
-            mv.visitMaxs(1 , method.getParameterCount() + 1);
+            mv.visitMaxs(1 , ClassVisitorOperation.countBasicLocal(method));
         }
     }
 
@@ -276,7 +277,7 @@ public class GenericDaoFactory implements DaoFactory {
         else {
             mv.visitInsn(Opcodes.ICONST_0);
             mv.visitInsn(Opcodes.IRETURN);
-            mv.visitMaxs(1 , method.getParameterCount() + 1);
+            mv.visitMaxs(1 , ClassVisitorOperation.countBasicLocal(method));
         }
     }
 
@@ -290,7 +291,7 @@ public class GenericDaoFactory implements DaoFactory {
         else {
             mv.visitInsn(Opcodes.LCONST_0);
             mv.visitInsn(Opcodes.LRETURN);
-            mv.visitMaxs(2 , method.getParameterCount() + 1);
+            mv.visitMaxs(2 , ClassVisitorOperation.countBasicLocal(method));
         }
     }
 
@@ -309,7 +310,7 @@ public class GenericDaoFactory implements DaoFactory {
         } else {
             mv.visitInsn(Opcodes.ACONST_NULL);
             mv.visitInsn(Opcodes.ARETURN);
-            mv.visitMaxs(1 , method.getParameterCount() + 1);
+            mv.visitMaxs(1 , ClassVisitorOperation.countBasicLocal(method));
         }
     }
 
@@ -323,7 +324,7 @@ public class GenericDaoFactory implements DaoFactory {
         else {
             mv.visitInsn(Opcodes.ICONST_0);
             mv.visitInsn(Opcodes.IRETURN);
-            mv.visitMaxs(1 , method.getParameterCount() + 1);
+            mv.visitMaxs(1 , ClassVisitorOperation.countBasicLocal(method));
         }
     }
 
@@ -335,7 +336,7 @@ public class GenericDaoFactory implements DaoFactory {
             });
         else {
             mv.visitInsn(Opcodes.RETURN);
-            mv.visitMaxs(0 , method.getParameterCount() + 1);
+            mv.visitMaxs(0 , ClassVisitorOperation.countBasicLocal(method));
         }
     }
 
