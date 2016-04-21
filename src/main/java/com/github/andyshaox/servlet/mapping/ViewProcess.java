@@ -22,6 +22,5 @@ public interface ViewProcess {
     public static final ViewProcess EMPTY = (config , req , resp , view) -> {
     };
 
-    void process(ServletConfig config , HttpServletRequest request , HttpServletResponse response , View view)
-        throws ServletException , IOException;
+    void process(ServletConfig config , HttpServletRequest request , HttpServletResponse response , View view) throws ServletException , IOException;
 }

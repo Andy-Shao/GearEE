@@ -14,8 +14,7 @@ import com.github.andyshaox.jdbc.Dao;
  */
 public final class Daos {
     public static Dao build(Class<?> clazz) {
-        com.github.andyshaox.jdbc.annotation.Dao annotation =
-            clazz.getAnnotation(com.github.andyshaox.jdbc.annotation.Dao.class);
+        com.github.andyshaox.jdbc.annotation.Dao annotation = clazz.getAnnotation(com.github.andyshaox.jdbc.annotation.Dao.class);
         if (annotation == null) return null;
         Dao result = Dao.getDefault();
         result.setDataBase(annotation.dataBase());

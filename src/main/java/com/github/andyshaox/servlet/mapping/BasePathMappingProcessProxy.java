@@ -27,12 +27,10 @@ public class BasePathMappingProcessProxy implements MappingProcess {
     }
 
     @Override
-    public View doProcess(
-        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Mapping mapping ,
-        ProcessType processType) throws ServletException , IOException , MappingProcessException {
+    public View doProcess(ServletConfig config , HttpServletRequest request , HttpServletResponse response , Mapping mapping , ProcessType processType)
+        throws ServletException , IOException , MappingProcessException {
         final View view = this.target.doProcess(config , request , response , mapping , processType);
-        if (view.getViewProcess() instanceof PageViewProcess)
-            view.setResource(this.basePath + view.getResource() + this.suffix);
+        if (view.getViewProcess() instanceof PageViewProcess) view.setResource(this.basePath + view.getResource() + this.suffix);
         return view;
     }
 

@@ -46,17 +46,13 @@ public class ObjectParameterFormat implements ParameterFormat {
     private Set<Class<?>> nonProcessType = new HashSet<>();
 
     public ObjectParameterFormat() {
-        this.nonProcessType.addAll(Arrays.asList(String.class , int.class , Integer.class , char.class ,
-            Character.class , short.class , Short.class , float.class , Float.class , double.class , Double.class ,
-            boolean.class , Boolean.class , byte.class , Byte.class , Object.class));
+        this.nonProcessType.addAll(Arrays.asList(String.class , int.class , Integer.class , char.class , Character.class , short.class , Short.class , float.class , Float.class , double.class ,
+            Double.class , boolean.class , Boolean.class , byte.class , Byte.class , Object.class));
     }
 
     @Override
-    public Object covert(
-        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Variable variable ,
-        Class<?> valueType) throws ServletException , IOException {
-        if (this.nonProcessType.contains(valueType))
-            return this.format.covert(config , request , response , variable , valueType);
+    public Object covert(ServletConfig config , HttpServletRequest request , HttpServletResponse response , Variable variable , Class<?> valueType) throws ServletException , IOException {
+        if (this.nonProcessType.contains(valueType)) return this.format.covert(config , request , response , variable , valueType);
         Object result = ConstructorOperation.newInstance(valueType);
         Method[] methods = ObjectParameterFormat.findAllSetMethod(valueType);
         for (Method method : methods) {

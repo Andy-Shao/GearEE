@@ -20,13 +20,11 @@ public final class Variables {
     public static final com.github.andyshaox.servlet.mapping.Variable[] analyzeParameters(Mapping mapping) {
         Method method = mapping.getProcessMethod();
         Parameter[] parameters = method.getParameters();
-        com.github.andyshaox.servlet.mapping.Variable[] result =
-            new com.github.andyshaox.servlet.mapping.Variable[parameters.length];
+        com.github.andyshaox.servlet.mapping.Variable[] result = new com.github.andyshaox.servlet.mapping.Variable[parameters.length];
 
         for (int i = 0 ; i < parameters.length ; i++) {
             Variable variable = parameters[i].getAnnotation(Variable.class);
-            com.github.andyshaox.servlet.mapping.Variable tmp =
-                com.github.andyshaox.servlet.mapping.Variable.defaultAttribute();
+            com.github.andyshaox.servlet.mapping.Variable tmp = com.github.andyshaox.servlet.mapping.Variable.defaultAttribute();
             if (variable == null) tmp.setParamName(mapping.getParameterNames()[i]);
             else {
                 tmp.setDefaultValue(variable.defaultValue().isEmpty() ? null : variable.defaultValue());

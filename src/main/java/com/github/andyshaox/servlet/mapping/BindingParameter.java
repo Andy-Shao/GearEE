@@ -26,9 +26,8 @@ public class BindingParameter implements MappingProcess {
     private Function<Mapping , Variable[]> variableFactory = (mapping) -> Variables.analyzeParameters(mapping);
 
     @Override
-    public View doProcess(
-        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Mapping mapping ,
-        ProcessType processType) throws ServletException , IOException , MappingProcessException {
+    public View doProcess(ServletConfig config , HttpServletRequest request , HttpServletResponse response , Mapping mapping , ProcessType processType)
+        throws ServletException , IOException , MappingProcessException {
         final Variable[] variables = this.variableFactory.apply(mapping);
         final Class<?>[] parameterType = mapping.getProcessMethod().getParameterTypes();
         final Object[] args = new Object[parameterType.length];
@@ -40,8 +39,7 @@ public class BindingParameter implements MappingProcess {
             else {
                 Variable variable = variables[i];
                 Object value = this.parameterFormat.covert(config , request , response , variable , type);
-                if (variable.getRequired() && value == null)
-                    throw new NullPointerException(variable.getParamName() + " is null");
+                if (variable.getRequired() && value == null) throw new NullPointerException(variable.getParamName() + " is null");
                 args[i] = value == null ? variable.getDefaultValue() : value;
             }
         }

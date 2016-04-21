@@ -29,11 +29,8 @@ public interface Sql {
         public boolean equals(Object obj) {
             if (obj instanceof DefaultSql) {
                 DefaultSql that = (DefaultSql) obj;
-                return Objects.equals(this.sqlAssembly , that.sqlAssembly)
-                    && Objects.equals(this.processClass , that.processClass)
-                    && Objects.equals(this.processMethod , that.processMethod) && Objects.equals(this.sql , that.sql)
-                    && Objects.equals(this.sqlType , that.sqlType)
-                    && Arrays.deepEquals(this.parameterNames , that.parameterNames);
+                return Objects.equals(this.sqlAssembly , that.sqlAssembly) && Objects.equals(this.processClass , that.processClass) && Objects.equals(this.processMethod , that.processMethod)
+                    && Objects.equals(this.sql , that.sql) && Objects.equals(this.sqlType , that.sqlType) && Arrays.deepEquals(this.parameterNames , that.parameterNames);
             } else return false;
         }
 
@@ -76,8 +73,7 @@ public interface Sql {
         @Override
         public int hashCode() {
             int hashCode = 1;
-            hashCode = Objects.hash(this.sqlAssembly , this.processClass , this.processMethod , this.retConvertor ,
-                this.sql , this.sqlType);
+            hashCode = Objects.hash(this.sqlAssembly , this.processClass , this.processMethod , this.retConvertor , this.sql , this.sqlType);
             hashCode = 31 * hashCode + Arrays.hashCode(this.parameterNames);
             return hashCode;
         }
@@ -120,10 +116,8 @@ public interface Sql {
 
         @Override
         public String toString() {
-            return "DefaultSql [sqlAssembly=" + this.sqlAssembly + ", parameterNames="
-                + Arrays.toString(this.parameterNames) + ", processClass=" + this.processClass + ", processMethod="
-                + this.processMethod + ", retConvertor=" + this.retConvertor + ", sql=" + this.sql + ", sqlType="
-                + this.sqlType + "]";
+            return "DefaultSql [sqlAssembly=" + this.sqlAssembly + ", parameterNames=" + Arrays.toString(this.parameterNames) + ", processClass=" + this.processClass + ", processMethod="
+                + this.processMethod + ", retConvertor=" + this.retConvertor + ", sql=" + this.sql + ", sqlType=" + this.sqlType + "]";
         }
     }
 

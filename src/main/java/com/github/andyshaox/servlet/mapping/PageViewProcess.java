@@ -19,8 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class PageViewProcess implements ViewProcess {
     @Override
-    public void process(ServletConfig config , HttpServletRequest request , HttpServletResponse response , View view)
-        throws ServletException , IOException {
+    public void process(ServletConfig config , HttpServletRequest request , HttpServletResponse response , View view) throws ServletException , IOException {
         request.getRequestDispatcher(view.getResource().toString()).forward(request , response);
     }
 

@@ -2,9 +2,9 @@ package com.github.andyshaox.servlet.mapping;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.github.andyshaox.servlet.mapping.annotation.Variable;
 import com.github.andyshaox.servlet.mapping.annotation.Mapping;
 import com.github.andyshaox.servlet.mapping.annotation.PathVariable;
+import com.github.andyshaox.servlet.mapping.annotation.Variable;
 
 @Mapping("/mapping")
 public class MappingDemo {

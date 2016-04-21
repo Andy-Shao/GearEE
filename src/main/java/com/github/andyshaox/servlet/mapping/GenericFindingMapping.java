@@ -25,9 +25,7 @@ public class GenericFindingMapping implements FindingMapping {
     private FindingMappingEngine findingMappingEngine;
 
     @Override
-    public Mapping search(
-        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree)
-            throws ServletException , IOException {
+    public Mapping search(ServletConfig config , HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree) throws ServletException , IOException {
         List<Mapping> mappings = new ArrayList<>();
         this.findingMappingEngine.search(config , request , response , bitree , mappings);
         if (mappings.size() == 0) return null;

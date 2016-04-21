@@ -22,10 +22,9 @@ public class BasePathMappingProcessTest {
         ServletConfig config = Mockito.mock(ServletConfig.class);
         Mapping mapping = Mockito.mock(Mapping.class);
         ProcessType processType = new ProcessType();
-        Mockito.when(mappingProcess.doProcess(config, request , response , mapping , processType))
-            .thenReturn(View.defaultView("/myPage", new PageViewProcess()));
+        Mockito.when(mappingProcess.doProcess(config , request , response , mapping , processType)).thenReturn(View.defaultView("/myPage" , new PageViewProcess()));
         BasePathMappingProcessProxy basePathMappingProcessProxy = new BasePathMappingProcessProxy(mappingProcess);
-        View view = basePathMappingProcessProxy.doProcess(config, request , response , mapping , processType);
+        View view = basePathMappingProcessProxy.doProcess(config , request , response , mapping , processType);
 
         Assert.assertThat(view.getResource() , Matchers.is("/WEB-INF/view/myPage.jsp"));
     }

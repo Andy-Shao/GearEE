@@ -22,17 +22,15 @@ public class BindingDefaultValue implements MappingProcess {
     private MappingProcess mappingProcess;
 
     @Override
-    public View doProcess(
-        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Mapping mapping ,
-        ProcessType processType) throws ServletException , IOException , MappingProcessException {
+    public View doProcess(ServletConfig config , HttpServletRequest request , HttpServletResponse response , Mapping mapping , ProcessType processType)
+        throws ServletException , IOException , MappingProcessException {
         if (mapping.getProcessMethod() != null) {
             Class<?>[] parameterType = mapping.getProcessMethod().getParameterTypes();
             Parameter[] parameters = mapping.getProcessMethod().getParameters();
             for (int i = 0 ; i < parameterType.length ; i++)
                 if (parameterType[i].isInstance(request)) processType.args[i] = request;
                 else if (parameterType[i].isInstance(response)) processType.args[i] = response;
-                else if (parameters[i].getAnnotations().length == 0)
-                    processType.args[i] = request.getAttribute(mapping.getParameterNames()[i]);
+                else if (parameters[i].getAnnotations().length == 0) processType.args[i] = request.getAttribute(mapping.getParameterNames()[i]);
         }
         return this.doProcess(config , request , response , mapping , processType);
     }

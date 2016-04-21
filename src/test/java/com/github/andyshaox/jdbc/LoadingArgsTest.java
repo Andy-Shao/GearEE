@@ -75,8 +75,7 @@ public class LoadingArgsTest {
         Dao dao = Mockito.mock(Dao.class);
         Method method = MethodOperation.getMethod(MySqlUserDao.class , "update" , Map.class);
         Sql sql = Mockito.mock(Sql.class);
-        Mockito.when(sql.getSql())
-            .thenReturn("UPDATE user SET user_name = '{values[userName]}' WHERE user_id = {values[userId]}");
+        Mockito.when(sql.getSql()).thenReturn("UPDATE user SET user_name = '{values[userName]}' WHERE user_id = {values[userId]}");
         Mockito.when(sql.getParameterNames()).thenReturn(new String[] { "values" });
         Map<Method , Sql> tmp = new HashMap<>();
         tmp.put(method , sql);

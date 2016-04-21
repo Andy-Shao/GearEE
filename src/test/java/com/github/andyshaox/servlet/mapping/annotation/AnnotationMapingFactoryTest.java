@@ -21,11 +21,11 @@ public class AnnotationMapingFactoryTest {
         this.annotationMappingFactory.setClasses(new Class<?>[] { MappingDemo.class });
         Bitree<Mapping> mappingTree = Bitree.defaultBitTree();
         this.annotationMappingFactory.buildMappingMap(mappingTree);
-        
+
         System.out.println(mappingTree.root().data());
-        if(mappingTree.root().right() != null){
+        if (mappingTree.root().right() != null) {
             BitreeNode<Mapping> node = mappingTree.root();
-            while((node = node.right()) != null)
+            while ((node = node.right()) != null)
                 System.out.println(node.data());
         }
     }

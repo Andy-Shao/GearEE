@@ -23,9 +23,7 @@ public class GenericParameterFormat implements ParameterFormat {
     private ParameterFormat format = ParameterFormat.DO_NOTHING;
 
     @Override
-    public Object covert(
-        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Variable variable ,
-        Class<?> valueType) throws ServletException , IOException {
+    public Object covert(ServletConfig config , HttpServletRequest request , HttpServletResponse response , Variable variable , Class<?> valueType) throws ServletException , IOException {
         if (!variable.getFormatClass().equals(ParameterFormat.class)) {
             ParameterFormat format = ConstructorOperation.newInstance(variable.getFormatClass());
             return format.covert(config , request , response , variable , valueType);

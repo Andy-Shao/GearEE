@@ -21,19 +21,19 @@ public class FindingProcessObjectTest {
     }
 
     @Test
-    public void test() throws MappingProcessException, ServletException, IOException {
-        MappingProcess mappingProcess = (conf, req , resp , mapping , type) -> {
+    public void test() throws MappingProcessException , ServletException , IOException {
+        MappingProcess mappingProcess = (conf , req , resp , mapping , type) -> {
             Assert.assertTrue(type.processObject instanceof MappingDemo);
             return View.defaultView();
         };
         this.findingProcessObject.setMappingProcess(mappingProcess);
-        this.findingProcessObject.setProcessObjects(new Object[]{new MappingDemo()});
+        this.findingProcessObject.setProcessObjects(new Object[] { new MappingDemo() });
         HttpServletRequest request = Mockito.mock(HttpServletRequest.class);
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
         ServletConfig config = Mockito.mock(ServletConfig.class);
         ProcessType processType = new ProcessType();
         Mapping mapping = Mapping.defaultMapping();
         mapping.setDefineClass(MappingDemo.class);
-        this.findingProcessObject.doProcess(config, request , response , mapping , processType);
+        this.findingProcessObject.doProcess(config , request , response , mapping , processType);
     }
 }

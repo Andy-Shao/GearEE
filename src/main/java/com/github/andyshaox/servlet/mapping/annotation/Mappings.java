@@ -32,12 +32,10 @@ public final class Mappings {
         Mapping mapping = method.getAnnotation(Mapping.class);
         if (mapping == null) return null;
 
-        com.github.andyshaox.servlet.mapping.Mapping result =
-            com.github.andyshaox.servlet.mapping.Mapping.defaultMapping();
+        com.github.andyshaox.servlet.mapping.Mapping result = com.github.andyshaox.servlet.mapping.Mapping.defaultMapping();
         result.setConsumes(mapping.consumes().isEmpty() ? null : mapping.consumes());
         Mappings.format(mapping.headers() , result.getHeaders());
-        result.setMethodType(
-            Arrays.deepEquals(mapping.methodType() , Mappings.EMPTY_STR_ARRAY) ? null : mapping.methodType());
+        result.setMethodType(Arrays.deepEquals(mapping.methodType() , Mappings.EMPTY_STR_ARRAY) ? null : mapping.methodType());
         Mappings.format(mapping.attributes() , result.getAttributes());
         result.setProduces(mapping.produces().isEmpty() ? null : mapping.produces());
         result.setUrl(mapping.value());
@@ -51,12 +49,10 @@ public final class Mappings {
         Mapping mapping = clazz.getAnnotation(Mapping.class);
         if (mapping == null) return null;
 
-        com.github.andyshaox.servlet.mapping.Mapping result =
-            com.github.andyshaox.servlet.mapping.Mapping.defaultMapping();
+        com.github.andyshaox.servlet.mapping.Mapping result = com.github.andyshaox.servlet.mapping.Mapping.defaultMapping();
         result.setConsumes(mapping.consumes().isEmpty() ? null : mapping.consumes());
         Mappings.format(mapping.headers() , result.getHeaders());
-        result.setMethodType(
-            Arrays.deepEquals(mapping.methodType() , Mappings.EMPTY_STR_ARRAY) ? null : mapping.methodType());
+        result.setMethodType(Arrays.deepEquals(mapping.methodType() , Mappings.EMPTY_STR_ARRAY) ? null : mapping.methodType());
         Mappings.format(mapping.attributes() , result.getAttributes());
         result.setProduces(mapping.produces().isEmpty() ? null : mapping.produces());
         result.setUrl(mapping.value().isEmpty() ? "/" + clazz.getSimpleName() : mapping.value());

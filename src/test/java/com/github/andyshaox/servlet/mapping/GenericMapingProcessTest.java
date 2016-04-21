@@ -37,7 +37,7 @@ public class GenericMapingProcessTest {
         HttpServletResponse response = Mockito.mock(HttpServletResponse.class);
         ServletConfig config = Mockito.mock(ServletConfig.class);
 
-        View view = this.genericMappingProcess.doProcess(config, request , response , mapping , processType);
+        View view = this.genericMappingProcess.doProcess(config , request , response , mapping , processType);
         Assert.assertThat(view.getResource() , Matchers.is("/testing"));
         System.out.println(view.getViewProcess());
     }

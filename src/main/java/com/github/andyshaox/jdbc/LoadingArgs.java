@@ -73,8 +73,7 @@ public class LoadingArgs implements SqlAssembly {
     String replaceArgs(String argName , Object argValue , String sql) {
         String result = sql;
         String value = "";
-        if (ClassOperation.isPrimitiveType(argValue.getClass()) || String.class.isInstance(argValue))
-            value = Objects.toString(argValue);
+        if (ClassOperation.isPrimitiveType(argValue.getClass()) || String.class.isInstance(argValue)) value = Objects.toString(argValue);
         else {
             value = Objects.toString(value);
             if (!value.equals("null")) value = "'" + value + "'";

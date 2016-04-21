@@ -21,7 +21,5 @@ import com.github.andyshao.data.structure.Bitree;
  *
  */
 public interface FindingMappingEngine {
-    void search(
-        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree ,
-        List<Mapping> result) throws ServletException , IOException;
+    void search(ServletConfig config , HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree , List<Mapping> result) throws ServletException , IOException;
 }

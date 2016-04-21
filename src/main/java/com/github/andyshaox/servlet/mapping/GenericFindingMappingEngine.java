@@ -34,9 +34,7 @@ public class GenericFindingMappingEngine implements FindingMappingEngine {
     };
 
     @Override
-    public void search(
-        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree ,
-        List<Mapping> result) throws ServletException , IOException {
+    public void search(ServletConfig config , HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree , List<Mapping> result) throws ServletException , IOException {
         String url = GenericFindingMappingEngine.buildUrl(request);
         BitreeNode<Mapping> classNode = bitree.root();
         //check root

@@ -6,14 +6,13 @@ import com.github.andyshaox.servlet.mapping.annotation.Mapping;
 
 @Mapping
 public class MappingDemo3 {
-    @Mapping("/displayHeaderInfo")
-    public String displayHeaderInfo(
-        @HeaderVariable("Accept-Encoding") String encoding , @HeaderVariable("Keep-Alive") long keepAlive) {
-        return "/displayHeaderInfo";
-    }
-    
     @Mapping("/displayCookieInfo")
-    public String displayCookieInfo(@CookieValue("JSESSIONID") String cookie){
+    public String displayCookieInfo(@CookieValue("JSESSIONID") String cookie) {
         return "/displayCookieInfo";
+    }
+
+    @Mapping("/displayHeaderInfo")
+    public String displayHeaderInfo(@HeaderVariable("Accept-Encoding") String encoding , @HeaderVariable("Keep-Alive") long keepAlive) {
+        return "/displayHeaderInfo";
     }
 }

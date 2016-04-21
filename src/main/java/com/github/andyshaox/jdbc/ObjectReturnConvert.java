@@ -23,7 +23,7 @@ public class ObjectReturnConvert implements JdbcReturnConvert<Object> {
     private Class<?> returnType = Object.class;
 
     @Override
-    public Object convert(ResultSet in) throws SQLException{
+    public Object convert(ResultSet in) throws SQLException {
         final Object entity = ClassOperation.newInstance(this.returnType);
         List<Method> methods = Arrays.asList(this.returnType.getMethods());
         for (Method method : methods)

@@ -40,8 +40,7 @@ public interface View {
         return ViewProcess.EMPTY;
     }
 
-    default void process(ServletConfig config , HttpServletRequest request , HttpServletResponse response)
-        throws ServletException , IOException {
+    default void process(ServletConfig config , HttpServletRequest request , HttpServletResponse response) throws ServletException , IOException {
         this.getViewProcess().process(config , request , response , this);
     }
 

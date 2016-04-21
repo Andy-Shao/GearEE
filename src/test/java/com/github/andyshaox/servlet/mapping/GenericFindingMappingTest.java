@@ -38,7 +38,7 @@ public class GenericFindingMappingTest {
         Mockito.when(request.getContextPath()).thenReturn("/webName");
         this.genericFindingMapping.setFindingMappingEngine(new GenericFindingMappingEngine());
 
-        Mapping mapping = this.genericFindingMapping.search(config, request , response , mappingTree);
+        Mapping mapping = this.genericFindingMapping.search(config , request , response , mappingTree);
         Assert.assertThat(mapping.getProcessMethod().getName() , Matchers.is("doGet"));
         Assert.assertThat(mapping.getMethodType() , Matchers.is(new MethodType[] { MethodType.GET }));
     }

@@ -23,9 +23,7 @@ public class DefaultTypeParameterFormat implements ParameterFormat {
     private ParameterFormat format = ParameterFormat.DO_NOTHING;
 
     @Override
-    public Object covert(
-        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Variable variable ,
-        Class<?> valueType) throws ServletException , IOException {
+    public Object covert(ServletConfig config , HttpServletRequest request , HttpServletResponse response , Variable variable , Class<?> valueType) throws ServletException , IOException {
         Object value = Variable.readParam(request , variable);
         if (valueType.isAssignableFrom(String.class)) return value = Convert.OB_2_STR.convert(value);
         else if (valueType.isAssignableFrom(int.class)) return value = Convert.OB_2_INT.convert(value);

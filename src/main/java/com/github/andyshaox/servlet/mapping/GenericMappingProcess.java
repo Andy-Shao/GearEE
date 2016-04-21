@@ -21,14 +21,11 @@ import com.github.andyshao.reflect.MethodOperation;
  */
 public class GenericMappingProcess implements MappingProcess {
     @Override
-    public View doProcess(
-        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Mapping mapping ,
-        ProcessType processType) throws ServletException , IOException {
+    public View doProcess(ServletConfig config , HttpServletRequest request , HttpServletResponse response , Mapping mapping , ProcessType processType) throws ServletException , IOException {
         View view = null;
         if (mapping == null) view = View.defaultView(request.getRequestURI() , new PageViewProcess());
         else if (processType.processObject != null) {
-            Object result =
-                MethodOperation.invoked(processType.processObject , mapping.getProcessMethod() , processType.args);
+            Object result = MethodOperation.invoked(processType.processObject , mapping.getProcessMethod() , processType.args);
             if (result instanceof View) view = (View) result;
             else view = View.defaultView(result.toString() , new PageViewProcess());
         } else view = View.defaultView(mapping.getUrl() , new PageViewProcess());

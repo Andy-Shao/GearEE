@@ -34,17 +34,14 @@ public class JdbcExecution implements SqlExecution {
         switch (sql.getSqlType()) {
         case UPDATE:
         case EXECUTION:
-            try (Connection con = this.dataSource.getConnection();
-                PreparedStatement statement = con.prepareStatement(executableSql);) {
+            try (Connection con = this.dataSource.getConnection(); PreparedStatement statement = con.prepareStatement(executableSql);) {
                 statement.executeUpdate();
             } catch (SQLException e) {
                 throw new JdbcProcessException(e);
             }
             break;
         case QUERY:
-            try (Connection con = this.dataSource.getConnection();
-                PreparedStatement statement = con.prepareStatement(executableSql);
-                ResultSet rs = statement.executeQuery();) {
+            try (Connection con = this.dataSource.getConnection(); PreparedStatement statement = con.prepareStatement(executableSql); ResultSet rs = statement.executeQuery();) {
                 if (rs.next()) {
                     @SuppressWarnings("rawtypes")
                     final Class<? extends JdbcReturnConvert> retConvertor = sql.getRetConvertor();

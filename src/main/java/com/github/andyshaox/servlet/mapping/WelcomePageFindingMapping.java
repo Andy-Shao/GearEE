@@ -55,8 +55,7 @@ public class WelcomePageFindingMapping implements FindingMapping {
         }
 
         @Override
-        public void startElement(String uri , String localName , String qName , Attributes attributes)
-            throws SAXException {
+        public void startElement(String uri , String localName , String qName , Attributes attributes) throws SAXException {
             if (qName.equals("welcome-file")) this.isTarget = true;
             super.startElement(uri , localName , qName , attributes);
         }
@@ -79,15 +78,12 @@ public class WelcomePageFindingMapping implements FindingMapping {
     }
 
     @Override
-    public Mapping search(
-        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree)
-            throws ServletException , IOException {
+    public Mapping search(ServletConfig config , HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree) throws ServletException , IOException {
         Mapping mapping = this.target.search(config , request , response , bitree);
         String url = StringOperation.replaceFirst(request.getRequestURI() , request.getContextPath() , "");
         if (url.equals("") || url.equals("/")) for (String str : this.findWelcomeList(config))
             if (mapping == null) {
-                String methodName =
-                    ProxyFactory.buildMethodKey(MethodOperation.getMethod(HttpServletRequest.class , "getRequestURI"));
+                String methodName = ProxyFactory.buildMethodKey(MethodOperation.getMethod(HttpServletRequest.class , "getRequestURI"));
                 DynamicPF<HttpServletRequest> pf = (target , method , args) -> {
                     if (methodName.equals(ProxyFactory.buildMethodKey(method))) return request.getRequestURI() + str;
                     return method.invoke(request , args);

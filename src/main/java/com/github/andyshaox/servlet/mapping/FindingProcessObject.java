@@ -24,9 +24,8 @@ public class FindingProcessObject implements MappingProcess {
     private Map<Class<?> , Object> processObjects = new HashMap<>();
 
     @Override
-    public View doProcess(
-        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Mapping mapping ,
-        ProcessType processType) throws ServletException , IOException , MappingProcessException {
+    public View doProcess(ServletConfig config , HttpServletRequest request , HttpServletResponse response , Mapping mapping , ProcessType processType)
+        throws ServletException , IOException , MappingProcessException {
         if (mapping != null) processType.processObject = this.processObjects.get(mapping.getDefineClass());
         return this.mappingProcess.doProcess(config , request , response , mapping , processType);
     }

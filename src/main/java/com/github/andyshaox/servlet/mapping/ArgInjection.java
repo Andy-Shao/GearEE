@@ -28,8 +28,7 @@ public interface ArgInjection {
         public boolean equals(Object obj) {
             if (obj instanceof GenericArgInjection) {
                 GenericArgInjection that = (GenericArgInjection) obj;
-                return Objects.equals(this.key , that.key) && Objects.equals(this.value , that.value)
-                    && Objects.equals(this.variableLevel , that.variableLevel);
+                return Objects.equals(this.key , that.key) && Objects.equals(this.value , that.value) && Objects.equals(this.variableLevel , that.variableLevel);
             } else return false;
         }
 
@@ -71,8 +70,7 @@ public interface ArgInjection {
 
         @Override
         public String toString() {
-            return "GenericArgInjection [key=" + this.key + ", value=" + this.value + ", variableLevel="
-                + this.variableLevel + "]";
+            return "GenericArgInjection [key=" + this.key + ", value=" + this.value + ", variableLevel=" + this.variableLevel + "]";
         }
 
     }

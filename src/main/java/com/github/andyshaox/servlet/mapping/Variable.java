@@ -26,10 +26,8 @@ public interface Variable {
         public boolean equals(Object obj) {
             if (obj instanceof DefaultRequestParam) {
                 DefaultRequestParam that = (DefaultRequestParam) obj;
-                return Objects.equals(this.paramName , that.paramName)
-                    && Objects.equals(this.defaultValue , that.defaultValue)
-                    && Objects.equals(this.required , that.required) && Objects.equals(this.level , that.level)
-                    && Objects.equals(this.formatClass , that.formatClass);
+                return Objects.equals(this.paramName , that.paramName) && Objects.equals(this.defaultValue , that.defaultValue) && Objects.equals(this.required , that.required)
+                    && Objects.equals(this.level , that.level) && Objects.equals(this.formatClass , that.formatClass);
             } else return false;
         }
 
@@ -90,8 +88,8 @@ public interface Variable {
 
         @Override
         public String toString() {
-            return "DefaultRequestParam [defaultValue=" + this.defaultValue + ", formatClass=" + this.formatClass
-                + ", level=" + this.level + ", paramName=" + this.paramName + ", required=" + this.required + "]";
+            return "DefaultRequestParam [defaultValue=" + this.defaultValue + ", formatClass=" + this.formatClass + ", level=" + this.level + ", paramName=" + this.paramName + ", required="
+                + this.required + "]";
         }
     }
 

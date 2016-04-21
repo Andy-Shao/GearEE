@@ -19,10 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @FunctionalInterface
 public interface ParameterFormat {
-    static final ParameterFormat DO_NOTHING =
-        (conf , req , resp , variable , clazz) -> Variable.readParam(req , variable);
+    static final ParameterFormat DO_NOTHING = (conf , req , resp , variable , clazz) -> Variable.readParam(req , variable);
 
-    Object covert(
-        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Variable variable ,
-        Class<?> valueType) throws ServletException , IOException;
+    Object covert(ServletConfig config , HttpServletRequest request , HttpServletResponse response , Variable variable , Class<?> valueType) throws ServletException , IOException;
 }

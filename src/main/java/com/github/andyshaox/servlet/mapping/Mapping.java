@@ -56,13 +56,9 @@ public interface Mapping {
         public boolean equals(Object obj) {
             if (obj instanceof DefaultRequestMapping) {
                 DefaultRequestMapping that = (DefaultRequestMapping) obj;
-                return Objects.equals(this.consumes , that.consumes) && Objects.equals(this.produces , that.produces)
-                    && Objects.equals(this.url , that.url) && Objects.equals(this.headers , that.headers)
-                    && Objects.equals(this.attributes , that.attributes)
-                    && Objects.equals(this.processMethod , that.processMethod)
-                    && Objects.equals(this.isClass , that.isClass)
-                    && Objects.equals(this.defineClass , that.defineClass)
-                    && Arrays.deepEquals(this.methodType , that.methodType);
+                return Objects.equals(this.consumes , that.consumes) && Objects.equals(this.produces , that.produces) && Objects.equals(this.url , that.url)
+                    && Objects.equals(this.headers , that.headers) && Objects.equals(this.attributes , that.attributes) && Objects.equals(this.processMethod , that.processMethod)
+                    && Objects.equals(this.isClass , that.isClass) && Objects.equals(this.defineClass , that.defineClass) && Arrays.deepEquals(this.methodType , that.methodType);
             } else return false;
         }
 
@@ -113,8 +109,7 @@ public interface Mapping {
 
         @Override
         public int hashCode() {
-            int hashCode = Objects.hash(this.consumes , this.produces , this.url , this.headers , this.attributes ,
-                this.processMethod , this.defineClass , this.isClass);
+            int hashCode = Objects.hash(this.consumes , this.produces , this.url , this.headers , this.attributes , this.processMethod , this.defineClass , this.isClass);
             hashCode = hashCode * 31 + Arrays.hashCode(this.methodType);
             return hashCode;
         }
@@ -166,11 +161,9 @@ public interface Mapping {
 
         @Override
         public String toString() {
-            return "DefaultRequestMapping [attributes=" + this.attributes + ", defineClass=" + this.defineClass
-                + ", consumes=" + this.consumes + ", headers=" + this.headers + ", isClass=" + this.isClass
-                + ", methodType=" + Arrays.toString(this.methodType) + ", parameterNames="
-                + Arrays.toString(this.parameterNames) + ", processMethod=" + this.processMethod + ", produces="
-                + this.produces + ", url=" + this.url + "]";
+            return "DefaultRequestMapping [attributes=" + this.attributes + ", defineClass=" + this.defineClass + ", consumes=" + this.consumes + ", headers=" + this.headers + ", isClass="
+                + this.isClass + ", methodType=" + Arrays.toString(this.methodType) + ", parameterNames=" + Arrays.toString(this.parameterNames) + ", processMethod=" + this.processMethod
+                + ", produces=" + this.produces + ", url=" + this.url + "]";
         }
 
     }

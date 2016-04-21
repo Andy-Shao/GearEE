@@ -30,8 +30,7 @@ public interface JdbcReturnConvert<OUT> {
         else if (byte.class.isAssignableFrom(returnType)) return rs.getByte(1);
         else if (byte.class.isAssignableFrom(returnType)) return rs.getByte(1);
         else if (byte[].class.isAssignableFrom(returnType)) return rs.getBytes(1);
-        else if (Byte[].class.isAssignableFrom(returnType))
-            return ArrayOperation.pack_unpack(rs.getBytes(1) , Byte[].class);
+        else if (Byte[].class.isAssignableFrom(returnType)) return ArrayOperation.pack_unpack(rs.getBytes(1) , Byte[].class);
         else if (float.class.isAssignableFrom(returnType)) return rs.getFloat(1);
         else if (Float.class.isAssignableFrom(returnType)) return rs.getFloat(1);
         else if (double.class.isAssignableFrom(returnType)) return rs.getDouble(1);
@@ -39,8 +38,7 @@ public interface JdbcReturnConvert<OUT> {
         else if (String.class.isAssignableFrom(returnType)) return rs.getString(1);
         else if (Date.class.isAssignableFrom(returnType)) return rs.getDate(1);
         else if (java.sql.Date.class.isAssignableFrom(returnType)) return rs.getDate(1);
-        else if (Collection.class.isAssignableFrom(returnType))
-            return new JdbcProcessException("No support Collection");
+        else if (Collection.class.isAssignableFrom(returnType)) return new JdbcProcessException("No support Collection");
         else if (Map.class.isAssignableFrom(returnType)) return new JdbcProcessException("No support Map");
         else if (returnType.isArray()) {
             final ArrayReturnConvert arrayReturnConvert = new ArrayReturnConvert();
@@ -61,8 +59,7 @@ public interface JdbcReturnConvert<OUT> {
         else if (byte.class.isAssignableFrom(returnType)) return rs.getByte(fieldName);
         else if (byte.class.isAssignableFrom(returnType)) return rs.getByte(fieldName);
         else if (byte[].class.isAssignableFrom(returnType)) return rs.getBytes(fieldName);
-        else if (Byte[].class.isAssignableFrom(returnType))
-            return ArrayOperation.pack_unpack(rs.getBytes(fieldName) , Byte[].class);
+        else if (Byte[].class.isAssignableFrom(returnType)) return ArrayOperation.pack_unpack(rs.getBytes(fieldName) , Byte[].class);
         else if (float.class.isAssignableFrom(returnType)) return rs.getFloat(fieldName);
         else if (Float.class.isAssignableFrom(returnType)) return rs.getFloat(fieldName);
         else if (double.class.isAssignableFrom(returnType)) return rs.getDouble(fieldName);
@@ -89,8 +86,7 @@ public interface JdbcReturnConvert<OUT> {
         else if (byte.class.isAssignableFrom(returnType)) return rs.getByte(1);
         else if (byte.class.isAssignableFrom(returnType)) return rs.getByte(1);
         else if (byte[].class.isAssignableFrom(returnType)) return rs.getBytes(1);
-        else if (Byte[].class.isAssignableFrom(returnType))
-            return ArrayOperation.pack_unpack(rs.getBytes(1) , Byte[].class);
+        else if (Byte[].class.isAssignableFrom(returnType)) return ArrayOperation.pack_unpack(rs.getBytes(1) , Byte[].class);
         else if (float.class.isAssignableFrom(returnType)) return rs.getFloat(1);
         else if (Float.class.isAssignableFrom(returnType)) return rs.getFloat(1);
         else if (double.class.isAssignableFrom(returnType)) return rs.getDouble(1);
@@ -123,8 +119,7 @@ public interface JdbcReturnConvert<OUT> {
         else if (byte.class.isAssignableFrom(returnType)) return rs.getByte(columnIndex);
         else if (byte.class.isAssignableFrom(returnType)) return rs.getByte(columnIndex);
         else if (byte[].class.isAssignableFrom(returnType)) return rs.getBytes(columnIndex);
-        else if (Byte[].class.isAssignableFrom(returnType))
-            return ArrayOperation.pack_unpack(rs.getBytes(columnIndex) , Byte[].class);
+        else if (Byte[].class.isAssignableFrom(returnType)) return ArrayOperation.pack_unpack(rs.getBytes(columnIndex) , Byte[].class);
         else if (float.class.isAssignableFrom(returnType)) return rs.getFloat(columnIndex);
         else if (Float.class.isAssignableFrom(returnType)) return rs.getFloat(columnIndex);
         else if (double.class.isAssignableFrom(returnType)) return rs.getDouble(columnIndex);

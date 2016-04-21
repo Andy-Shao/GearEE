@@ -31,7 +31,5 @@ public interface FindingMapping {
      * @throws ServletException {@link ServletException}
      * @throws IOException {@link IOException}
      */
-    public Mapping search(
-        ServletConfig config , HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree)
-            throws ServletException , IOException;
+    public Mapping search(ServletConfig config , HttpServletRequest request , HttpServletResponse response , Bitree<Mapping> bitree) throws ServletException , IOException;
 }

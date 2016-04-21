@@ -20,8 +20,7 @@ public class XmlReadTest {
 
         @Override
         public void characters(char[] ch , int start , int length) throws SAXException {
-            if (this.isTarget) Assert.assertThat(new String(ch, start , length) ,
-                Matchers.is("index.html"));
+            if (this.isTarget) Assert.assertThat(new String(ch , start , length) , Matchers.is("index.html"));
             super.characters(ch , start , length);
         }
 
@@ -32,8 +31,7 @@ public class XmlReadTest {
         }
 
         @Override
-        public void startElement(String uri , String localName , String qName , Attributes attributes)
-            throws SAXException {
+        public void startElement(String uri , String localName , String qName , Attributes attributes) throws SAXException {
             if (qName.equals("welcome-file")) this.isTarget = true;
             super.startElement(uri , localName , qName , attributes);
         }

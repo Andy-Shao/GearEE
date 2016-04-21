@@ -28,8 +28,7 @@ public interface Dao {
         public boolean equals(Object obj) {
             if (obj instanceof DefaultDao) {
                 DefaultDao that = (DefaultDao) obj;
-                return Objects.equals(this.dataBase , that.dataBase)
-                    && Objects.equals(this.defineClass , that.defineClass) && Objects.equals(this.sqls , that.sqls)
+                return Objects.equals(this.dataBase , that.dataBase) && Objects.equals(this.defineClass , that.defineClass) && Objects.equals(this.sqls , that.sqls)
                     && Objects.equals(this.domain , that.domain);
             } else return false;
         }
@@ -56,7 +55,7 @@ public interface Dao {
 
         @Override
         public int hashCode() {
-            return Objects.hash(this.dataBase , this.defineClass , this.sqls, this.domain);
+            return Objects.hash(this.dataBase , this.defineClass , this.sqls , this.domain);
         }
 
         @Override
@@ -76,8 +75,7 @@ public interface Dao {
 
         @Override
         public String toString() {
-            return "DefaultDao [dataBase=" + dataBase + ", defineClass=" + defineClass + ", domain=" + domain
-                + ", sqls=" + sqls + "]";
+            return "DefaultDao [dataBase=" + this.dataBase + ", defineClass=" + this.defineClass + ", domain=" + this.domain + ", sqls=" + this.sqls + "]";
         }
     }
 

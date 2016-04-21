@@ -29,8 +29,7 @@ public class Sqls {
     }
 
     public static Sql build(Method method) {
-        com.github.andyshaox.jdbc.annotation.Sql annotation =
-            method.getAnnotation(com.github.andyshaox.jdbc.annotation.Sql.class);
+        com.github.andyshaox.jdbc.annotation.Sql annotation = method.getAnnotation(com.github.andyshaox.jdbc.annotation.Sql.class);
         if (annotation == null) return null;
         Sql result = Sql.getDefault();
         result.setProcessClass(method.getDeclaringClass());

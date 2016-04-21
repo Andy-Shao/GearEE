@@ -44,8 +44,7 @@ public class PageView extends GenericView {
     }
 
     @Override
-    public void process(ServletConfig config , HttpServletRequest request , HttpServletResponse response)
-        throws ServletException , IOException {
+    public void process(ServletConfig config , HttpServletRequest request , HttpServletResponse response) throws ServletException , IOException {
         for (ArgInjection injection : this.injections)
             injection.inject(request);
         super.process(config , request , response);
