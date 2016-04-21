@@ -37,32 +37,32 @@ public class AnnotationDaoDetector implements DaoDetector {
 
     private DaoFactory daoFactory;
 
-    private final Map<Class<?> , Dao> temp = new HashMap<>();
+    private final Map<Class<?> , Dao> daoTemp = new HashMap<>();
 
     public AnnotationDaoDetector(Class<?>[] classes) {
-        AnnotationDaoDetector.loadDao(classes , this.temp);
+        AnnotationDaoDetector.loadDao(classes , this.daoTemp);
     }
 
     public AnnotationDaoDetector(Class<?>[] classes , String dbName) {
-        AnnotationDaoDetector.loadDao(classes , dbName , this.temp);
+        AnnotationDaoDetector.loadDao(classes , dbName , this.daoTemp);
     }
 
     public AnnotationDaoDetector(String[] packageRegexes) {
-        for(String packageRegex : packageRegexes){
+        for (String packageRegex : packageRegexes) {
             Package[] packages = PackageOperation.getPackages(packageRegex);
             for (Package pkg : packages) {
                 Class<?>[] classes = PackageOperation.getPackageClasses(pkg);
-                AnnotationDaoDetector.loadDao(classes , this.temp);
+                AnnotationDaoDetector.loadDao(classes , this.daoTemp);
             }
         }
     }
-    
+
     public AnnotationDaoDetector(String[] packageRegexes , String dbName) {
-        for(String packageRegex : packageRegexes){
+        for (String packageRegex : packageRegexes) {
             Package[] packages = PackageOperation.getPackages(packageRegex);
             for (Package pkg : packages) {
                 Class<?>[] classes = PackageOperation.getPackageClasses(pkg);
-                AnnotationDaoDetector.loadDao(classes , dbName , this.temp);
+                AnnotationDaoDetector.loadDao(classes , dbName , this.daoTemp);
             }
         }
     }
@@ -71,7 +71,7 @@ public class AnnotationDaoDetector implements DaoDetector {
     @Override
     public <T> T finding(Class<T> clazz) {
         Dao dao = null;
-        for (Map.Entry<Class<?> , Dao> entry : this.temp.entrySet())
+        for (Map.Entry<Class<?> , Dao> entry : this.daoTemp.entrySet())
             if (clazz.isAssignableFrom(entry.getKey())) dao = entry.getValue();
         if (dao == null) return null;
         return (T) this.daoFactory.getDao(dao);

@@ -35,18 +35,15 @@ public class GenericDaoFactory implements DaoFactory {
     private static final String SQLEXCUTION_DESC = "Lcom/github/andyshaox/jdbc/SqlExecution;";
     private static final String SQLEXCUTION_NAME = "sqlExecution";
 
-    static void
-        doProcess(final String classDesc , MethodVisitor mv , Method method , Consumer<MethodVisitor> doReturn) {
+    static void doProcess(final String classDesc , MethodVisitor mv , Method method , Consumer<MethodVisitor> doReturn) {
         final Class<?>[] parameterTypes = method.getParameterTypes();
         mv.visitVarInsn(Opcodes.ALOAD , 0);
-        mv.visitFieldInsn(Opcodes.GETFIELD , classDesc , GenericDaoFactory.SQLEXCUTION_NAME ,
-            GenericDaoFactory.SQLEXCUTION_DESC);
+        mv.visitFieldInsn(Opcodes.GETFIELD , classDesc , GenericDaoFactory.SQLEXCUTION_NAME , GenericDaoFactory.SQLEXCUTION_DESC);
         mv.visitVarInsn(Opcodes.ALOAD , 0);
         mv.visitFieldInsn(Opcodes.GETFIELD , classDesc , GenericDaoFactory.DAO_NAME , GenericDaoFactory.DAO_DESC);
         mv.visitVarInsn(Opcodes.ALOAD , 0);
         mv.visitFieldInsn(Opcodes.GETFIELD , classDesc , GenericDaoFactory.DAO_NAME , GenericDaoFactory.DAO_DESC);
-        mv.visitMethodInsn(Opcodes.INVOKEINTERFACE , "com/github/andyshaox/jdbc/Dao" , "getDefineClass" ,
-            "()Ljava/lang/Class;" , true);
+        mv.visitMethodInsn(Opcodes.INVOKEINTERFACE , "com/github/andyshaox/jdbc/Dao" , "getDefineClass" , "()Ljava/lang/Class;" , true);
         mv.visitLdcInsn(method.getName());
         if (parameterTypes.length == 0) mv.visitInsn(Opcodes.ICONST_0);
         else if (parameterTypes.length == 1) mv.visitInsn(Opcodes.ICONST_1);
@@ -65,11 +62,23 @@ public class GenericDaoFactory implements DaoFactory {
             else if (i == 4) mv.visitInsn(Opcodes.ICONST_4);
             else if (i == 5) mv.visitInsn(Opcodes.ICONST_5);
             else mv.visitIntInsn(Opcodes.BIPUSH , i);
-            mv.visitLdcInsn(Type.getType(parameterTypes[i]));
+            if (parameterTypes[i].isPrimitive()) {
+                String owner = "";
+                final Class<?> parameter = parameterTypes[i];
+                if (int.class.isAssignableFrom(parameter)) owner = "java/lang/Integer";
+                else if (char.class.isAssignableFrom(parameter)) owner = "java/lang/Character";
+                else if (byte.class.isAssignableFrom(parameter)) owner = "java/lang/Byte";
+                else if (short.class.isAssignableFrom(parameter)) owner = "java/lang/Short";
+                else if (long.class.isAssignableFrom(parameter)) owner = "java/lang/Long";
+                else if (float.class.isAssignableFrom(parameter)) owner = "java/lang/Float";
+                else if (double.class.isAssignableFrom(parameter)) owner = "java/lang/Double";
+                else if (boolean.class.isAssignableFrom(parameter)) owner = "java/lang/Boolean";
+                mv.visitFieldInsn(Opcodes.GETSTATIC , owner , "TYPE" , "Ljava/lang/Class;");
+            } else mv.visitLdcInsn(Type.getType(parameterTypes[i]));
             mv.visitInsn(Opcodes.AASTORE);
         }
-        mv.visitMethodInsn(Opcodes.INVOKESTATIC , "com/github/andyshao/reflect/MethodOperation" , "getMethod" ,
-            "(Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;" , false);
+        mv.visitMethodInsn(Opcodes.INVOKESTATIC , "com/github/andyshao/reflect/MethodOperation" , "getMethod" , "(Ljava/lang/Class;Ljava/lang/String;[Ljava/lang/Class;)Ljava/lang/reflect/Method;" ,
+            false);
         mv.visitInsn(Opcodes.ACONST_NULL);
         if (parameterTypes.length == 0) mv.visitInsn(Opcodes.ICONST_0);
         else if (parameterTypes.length == 1) mv.visitInsn(Opcodes.ICONST_1);
@@ -88,14 +97,43 @@ public class GenericDaoFactory implements DaoFactory {
             else if (i == 4) mv.visitInsn(Opcodes.ICONST_4);
             else if (i == 5) mv.visitInsn(Opcodes.ICONST_5);
             else mv.visitIntInsn(Opcodes.BIPUSH , i);
-            mv.visitVarInsn(Opcodes.ALOAD , i + 1);
+            if (parameterTypes[i].isPrimitive()) {
+                final Class<?> parameter = parameterTypes[i];
+                if (int.class.isAssignableFrom(parameter)) {
+                    mv.visitVarInsn(Opcodes.ILOAD , i + 1);
+                    mv.visitMethodInsn(Opcodes.INVOKESTATIC , "java/lang/Integer" , "valueOf" , "(I)Ljava/lang/Integer;" , false);
+                } else if (char.class.isAssignableFrom(parameter)) {
+                    mv.visitVarInsn(Opcodes.ILOAD , i + 1);
+                    mv.visitMethodInsn(Opcodes.INVOKESTATIC , "java/lang/Character" , "valueOf" , "(C)Ljava/lang/Character;" , false);
+                } else if (byte.class.isAssignableFrom(parameter)) {
+                    mv.visitVarInsn(Opcodes.ILOAD , i + 1);
+                    mv.visitMethodInsn(Opcodes.INVOKESTATIC , "java/lang/Byte" , "valueOf" , "(B)Ljava/lang/Byte;" , false);
+                } else if (short.class.isAssignableFrom(parameter)) {
+                    mv.visitVarInsn(Opcodes.ILOAD , i + 1);
+                    mv.visitMethodInsn(Opcodes.INVOKESTATIC , "java/lang/Byte" , "valueOf" , "(S)Ljava/lang/Byte;" , false);
+                } else if (long.class.isAssignableFrom(parameter)) {
+                    mv.visitVarInsn(Opcodes.LLOAD , i + 1);
+                    mv.visitMethodInsn(Opcodes.INVOKESTATIC , "java/lang/Long" , "valueOf" , "(J)Ljava/lang/Long;" , false);
+                } else if (float.class.isAssignableFrom(parameter)) {
+                    mv.visitVarInsn(Opcodes.FLOAD , i + 1);
+                    mv.visitMethodInsn(Opcodes.INVOKESTATIC , "java/lang/Float" , "valueOf" , "(F)Ljava/lang/Float;" , false);
+                } else if (double.class.isAssignableFrom(parameter)) {
+                    mv.visitVarInsn(Opcodes.DLOAD , i + 1);
+                    mv.visitMethodInsn(Opcodes.INVOKESTATIC , "java/lang/Double" , "valueOf" , "(D)Ljava/lang/Double;" , false);
+                } else if (boolean.class.isAssignableFrom(parameter)) {
+                    mv.visitVarInsn(Opcodes.ILOAD , i + 1);
+                    mv.visitMethodInsn(Opcodes.INVOKESTATIC , "java/lang/Boolean" , "valueOf" , "(Z)Ljava/lang/Boolean;" , false);
+                }
+            } else mv.visitVarInsn(Opcodes.ALOAD , i + 1);
             mv.visitInsn(Opcodes.AASTORE);
         }
         mv.visitMethodInsn(Opcodes.INVOKEINTERFACE , "com/github/andyshaox/jdbc/SqlExecution" , "invoke" ,
-            "(Lcom/github/andyshaox/jdbc/Dao;Ljava/lang/reflect/Method;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;" ,
-            true);
+            "(Lcom/github/andyshaox/jdbc/Dao;Ljava/lang/reflect/Method;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/Object;" , true);
         doReturn.accept(mv);
-        mv.visitMaxs(8 , ClassVisitorOperation.countBasicLocal(method));
+        int maxStack = 8;
+        for (Class<?> parameter : parameterTypes)
+            if (long.class.isAssignableFrom(parameter) || double.class.isAssignableFrom(parameter)) maxStack++;
+        mv.visitMaxs(maxStack , ClassVisitorOperation.countBasicLocal(method));
     }
 
     private SqlExecution sqlExecution;
@@ -121,14 +159,11 @@ public class GenericDaoFactory implements DaoFactory {
             classSignature = csig.classSignature + tail;
         }
         final ClassWriter cw = new ClassWriter(0);
-        cw.visit(Version.V1_8.getVersion() , Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER , classDesc , classSignature ,
-            "java/lang/Object" , new String[] { interfaceClass.getName().replace('.' , '/') });
+        cw.visit(Version.V1_8.getVersion() , Opcodes.ACC_PUBLIC + Opcodes.ACC_SUPER , classDesc , classSignature , "java/lang/Object" , new String[] { interfaceClass.getName().replace('.' , '/') });
         {
-            FieldVisitor fv = cw.visitField(Opcodes.ACC_PRIVATE , GenericDaoFactory.SQLEXCUTION_NAME ,
-                GenericDaoFactory.SQLEXCUTION_DESC , null , null);
+            FieldVisitor fv = cw.visitField(Opcodes.ACC_PRIVATE , GenericDaoFactory.SQLEXCUTION_NAME , GenericDaoFactory.SQLEXCUTION_DESC , null , null);
             fv.visitEnd();
-            fv = cw.visitField(Opcodes.ACC_PRIVATE , GenericDaoFactory.DAO_NAME , GenericDaoFactory.DAO_DESC , null ,
-                null);
+            fv = cw.visitField(Opcodes.ACC_PRIVATE , GenericDaoFactory.DAO_NAME , GenericDaoFactory.DAO_DESC , null , null);
             fv.visitEnd();
         }
         MethodVisitor mv = null;
@@ -142,13 +177,11 @@ public class GenericDaoFactory implements DaoFactory {
             mv.visitEnd();
         }
         {
-            mv = cw.visitMethod(Opcodes.ACC_PUBLIC , "setSqlExecution" , "(Lcom/github/andyshaox/jdbc/SqlExecution;)V" ,
-                null , null);
+            mv = cw.visitMethod(Opcodes.ACC_PUBLIC , "setSqlExecution" , "(Lcom/github/andyshaox/jdbc/SqlExecution;)V" , null , null);
             mv.visitCode();
             mv.visitVarInsn(Opcodes.ALOAD , 0);
             mv.visitVarInsn(Opcodes.ALOAD , 1);
-            mv.visitFieldInsn(Opcodes.PUTFIELD , classDesc , GenericDaoFactory.SQLEXCUTION_NAME ,
-                GenericDaoFactory.SQLEXCUTION_DESC);
+            mv.visitFieldInsn(Opcodes.PUTFIELD , classDesc , GenericDaoFactory.SQLEXCUTION_NAME , GenericDaoFactory.SQLEXCUTION_DESC);
             mv.visitInsn(Opcodes.RETURN);
             mv.visitMaxs(2 , 2);
             mv.visitEnd();
@@ -170,8 +203,7 @@ public class GenericDaoFactory implements DaoFactory {
             String[] exceptionDescriptions = new String[exceptions.length];
             for (int i = 0 ; i < exceptions.length ; i++)
                 exceptionDescriptions[i] = exceptions[i].getName().replace('.' , '/');
-            mv = cw.visitMethod(Opcodes.ACC_PUBLIC , method.getName() , Type.getType(method).getDescriptor() ,
-                csig.methodSignatures.get(method) , exceptionDescriptions);
+            mv = cw.visitMethod(Opcodes.ACC_PUBLIC , method.getName() , Type.getType(method).getDescriptor() , csig.methodSignatures.get(method) , exceptionDescriptions);
             Class<?> returnType = method.getReturnType();
             mv.visitCode();
             if (int.class.isAssignableFrom(returnType)) this.returnInt(dao , classDesc , mv , method);
@@ -188,20 +220,17 @@ public class GenericDaoFactory implements DaoFactory {
         }
         cw.visitEnd();
         Object result = ClassOperation.newInstance(ClassAssembly.DEFAULT.assemble(targetName , cw.toByteArray()));
-        FieldOperation.setValueBySetMethod(result , GenericDaoFactory.SQLEXCUTION_NAME , SqlExecution.class ,
-            this.sqlExecution);
+        FieldOperation.setValueBySetMethod(result , GenericDaoFactory.SQLEXCUTION_NAME , SqlExecution.class , this.sqlExecution);
         FieldOperation.setValueBySetMethod(result , GenericDaoFactory.DAO_NAME , Dao.class , dao);
         return result;
     }
 
     void returnBoolean(final Dao dao , final String classDesc , MethodVisitor mv , Method method) {
-        if (dao.getSqls().containsKey(method))
-            GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
-                methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , "java/lang/Boolean");
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL , "java/lang/Boolean" , "booleanValue" , "()Z" ,
-                    false);
-                methodVisitor.visitInsn(Opcodes.IRETURN);
-            });
+        if (dao.getSqls().containsKey(method)) GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
+            methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , "java/lang/Boolean");
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL , "java/lang/Boolean" , "booleanValue" , "()Z" , false);
+            methodVisitor.visitInsn(Opcodes.IRETURN);
+        });
         else {
             mv.visitInsn(Opcodes.ICONST_0);
             mv.visitInsn(Opcodes.IRETURN);
@@ -210,12 +239,11 @@ public class GenericDaoFactory implements DaoFactory {
     }
 
     void returnByte(final Dao dao , final String classDesc , MethodVisitor mv , Method method) {
-        if (dao.getSqls().containsKey(method))
-            GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
-                methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , "java/lang/Byte");
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL , "java/lang/Byte" , "byteValue" , "()B" , false);
-                methodVisitor.visitInsn(Opcodes.IRETURN);
-            });
+        if (dao.getSqls().containsKey(method)) GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
+            methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , "java/lang/Byte");
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL , "java/lang/Byte" , "byteValue" , "()B" , false);
+            methodVisitor.visitInsn(Opcodes.IRETURN);
+        });
         else {
             mv.visitInsn(Opcodes.ICONST_0);
             mv.visitInsn(Opcodes.IRETURN);
@@ -224,13 +252,11 @@ public class GenericDaoFactory implements DaoFactory {
     }
 
     void returnChar(final Dao dao , final String classDesc , MethodVisitor mv , Method method) {
-        if (dao.getSqls().containsKey(method))
-            GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
-                methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , "java/lang/Character");
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL , "java/lang/Character" , "charValue" , "()C" ,
-                    false);
-                methodVisitor.visitInsn(Opcodes.IRETURN);
-            });
+        if (dao.getSqls().containsKey(method)) GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
+            methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , "java/lang/Character");
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL , "java/lang/Character" , "charValue" , "()C" , false);
+            methodVisitor.visitInsn(Opcodes.IRETURN);
+        });
         else {
             mv.visitInsn(Opcodes.ICONST_0);
             mv.visitInsn(Opcodes.IRETURN);
@@ -239,13 +265,11 @@ public class GenericDaoFactory implements DaoFactory {
     }
 
     void returnDouble(final Dao dao , final String classDesc , MethodVisitor mv , Method method) {
-        if (dao.getSqls().containsKey(method))
-            GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
-                methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , "java/lang/Double");
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL , "java/lang/Double" , "doubleValue" , "()D" ,
-                    false);
-                methodVisitor.visitInsn(Opcodes.DRETURN);
-            });
+        if (dao.getSqls().containsKey(method)) GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
+            methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , "java/lang/Double");
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL , "java/lang/Double" , "doubleValue" , "()D" , false);
+            methodVisitor.visitInsn(Opcodes.DRETURN);
+        });
         else {
             mv.visitInsn(Opcodes.DCONST_0);
             mv.visitInsn(Opcodes.DRETURN);
@@ -254,12 +278,11 @@ public class GenericDaoFactory implements DaoFactory {
     }
 
     void returnFloat(final Dao dao , final String classDesc , MethodVisitor mv , Method method) {
-        if (dao.getSqls().containsKey(method))
-            GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
-                methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , "java/lang/Float");
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL , "java/lang/Float" , "floatValue" , "()F" , false);
-                methodVisitor.visitInsn(Opcodes.FRETURN);
-            });
+        if (dao.getSqls().containsKey(method)) GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
+            methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , "java/lang/Float");
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL , "java/lang/Float" , "floatValue" , "()F" , false);
+            methodVisitor.visitInsn(Opcodes.FRETURN);
+        });
         else {
             mv.visitInsn(Opcodes.FCONST_0);
             mv.visitInsn(Opcodes.FRETURN);
@@ -268,12 +291,11 @@ public class GenericDaoFactory implements DaoFactory {
     }
 
     void returnInt(final Dao dao , final String classDesc , MethodVisitor mv , Method method) {
-        if (dao.getSqls().containsKey(method))
-            GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
-                methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , "java/lang/Integer");
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL , "java/lang/Integer" , "intValue" , "()I" , false);
-                methodVisitor.visitInsn(Opcodes.IRETURN);
-            });
+        if (dao.getSqls().containsKey(method)) GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
+            methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , "java/lang/Integer");
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL , "java/lang/Integer" , "intValue" , "()I" , false);
+            methodVisitor.visitInsn(Opcodes.IRETURN);
+        });
         else {
             mv.visitInsn(Opcodes.ICONST_0);
             mv.visitInsn(Opcodes.IRETURN);
@@ -282,12 +304,11 @@ public class GenericDaoFactory implements DaoFactory {
     }
 
     void returnLong(final Dao dao , final String classDesc , MethodVisitor mv , Method method) {
-        if (dao.getSqls().containsKey(method))
-            GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
-                methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , "java/lang/Long");
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL , "java/lang/Long" , "longValue" , "()J" , false);
-                methodVisitor.visitInsn(Opcodes.LRETURN);
-            });
+        if (dao.getSqls().containsKey(method)) GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
+            methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , "java/lang/Long");
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL , "java/lang/Long" , "longValue" , "()J" , false);
+            methodVisitor.visitInsn(Opcodes.LRETURN);
+        });
         else {
             mv.visitInsn(Opcodes.LCONST_0);
             mv.visitInsn(Opcodes.LRETURN);
@@ -297,12 +318,11 @@ public class GenericDaoFactory implements DaoFactory {
 
     void returnObject(final Dao dao , final String classDesc , MethodVisitor mv , Method method , Class<?> returnType) {
         if (dao.getSqls().containsKey(method)) {
-            if (Void.class.isAssignableFrom(returnType))
-                GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
-                    methodVisitor.visitInsn(Opcodes.POP);
-                    methodVisitor.visitInsn(Opcodes.ACONST_NULL);
-                    methodVisitor.visitInsn(Opcodes.ARETURN);
-                });
+            if (Void.class.isAssignableFrom(returnType)) GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
+                methodVisitor.visitInsn(Opcodes.POP);
+                methodVisitor.visitInsn(Opcodes.ACONST_NULL);
+                methodVisitor.visitInsn(Opcodes.ARETURN);
+            });
             else GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
                 methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , returnType.getName().replace('.' , '/'));
                 methodVisitor.visitInsn(Opcodes.ARETURN);
@@ -315,12 +335,11 @@ public class GenericDaoFactory implements DaoFactory {
     }
 
     void returnShort(final Dao dao , final String classDesc , MethodVisitor mv , Method method) {
-        if (dao.getSqls().containsKey(method))
-            GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
-                methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , "java/lang/Short");
-                methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL , "java/lang/Short" , "shortValue" , "()S" , false);
-                methodVisitor.visitInsn(Opcodes.IRETURN);
-            });
+        if (dao.getSqls().containsKey(method)) GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
+            methodVisitor.visitTypeInsn(Opcodes.CHECKCAST , "java/lang/Short");
+            methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL , "java/lang/Short" , "shortValue" , "()S" , false);
+            methodVisitor.visitInsn(Opcodes.IRETURN);
+        });
         else {
             mv.visitInsn(Opcodes.ICONST_0);
             mv.visitInsn(Opcodes.IRETURN);
@@ -329,11 +348,10 @@ public class GenericDaoFactory implements DaoFactory {
     }
 
     void returnViod(final Dao dao , final String classDesc , MethodVisitor mv , Method method) {
-        if (dao.getSqls().containsKey(method))
-            GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
-                methodVisitor.visitInsn(Opcodes.POP);
-                methodVisitor.visitInsn(Opcodes.RETURN);
-            });
+        if (dao.getSqls().containsKey(method)) GenericDaoFactory.doProcess(classDesc , mv , method , (methodVisitor) -> {
+            methodVisitor.visitInsn(Opcodes.POP);
+            methodVisitor.visitInsn(Opcodes.RETURN);
+        });
         else {
             mv.visitInsn(Opcodes.RETURN);
             mv.visitMaxs(0 , ClassVisitorOperation.countBasicLocal(method));
